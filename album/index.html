@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -2106,7 +2106,9 @@
       renderFiltros();
       renderLivro();
       iniciarSupabaseAlbum();
-      verificarRecompensasParceirosAutomatico();
+      if (typeof verificarRecompensasParceirosAutomatico === "function") {
+  verificarRecompensasParceirosAutomatico();
+}
 
       document.getElementById("btnCapa").onclick = () => ir(1);
       document.getElementById("btnRelatorio").onclick = () => ir(2);
