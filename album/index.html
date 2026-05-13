@@ -917,7 +917,7 @@
     <header class="topo">
       <div class="marca">
         <b>História em Campo 2026</b>
-        <small>Álbum 576 figurinhas • pacotes 12h • premium ganha 10 pacotes</small>
+        <small>Álbum 576 figurinhas • testes 8h • premium por compra</small>
       </div>
       <nav>
         <button id="btnCapa">Capa</button>
@@ -1025,6 +1025,112 @@
     const FIGS_POR_PACOTE = 3;
     const INTERVALO_PACOTE_HORAS = 12;
     const INTERVALO_PACOTE_MS = INTERVALO_PACOTE_HORAS * 60 * 60 * 1000;
+
+    const INTERVALO_TESTE_HORAS = 8;
+    const INTERVALO_TESTE_MS = INTERVALO_TESTE_HORAS * 60 * 60 * 1000;
+
+    const PRODUTOS_PREMIUM_RADAR_COPA = {
+      "gabarito-max-copa-2026-premium": { nome: "Gabarito Max Copa Premium", pacotes: 10 },
+      "gabarito-max-analista-adm-premium": { nome: "Gabarito Max Analista Administrativo Premium", pacotes: 10 },
+      "db-enem-premium": { nome: "DB ENEM Premium", pacotes: 10 },
+      "matriz-educacional-premium": { nome: "Matriz Educacional Premium", pacotes: 10 },
+      "matriz-combo-17-simulados": { nome: "Combo Matriz 17 Simulados", pacotes: 200 }
+    };
+
+    function obterDataHojeISO() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function obterProdutoPremiumNormalizado(idProduto) {
+      const id = String(idProduto || "premium-generico").trim() || "premium-generico";
+      const regra = PRODUTOS_PREMIUM_RADAR_COPA[id] || { nome: id.replace(/-/g, " "), pacotes: 10 };
+      return { id, nome: regra.nome, pacotes: Number(regra.pacotes || 10) };
+    }
+
+    function chavePremiumResgate(idProduto) {
+      return `premium_${idProduto}`;
+    }
+
+    function statusTesteGratis8h() {
+      const ultimo = estado.ultimoResgateTesteGratis ? new Date(estado.ultimoResgateTesteGratis).getTime() : 0;
+      if (!ultimo) return { liberado:true, restante:0 };
+      const restante = (ultimo + INTERVALO_TESTE_MS) - Date.now();
+      return { liberado: restante <= 0, restante: Math.max(0, restante) };
+    }
+
+    function registrarTesteGratis8h(qtd, origem, descricao) {
+      const status = statusTesteGratis8h();
+      if (!status.liberado) {
+        alert(`Você já resgatou recompensa de teste/simulado grátis. Novo resgate em ${formatarTempo(status.restante)}.`);
+        return [];
+      }
+
+      estado.ultimoResgateTesteGratis = new Date().toISOString();
+      const novas = adicionarFigurinhasAleatorias(qtd, origem || "teste_gratis", descricao || `${qtd} figurinha(s) por teste/simulado grátis`);
+      salvar();
+      alert(`Você resgatou ${qtd} figurinha(s). Próximo teste/simulado grátis libera em 8 horas.`);
+      return novas;
+    }
+
+    function resgatarPremiumPorProduto(idProduto, pacotes = null, descricao = "") {
+      const produto = obterProdutoPremiumNormalizado(idProduto);
+      const totalPacotes = Number(pacotes || produto.pacotes || 10);
+      const chave = chavePremiumResgate(produto.id);
+
+      estado.resgatesParceiros = estado.resgatesParceiros || {};
+
+      if (estado.resgatesParceiros[chave]) {
+        alert(`Este bônus premium já foi resgatado para: ${produto.nome}.`);
+        return [];
+      }
+
+      estado.resgatesParceiros[chave] = true;
+
+      const qtdFigurinhas = totalPacotes * FIGS_POR_PACOTE;
+      const novas = adicionarFigurinhasAleatorias(
+        qtdFigurinhas,
+        produto.id,
+        descricao || `${totalPacotes} pacote(s) premium: ${produto.nome}`
+      );
+
+      estado.historico = estado.historico || [];
+      estado.historico.push({
+        tipo: "premium",
+        origem: produto.id,
+        qtd: qtdFigurinhas,
+        pacotes: totalPacotes,
+        descricao: `${produto.nome}: ${totalPacotes} pacote(s) premium resgatado(s)`,
+        data: new Date().toISOString()
+      });
+
+      salvar();
+      registrarMissaoOnline(produto.id, `Bônus premium: ${produto.nome}`, qtdFigurinhas, "premium");
+      alert(`Você resgatou ${totalPacotes} pacote(s) premium (${qtdFigurinhas} figurinhas). Volte ao relatório para conferir.`);
+      renderLivro();
+      return novas;
+    }
+
+    function processarBonusPremiumRecebido() {
+      try {
+        const bruto = localStorage.getItem("radar_copa_premium_bonus");
+        if (!bruto) return false;
+
+        const dados = JSON.parse(bruto);
+        const idProduto = dados.idProduto || dados.produto || dados.origem || "premium-generico";
+        const pacotes = Number(dados.pacotes || 10);
+
+        if (!idProduto) return false;
+
+        resgatarPremiumPorProduto(idProduto, pacotes, dados.descricao || "");
+        localStorage.removeItem("radar_copa_premium_bonus");
+        localStorage.removeItem("radar_copa_premium_pacotes");
+        return true;
+      } catch (e) {
+        console.warn("Não processou bônus premium recebido:", e);
+        return false;
+      }
+    }
+
 
     // ÁUDIOS - NÃO MEXER NOS CAMINHOS
     let audioAtivo = true;
@@ -1276,6 +1382,7 @@
         album: {},
         pacotes: 0,
         ultimoPacoteGratis: null,
+        ultimoResgateTesteGratis: null,
         historico: [],
         resgatesParceiros: {},
         codigoTorcedor: null,
@@ -1677,22 +1784,31 @@
     }
 
     function regraParceiroHoje(parceiro, etapa) {
-      const chave = `${parceiro}_${etapa}_${new Date().toISOString().slice(0,10)}`;
+      const chave = `${parceiro}_${etapa}_${obterDataHojeISO()}`;
       estado.resgatesParceiros = estado.resgatesParceiros || {};
       return chave;
     }
 
     window.resgatarParceiro = function(parceiro, etapa, qtd) {
-      const chave = regraParceiroHoje(parceiro, etapa);
-      if (estado.resgatesParceiros[chave]) {
-        alert("Essa recompensa já foi resgatada hoje para essa etapa.");
+      // Recompensas de testes/simulados grátis: limite geral de 1 resgate a cada 8 horas
+      const etapaTxt = String(etapa || "").toLowerCase();
+      const parceiroTxt = String(parceiro || "").toLowerCase();
+
+      const isPremium = etapaTxt.includes("premium") || parceiroTxt.includes("premium");
+      const isComboMatriz = etapaTxt.includes("combo") || parceiroTxt.includes("combo") || etapaTxt.includes("17") || parceiroTxt.includes("17");
+
+      if (isPremium || isComboMatriz) {
+        const idProduto = isComboMatriz ? "matriz-combo-17-simulados" : `${parceiro}_${etapa}`.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+        const pacotes = isComboMatriz ? 200 : 10;
+        const novasPremium = resgatarPremiumPorProduto(idProduto, pacotes, isComboMatriz ? "Combo Matriz 17 simulados" : "Bônus premium individual");
+        const painelPremium = document.getElementById("resultadoPacote");
+        if (painelPremium && novasPremium.length) painelPremium.innerHTML = novasPremium.slice(0, 12).map(f => card(f, true)).join("");
         return;
       }
-      estado.resgatesParceiros[chave] = true;
-      const novas = adicionarFigurinhasAleatorias(qtd, parceiro, `${qtd} figurinha(s) por ${etapa}`);
-      alert(`Você resgatou ${qtd} figurinha(s). Volte ao relatório para conferir.`);
+
+      const novas = registrarTesteGratis8h(qtd, parceiro, `${qtd} figurinha(s) por ${etapa}`);
       const painel = document.getElementById("resultadoPacote");
-      if (painel) painel.innerHTML = novas.map(f => card(f, true)).join("");
+      if (painel && novas.length) painel.innerHTML = novas.map(f => card(f, true)).join("");
       renderLivro();
     };
 
@@ -1709,8 +1825,8 @@
               <p>Álbum digital independente com 48 seleções e 576 figurinhas. O código está pronto para receber as imagens nas pastas dos países e usar seus 4 áudios em <b>audio/album/</b>.</p>
               <div class="premium-banner" style="max-width:760px;margin:18px auto 0;">
                 <small>Bônus Premium</small>
-                <h3>Comprou qualquer versão premium? Ganhe +10 pacotes no álbum.</h3>
-                <p>Vale para Gabarito Max, DB ENEM, Matriz Educacional, Radar Conservador ou qualquer versão premium vinculada ao Radar Copa.</p>
+                <h3>Cada compra premium libera bônus no álbum.</h3>
+                <p>Premium individual libera +10 pacotes por produto comprado. Combo Matriz 17 simulados libera +200 pacotes.</p>
               </div>
             </div>
           </div>
@@ -1747,8 +1863,8 @@
             <p>Abra envelopes, ganhe figurinhas e cole no álbum. O envelope grátis libera a cada <b>12 horas</b>. Depois de colar, a ficha completa fica liberada. As imagens devem estar nas pastas dos países, sempre com o nome <b>01.webp</b> até <b>12.webp</b>.</p>
             <div class="premium-banner">
               <small>Regra Premium</small>
-              <h3>Qualquer versão premium vale +10 pacotes</h3>
-              <p>Ao comprar uma versão premium, o jogador recebe 10 pacotes extras no álbum. Esse resgate será ligado aos sites parceiros na próxima etapa com Supabase.</p>
+              <h3>Premium individual +10 pacotes • Combo Matriz +200 pacotes</h3>
+              <p>Ao comprar uma versão premium individual, o jogador recebe +10 pacotes. O Combo Matriz 17 simulados libera +200 pacotes.</p>
             </div>
             <div class="info-grid">
               <div class="info-card"><b>Seleções</b><span>48</span></div>
@@ -1768,15 +1884,35 @@
 
             <div class="premium-banner">
               <small>Bônus obrigatório</small>
-              <h3>🎁 Comprando qualquer versão premium, você ganha +10 pacotes.</h3>
-              <p>Vale para qualquer oferta premium vinculada ao Radar Copa: Gabarito Max, DB ENEM, Matriz Educacional, Radar Conservador ou simulados premium.</p>
+              <h3>🎁 Cada compra premium libera bônus próprio.</h3>
+              <p>Premium individual: +10 pacotes por produto. Combo Matriz 17 simulados: +200 pacotes.</p>
             </div>
+
+            <div id="premiumResgatesProdutos">
+            <div class="parceiros-grid">
+              <div class="parceiro-card">
+                <h3>Gabarito Max Copa Premium</h3>
+                <p>Produto premium individual. Cada compra libera +10 pacotes.</p>
+                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('gabarito-max-copa-2026-premium',10,'Gabarito Max Copa Premium')">Resgatar +10 pacotes</button>
+              </div>
+              <div class="parceiro-card">
+                <h3>Gabarito Max Analista Adm Premium</h3>
+                <p>Produto premium individual. Cada compra libera +10 pacotes.</p>
+                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('gabarito-max-analista-adm-premium',10,'Gabarito Max Analista Administrativo Premium')">Resgatar +10 pacotes</button>
+              </div>
+              <div class="parceiro-card">
+                <h3>Combo Matriz 17 Simulados</h3>
+                <p>Combo premium completo. Libera bônus especial de +200 pacotes.</p>
+                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('matriz-combo-17-simulados',200,'Combo Matriz 17 simulados')">Resgatar +200 pacotes</button>
+              </div>
+            </div>
+</div>
 
             <div class="info-grid">
               <div class="info-card"><b>Abriu teste/simulado</b><span>+1</span></div>
               <div class="info-card"><b>Acertou metade</b><span>+3</span></div>
               <div class="info-card"><b>Gabaritou</b><span>+5</span></div>
-              <div class="info-card"><b>Comprou premium</b><span>+10 pacotes</span></div>
+              <div class="info-card"><b>Premium individual</b><span>+10 pacotes</span></div><div class="info-card"><b>Combo Matriz 17 simulados</b><span>+200 pacotes</span></div>
             </div>
 
             <div class="parceiros-grid">
@@ -2103,6 +2239,7 @@
     // =========================================================
     function init() {
       setupAudio();
+      processarBonusPremiumRecebido();
       renderFiltros();
       renderLivro();
       iniciarSupabaseAlbum();
