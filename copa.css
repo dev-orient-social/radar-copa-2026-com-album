@@ -1,0 +1,35 @@
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#06142e;--azul2:#0b3d91;--verde:#007a33;--dourado:#ffd54a;--roxo:#7c3aed;--texto:#f8fafc;--muted:#cbd5e1}
+body{font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 12% 8%,rgba(255,213,74,.18),transparent 28%),linear-gradient(145deg,#020817,#071b3f 45%,#022c22);color:#fff;min-height:100vh}
+a{text-decoration:none;color:inherit}
+.topo-site{width:min(1220px,94%);margin:0 auto;padding:18px 0;display:flex;justify-content:space-between;align-items:center;gap:20px}
+.logo{font-weight:900;font-size:22px;color:#ffd54a}
+.topo-site nav{display:flex;gap:10px;flex-wrap:wrap}
+.topo-site nav a{border:1px solid rgba(255,213,74,.35);border-radius:999px;padding:10px 13px;font-size:14px;font-weight:900}
+.nav-destaque{background:#ffd54a;color:#111827!important}
+main{width:min(1220px,94%);margin:0 auto}
+.hero{min-height:74vh;display:grid;grid-template-columns:.95fr 1.05fr;align-items:center;gap:28px}
+.tag{display:inline-block;color:#ffd54a;border:1px solid rgba(255,213,74,.45);padding:9px 14px;border-radius:999px;font-weight:900;margin-bottom:18px}
+.hero h1{font-size:clamp(48px,8vw,96px);line-height:.92;letter-spacing:-3px;margin-bottom:18px}
+.hero h2{font-size:clamp(19px,2.5vw,30px);font-weight:500;color:rgba(255,255,255,.88);margin-bottom:26px}
+.acoes{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:999px;font-weight:900}
+.btn-dourado{background:#ffd54a;color:#111827}
+.btn-contorno{border:1px solid rgba(255,255,255,.38);color:#fff}
+.hero-pontos{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.hero-pontos span{background:rgba(255,255,255,.12);border:1px solid rgba(255,213,74,.25);border-radius:999px;padding:8px 11px;font-size:13px;font-weight:900}
+.hero-imagem img{width:100%;border-radius:28px;border:2px solid rgba(255,213,74,.45);box-shadow:0 25px 55px rgba(0,0,0,.38)}
+.faixa-premium{display:flex;justify-content:space-between;align-items:center;gap:18px;background:linear-gradient(135deg,#0b3d91,#7c3aed,#e3a61f);border:2px solid rgba(255,213,74,.65);border-radius:28px;padding:24px;margin:8px 0 36px;box-shadow:0 20px 44px rgba(0,0,0,.25)}
+.faixa-premium strong{font-size:26px}.faixa-premium p{font-size:18px;color:#f8fafc}
+.secao{margin:52px 0}.titulo{margin-bottom:22px}.titulo p{color:#ffd54a;font-weight:900;text-transform:uppercase;letter-spacing:.04em}.titulo h2{font-size:clamp(30px,4vw,48px);line-height:1.05}
+.grid-noticias,.grid-missoes,.grid-raridades,.grid-parceiros{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.noticia,.missao-card,.raridade,.parceiro{background:linear-gradient(145deg,rgba(255,255,255,.12),rgba(15,23,42,.72));border:1px solid rgba(255,213,74,.25);border-radius:24px;overflow:hidden;box-shadow:0 15px 36px rgba(0,0,0,.22);transition:.25s}
+.noticia:hover,.missao-card:hover,.parceiro:hover{transform:translateY(-5px);border-color:#ffd54a}
+.noticia img{width:100%;height:190px;object-fit:cover;display:block}
+.noticia div,.missao-card,.raridade,.parceiro{padding:20px}
+.noticia small{color:#ffd54a;font-weight:900}.noticia h3,.missao-card h3,.raridade h3{font-size:22px;margin:8px 0;color:#fff}.noticia p,.missao-card p,.raridade p{color:#dbeafe;line-height:1.45}
+.missao-card span{font-size:34px}.leque-figurinhas{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.fig-destaque{background:#06142e;border:2px solid rgba(255,213,74,.35);border-radius:20px;overflow:hidden;box-shadow:0 16px 34px rgba(0,0,0,.28)}.fig-destaque img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block}.fig-destaque div{padding:12px}.fig-destaque strong{display:block;color:#ffd54a}.fig-destaque span{color:#dbeafe;font-size:13px}
+.raridade.comum{border-color:#94a3b8}.raridade.rara{border-color:#cbd5e1;background:linear-gradient(145deg,#334155,#94a3b8)}.raridade.epica{border-color:#c084fc;background:linear-gradient(145deg,#312e81,#7c3aed,#0ea5e9)}.raridade.lendaria{border-color:#ffd54a;background:linear-gradient(145deg,#3b2500,#b45309,#ffd54a);color:#111}.raridade.lendaria h3,.raridade.lendaria p{color:#111}.raridade.tecnico{border-color:#eab308;background:linear-gradient(145deg,#422006,#92400e,#facc15)}
+.parceiro{min-height:150px;display:flex;flex-direction:column;justify-content:end}.parceiro strong{font-size:26px;color:#fff}.parceiro span{color:#f8fafc}.parceiro-gabarito{background:linear-gradient(145deg,#ff9800,#7c2d12)}.parceiro-db{background:linear-gradient(145deg,#0a45ff,#121c4e)}.parceiro-matriz{background:linear-gradient(145deg,#008037,#003f1f)}.parceiro-radar{background:linear-gradient(145deg,#071b3d,#009739)}
+footer{text-align:center;background:#020817;border-top:3px solid #ffd54a;padding:32px 16px;margin-top:50px;color:#cbd5e1}
+@media(max-width:950px){.hero{grid-template-columns:1fr}.grid-noticias,.grid-missoes,.grid-raridades,.grid-parceiros{grid-template-columns:1fr}.leque-figurinhas{grid-template-columns:repeat(2,1fr)}.topo-site{display:block}.topo-site nav{margin-top:14px}.faixa-premium{display:block}.faixa-premium .btn{margin-top:15px}.hero h1{letter-spacing:-1px}}

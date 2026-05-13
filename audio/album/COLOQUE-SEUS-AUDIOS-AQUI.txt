@@ -1,0 +1,8 @@
+Coloque aqui exatamente estes arquivos:
+
+bg-adventure.mp3
+pack-open.mp3
+page-turn.mp3
+sticker-place.mp3
+
+Não renomeie.

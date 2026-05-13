@@ -1,0 +1,38 @@
+COMO USAR AS FICHAS TÉCNICAS
+
+Esta pasta já está pronta para ser colocada dentro da pasta principal do álbum.
+
+Estrutura correta:
+
+14 COPA/
+├── index.html
+├── audio/
+├── img/
+└── fichas_tecnicas/
+    ├── fichas.js
+    ├── grupo-d.js
+    ├── grupo-e.js
+    ├── grupo-f.js
+    ├── grupo-g.js
+    └── grupo-h.js
+
+Arquivo principal:
+- fichas.js contém todas as fichas geradas agora em um único arquivo.
+
+Arquivos separados por grupo:
+- grupo-d.js, grupo-e.js, grupo-f.js, grupo-g.js e grupo-h.js existem para organização.
+
+Quantidade gerada agora:
+- Total de fichas: 228
+- Por grupo: grupo-d: 48, grupo-e: 48, grupo-f: 36, grupo-g: 48, grupo-h: 48
+
+IMPORTANTE:
+Seu index.html precisa carregar o arquivo assim, antes do script principal do álbum:
+
+<script src="fichas_tecnicas/fichas.js"></script>
+
+Os IDs das fichas seguem o padrão usado pelo álbum:
+exemplo: grupo-h-arabia-saudita-01
+
+As imagens continuam no mesmo lugar:
+img/album/grupos/grupo-h/arabia-saudita/01.webp
