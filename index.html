@@ -3,125 +3,2339 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>História em Campo 2026</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root{
+      --bg1:#020817;
+      --bg2:#071b3f;
+      --bg3:#0b2f6b;
+      --gold:#f6c84c;
+      --gold2:#e3a61f;
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+      --paper1:#f8fafc;
+      --paper2:#e2e8f0;
+      --paper3:#cbd5e1;
+    }
 
-  <title>Radar da Copa 2026 — Notícias, Álbum, Figurinhas e Simulados</title>
-  <meta name="description" content="Radar da Copa 2026: notícias reais da Copa, calendário, sedes, simulados, sites parceiros e Álbum História em Campo 2026 com 576 figurinhas digitais." />
+    html, body { width:100%; height:100%; }
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top left, rgba(246,200,76,.14), transparent 28%), linear-gradient(135deg, #020817, #071b3f 50%, #020817);
+      color: var(--text);
+      overflow: hidden;
+    }
 
-  <link rel="stylesheet" href="copa.css" />
+    button, input, select { font-family: inherit; }
+    button { cursor: pointer; }
+    a { text-decoration: none; color: inherit; }
+
+    .app{
+      height:100vh;
+      display:grid;
+      grid-template-rows: 56px 1fr;
+      overflow:hidden;
+    }
+
+    .topo{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:8px 14px;
+      background: linear-gradient(90deg, #020817, #071b3f);
+      border-bottom: 1px solid rgba(246,200,76,.28);
+    }
+
+    .marca{
+      display:flex;
+      flex-direction:column;
+      line-height:1.1;
+      min-width: 230px;
+    }
+
+    .marca b{ font-size:1.05rem; }
+    .marca small{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:.72rem;
+    }
+
+    .topo nav{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .topo button, .topo a{
+      border:1px solid rgba(246,200,76,.38);
+      background: linear-gradient(180deg, #071b3f, #020817);
+      color:#fff;
+      border-radius:999px;
+      padding:9px 15px;
+      font-size:.78rem;
+      font-weight:900;
+    }
+
+    .topo button:hover, .topo a:hover{
+      border-color:var(--gold);
+      color:var(--gold);
+    }
+
+    .palco{
+      display:grid;
+      grid-template-columns: 230px 1fr;
+      gap:10px;
+      padding:10px;
+      height: calc(100vh - 56px);
+      overflow:hidden;
+    }
+
+    .lateral{
+      min-height:0;
+      overflow:auto;
+      display:grid;
+      grid-template-rows:auto auto auto auto 1fr;
+      gap:10px;
+    }
+
+    .box, .status, .controles{
+      border-radius:18px;
+      background: linear-gradient(145deg, rgba(10,36,82,.98), rgba(2,8,23,.96));
+      border:1px solid rgba(246,200,76,.22);
+      padding:12px;
+    }
+
+    .tag{
+      display:inline-flex;
+      padding:5px 10px;
+      border-radius:999px;
+      background: linear-gradient(135deg, #fff5c9, var(--gold));
+      color:#07142e;
+      font-size:.62rem;
+      font-weight:900;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    input, select{
+      width:100%;
+      border:1px solid rgba(255,255,255,.16);
+      border-radius:12px;
+      background: rgba(2,8,23,.78);
+      color:#fff;
+      padding:10px;
+      margin-bottom:8px;
+      outline:none;
+      font-size:.8rem;
+    }
+
+    input:focus, select:focus{ border-color:var(--gold); }
+
+    .box button, .btn-dourado{
+      width:100%;
+      border:0;
+      border-radius:999px;
+      padding:10px 12px;
+      background: linear-gradient(135deg, #ffe99a, var(--gold), var(--gold2));
+      color:#06142e;
+      font-weight:900;
+      font-size:.78rem;
+    }
+
+    .box strong{
+      display:block;
+      color:var(--gold);
+      font-size:.88rem;
+      margin-top:8px;
+    }
+
+    .status{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .status div{
+      border-radius:14px;
+      background: rgba(2,8,23,.42);
+      text-align:center;
+      padding:10px 6px;
+    }
+
+    .status b{
+      display:block;
+      color:var(--gold);
+      font-size:1.14rem;
+    }
+
+    .status span{
+      display:block;
+      color:#e5e7eb;
+      font-size:.62rem;
+      margin-top:5px;
+    }
+
+    .controles{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .controles button{
+      border:1px solid rgba(246,200,76,.22);
+      border-radius:14px;
+      padding:10px 6px;
+      background: linear-gradient(180deg, #103a83, #071b3f);
+      color:#fff;
+      font-size:.72rem;
+      font-weight:900;
+    }
+
+    .dica b{
+      color:#fff;
+      font-size:1rem;
+      display:block;
+      margin-bottom:8px;
+    }
+
+    .dica p{
+      color:#e5e7eb;
+      font-size:.78rem;
+      line-height:1.45;
+    }
+
+    .area{
+      min-width:0;
+      min-height:0;
+      display:grid;
+      grid-template-rows: 48px 1fr;
+      gap:8px;
+      overflow:hidden;
+    }
+
+    .barra{
+      display:grid;
+      grid-template-columns: 1fr 300px;
+      gap:12px;
+      align-items:center;
+      border-radius:18px;
+      padding:6px 12px;
+      background: rgba(2,8,23,.82);
+      border:1px solid rgba(246,200,76,.22);
+    }
+
+    .barra span{
+      display:block;
+      color:#dbeafe;
+      font-size:.72rem;
+    }
+
+    .barra b{
+      display:block;
+      color:var(--gold);
+      font-size:.95rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .barra select{
+      margin:0;
+      height:36px;
+      border-radius:14px;
+      font-weight:800;
+    }
+
+    .livro{
+      height:100%;
+      min-height:0;
+      display:grid;
+      grid-template-columns: minmax(0,1fr) 12px minmax(0,1fr);
+      overflow:hidden;
+      filter: drop-shadow(0 18px 26px rgba(0,0,0,.42));
+    }
+
+    .livro.capa{
+      grid-template-columns:1fr;
+    }
+
+    .livro.capa .esquerda, .livro.capa .miolo{ display:none; }
+
+    .miolo{
+      background: linear-gradient(90deg, rgba(0,0,0,.35), rgba(255,255,255,.16), rgba(0,0,0,.35));
+      border-top:1px solid #cbd5e1;
+      border-bottom:1px solid #cbd5e1;
+    }
+
+    .pagina{
+      height:100%;
+      min-height:0;
+      overflow:hidden;
+      padding:11px;
+      color:#1f2937;
+      background: radial-gradient(circle at top, rgba(255,255,255,1), transparent 50%), linear-gradient(135deg, var(--paper1) 0%, var(--paper2) 50%, var(--paper3) 100%);
+      border:2px solid #94a3b8;
+      box-shadow: inset 0 0 24px rgba(0,0,0,.05), inset 0 0 0 1px rgba(255,255,255,.8);
+    }
+
+    .esquerda{ border-radius:24px 7px 7px 24px; }
+    .direita{ border-radius:7px 24px 24px 7px; }
+    .livro.capa .direita{ border-radius:24px; }
+
+    .capa-album{
+      height:100%;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      color:#fff;
+      border-radius:20px;
+      background: radial-gradient(circle, rgba(246,200,76,.30), transparent 42%), linear-gradient(145deg, #06142e, #0b2f6b 55%, #020817);
+      border:2px solid rgba(246,200,76,.35);
+      padding:20px;
+    }
+
+    .capa-album h1{
+      font-size: clamp(2.3rem, 5vw, 4.2rem);
+      line-height:.94;
+    }
+
+    .capa-album h2{
+      color:var(--gold);
+      font-size:1.25rem;
+      margin-top:10px;
+    }
+
+    .capa-album p{
+      color:#dbeafe;
+      max-width:680px;
+      margin:14px auto 0;
+      font-size:.95rem;
+      line-height:1.5;
+    }
+
+    .pagina-especial{
+      height:100%;
+      overflow:auto;
+      padding:8px;
+    }
+
+    .pagina-especial h2{
+      font-size:2rem;
+      line-height:1;
+      color:#0f172a;
+      margin-bottom:10px;
+    }
+
+    .pagina-especial p{
+      font-size:.95rem;
+      line-height:1.45;
+      color:#334155;
+    }
+
+    .info-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .info-card{
+      background: rgba(255,255,255,.6);
+      border:1px solid #cbd5e1;
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .info-card b{
+      display:block;
+      color:#475569;
+      font-size:.75rem;
+      text-transform:uppercase;
+    }
+
+    .info-card span{
+      display:block;
+      color:#0f172a;
+      font-size:1.5rem;
+      font-weight:900;
+      margin-top:6px;
+    }
+
+    .lista-grupos{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .grupo-item{
+      background: rgba(255,255,255,.6);
+      border:1px solid #cbd5e1;
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .grupo-item h3{
+      color:#1e293b;
+      margin-bottom:5px;
+    }
+
+    .grupo-item p{
+      font-size:.85rem;
+      line-height:1.35;
+      color:#475569;
+    }
+
+    .raridades{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .rar{
+      border-radius:16px;
+      padding:12px;
+      border:1px solid #94a3b8;
+      font-weight:900;
+      color:#0f172a;
+    }
+
+    .r-comum{ background:#e2e8f0; }
+    .r-incomum{ background:#bbf7d0; }
+    .r-rara{ background:#bfdbfe; }
+    .r-especial{ background:#e9d5ff; }
+    .r-lendaria{ background:#fed7aa; }
+    .r-cromada{ background:linear-gradient(135deg, #fff0b3, #f6c84c, #e3a61f); }
+
+    .pais-pagina{
+      height:100%;
+      min-height:0;
+      display:grid;
+      grid-template-rows:58px 1fr;
+      gap:8px;
+      overflow:hidden;
+    }
+
+    .pais-topo{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:0 4px 7px;
+      border-bottom:2px solid #94a3b8;
+    }
+
+    .pais-topo small{
+      display:block;
+      color:#475569;
+      font-weight:900;
+      font-size:.74rem;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    .pais-topo h2{
+      font-size:1.38rem;
+      color:#0f172a;
+      line-height:1;
+    }
+
+    .pais-topo strong{
+      white-space:nowrap;
+      background: linear-gradient(135deg, #ffe58b, #fff7d1);
+      color:#06142e;
+      border-radius:999px;
+      padding:10px 13px;
+      font-size:.68rem;
+      font-weight:900;
+      border:1px solid #cbd5e1;
+    }
+
+    .grid-fig{
+      height:100%;
+      min-height:0;
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      grid-template-rows: repeat(3, minmax(0,1fr));
+      gap:8px;
+    }
+
+    .fig{
+      min-width:0;
+      min-height:0;
+      overflow:hidden;
+      border-radius:14px;
+      background:#06142e;
+      color:#fff;
+      border:2px solid #07142e;
+      display:grid;
+      grid-template-rows: 1fr 29px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 3px 8px rgba(0,0,0,.28);
+      transition: transform .2s;
+      cursor:pointer;
+    }
+
+    .fig:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 5px 14px rgba(0,0,0,.35);
+    }
+
+    .fig[data-raridade="Comum"]{ border-color:#94a3b8; }
+    .fig[data-raridade="Incomum"]{ border-color:#4ade80; }
+    .fig[data-raridade="Rara"]{ border-color:#60a5fa; }
+    .fig[data-raridade="Especial"]{ border-color:#c084fc; }
+    .fig[data-raridade="Lendária"]{ border-color:#fb923c; }
+    .fig[data-raridade="Cromada Dourada"]{ border-color:#e3a61f; box-shadow:0 0 8px rgba(246,200,76,.5); }
+
+    .arte{
+      width:100%;
+      height:100%;
+      min-height:0;
+      border-radius:12px 12px 0 0;
+      background: radial-gradient(circle, rgba(246,200,76,.18), transparent 42%), linear-gradient(145deg, rgba(29,78,216,.78), rgba(2,6,23,.95));
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .arte img, .resultado .fig .arte img, .ficha-img img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      object-position:center center;
+      display:block;
+    }
+
+    .arte-vazia{
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,.1);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      border-radius:12px 12px 0 0;
+      padding:6px;
+      text-align:center;
+    }
+
+    .arte-vazia .num-fig{
+      font-size:2.1rem;
+      font-weight:900;
+      color:#ffd351;
+      line-height:1;
+    }
+
+    .arte-vazia .pais-mini{
+      margin-top:8px;
+      font-size:.62rem;
+      font-weight:700;
+      color:#dbeafe;
+      line-height:1.2;
+    }
+
+    .arte-vazia .pts-fig{
+      font-size:.7rem;
+      color:#1e293b;
+      margin-top:8px;
+      font-weight:bold;
+      background:rgba(255,255,255,.65);
+      padding:3px 8px;
+      border-radius:10px;
+    }
+
+    .fig button, .fig .acao{
+      height:29px;
+      margin:0;
+      border:0;
+      border-radius:0 0 12px 12px;
+      padding:4px 3px;
+      background: linear-gradient(135deg, #94a3b8, #64748b);
+      color:#fff;
+      font-weight:900;
+      font-size:.62rem;
+      line-height:1;
+      text-transform:uppercase;
+    }
+
+    .fig.tem-fig button, .fig[data-tem="1"] button{
+      background: linear-gradient(135deg, #fff1a8, #f6c84c, #e3a61f) !important;
+      color:#06142e !important;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 0 10px rgba(246,200,76,.22);
+    }
+
+    .fig.colada button{
+      background: linear-gradient(135deg, #bfdbfe, #3b82f6) !important;
+      color:#fff !important;
+    }
+
+    .fig.colada{
+      grid-template-rows: 1fr;
+    }
+
+    .fig.colada .acao{
+      display:none;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:100;
+      display:none;
+      place-items:center;
+      background: rgba(2,6,23,.74);
+      backdrop-filter: blur(8px);
+      padding:18px;
+    }
+
+    .modal.ativo{ display:grid; }
+
+    .card-modal{
+      position:relative;
+      width:min(920px, 96vw);
+      max-height:90vh;
+      overflow:auto;
+      padding:22px;
+      border-radius:28px;
+      background: linear-gradient(145deg, rgba(12,37,84,.98), rgba(2,6,23,.96));
+      border:1px solid rgba(246,200,76,.28);
+      box-shadow:0 18px 46px rgba(0,0,0,.45);
+    }
+
+    .fechar{
+      position:absolute;
+      top:12px;
+      right:12px;
+      width:36px;
+      height:36px;
+      border:0;
+      border-radius:999px;
+      background: linear-gradient(135deg, #fff, var(--gold));
+      color:#06142e;
+      font-size:1.2rem;
+      font-weight:900;
+    }
+
+    .resultado{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .resultado .fig{
+      min-height:350px;
+      grid-template-rows:1fr 32px;
+    }
+
+    .ficha-modal{ width:min(1080px, 96vw); }
+
+    .ficha-bloq{
+      min-height:260px;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      color:#fff;
+    }
+
+    .ficha-bloq .lock{
+      font-size:3rem;
+      margin-bottom:10px;
+    }
+
+    .ficha-rev{
+      display:grid;
+      grid-template-columns: 260px 1fr;
+      gap:18px;
+    }
+
+    .ficha-img{
+      min-height:430px;
+      border-radius:22px;
+      background: linear-gradient(145deg, rgba(29,78,216,.62), rgba(2,6,23,.9));
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      border:1px solid rgba(246,200,76,.28);
+    }
+
+    .ficha-dados h2{
+      font-size:2.1rem;
+      line-height:1;
+      color:#fff;
+      margin-bottom:10px;
+    }
+
+    .meta{
+      display:grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap:9px;
+      margin:12px 0;
+    }
+
+    .meta div{
+      padding:10px;
+      border-radius:15px;
+      background: rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .meta span{
+      display:block;
+      color:var(--muted);
+      font-size:.72rem;
+    }
+
+    .meta b{ color:var(--gold); }
+
+    .texto-ficha{
+      display:grid;
+      gap:10px;
+    }
+
+    .texto-ficha article{
+      padding:12px;
+      border-radius:16px;
+      background: rgba(2,6,23,.42);
+      border:1px solid rgba(255,255,255,.12);
+    }
+
+    .texto-ficha h3{
+      color:var(--gold);
+      font-size:1rem;
+      margin-bottom:6px;
+    }
+
+    .texto-ficha p{
+      color:var(--muted);
+      line-height:1.45;
+      font-size:.9rem;
+    }
+
+
+    /* REFORÇO VISUAL PREMIUM */
+    .pagina-especial{
+      background:
+        radial-gradient(circle at 12% 12%, rgba(246,200,76,.30), transparent 28%),
+        radial-gradient(circle at 90% 18%, rgba(59,130,246,.24), transparent 32%),
+        linear-gradient(135deg, rgba(255,255,255,.97), rgba(219,234,254,.94) 48%, rgba(255,247,210,.96)) !important;
+      border-radius:18px;
+      border:1px solid rgba(148,163,184,.65);
+    }
+    .pagina-especial h2{ color:#071b3f; text-shadow:0 1px 0 rgba(255,255,255,.7); }
+    .pagina-especial p{ color:#26364f; font-weight:700; }
+
+    .premium-banner{
+      margin:12px 0;
+      padding:16px;
+      border-radius:20px;
+      background:
+        radial-gradient(circle at 15% 25%, rgba(255,255,255,.45), transparent 28%),
+        linear-gradient(135deg, #06142e 0%, #0b3d91 45%, #e3a61f 100%);
+      color:#fff;
+      border:2px solid rgba(246,200,76,.75);
+      box-shadow:0 12px 28px rgba(2,8,23,.24);
+    }
+    .premium-banner small{
+      display:inline-flex;
+      padding:5px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.18);
+      color:#fff6c7;
+      font-size:.66rem;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:8px;
+    }
+    .premium-banner h3{ font-size:1.45rem; line-height:1.05; margin-bottom:8px; color:#fff; }
+    .premium-banner p{ color:#f8fafc !important; font-weight:800; line-height:1.35; }
+    .premium-banner b{ color:#ffe58b; }
+
+    .parceiros-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+    .parceiro-card{
+      border-radius:18px;
+      padding:13px;
+      background:linear-gradient(145deg, rgba(255,255,255,.92), rgba(239,246,255,.94));
+      border:1px solid rgba(148,163,184,.65);
+      box-shadow:0 8px 18px rgba(15,23,42,.10);
+    }
+    .parceiro-card h3{ color:#0b2f6b; font-size:1.05rem; margin-bottom:5px; }
+    .parceiro-card p{ color:#334155; font-size:.82rem; line-height:1.35; }
+
+    .passos-resgate{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin-top:12px;
+    }
+    .passo-resgate{
+      border-radius:16px;
+      padding:12px;
+      background:linear-gradient(135deg, rgba(255,251,235,.98), rgba(219,234,254,.9));
+      border:1px solid rgba(246,200,76,.5);
+      color:#0f172a;
+      font-weight:900;
+    }
+    .passo-resgate span{
+      display:block;
+      color:#0b3d91;
+      font-size:.72rem;
+      text-transform:uppercase;
+      margin-bottom:5px;
+    }
+    @media (max-width:850px){
+      .parceiros-grid,.passos-resgate{ grid-template-columns:1fr; }
+    }
+
+
+    /* =========================================================
+       ESTILO FINAL ESCURO PREMIUM — remove fundos claros do álbum
+       ========================================================= */
+    .pagina{
+      background:
+        radial-gradient(circle at 10% 8%, rgba(246,200,76,.25), transparent 24%),
+        radial-gradient(circle at 90% 18%, rgba(34,197,94,.16), transparent 28%),
+        linear-gradient(145deg, #06142e 0%, #0b1d44 48%, #020817 100%) !important;
+      color:#f8fafc !important;
+      border-color:rgba(246,200,76,.55) !important;
+      box-shadow: inset 0 0 34px rgba(255,213,74,.08), inset 0 0 0 1px rgba(255,255,255,.10) !important;
+    }
+
+    .pagina-especial{
+      background:
+        radial-gradient(circle at 12% 12%, rgba(246,200,76,.30), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(0,200,83,.20), transparent 30%),
+        linear-gradient(145deg, #071b3f 0%, #0b2f6b 50%, #020817 100%) !important;
+      color:#f8fafc !important;
+      border:1px solid rgba(246,200,76,.45) !important;
+      box-shadow: inset 0 0 32px rgba(255,213,74,.08);
+    }
+
+    .pagina-especial h2,
+    .pais-topo h2{
+      color:#ffd54a !important;
+      text-shadow:0 2px 12px rgba(0,0,0,.40) !important;
+    }
+
+    .pagina-especial p,
+    .pais-topo small{
+      color:#dbeafe !important;
+    }
+
+    .info-card,
+    .grupo-item,
+    .parceiro-card,
+    .passo-resgate{
+      background:linear-gradient(145deg, rgba(15,23,42,.92), rgba(7,27,61,.88)) !important;
+      border:1px solid rgba(246,200,76,.32) !important;
+      color:#f8fafc !important;
+      box-shadow:0 12px 28px rgba(0,0,0,.18) !important;
+    }
+
+    .info-card b,
+    .grupo-item h3,
+    .parceiro-card h3{
+      color:#ffd54a !important;
+    }
+
+    .info-card span{
+      color:#ffffff !important;
+    }
+
+    .grupo-item p,
+    .parceiro-card p,
+    .info-card p{
+      color:#dbeafe !important;
+    }
+
+    .pais-topo{
+      border-bottom-color:rgba(246,200,76,.42) !important;
+    }
+
+    .pais-topo strong{
+      background:linear-gradient(135deg, #ffd54a, #f59e0b) !important;
+      border-color:rgba(255,255,255,.32) !important;
+      color:#06142e !important;
+    }
+
+    .btn-resgate{
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      width:100%;
+      margin-top:10px;
+      border:0;
+      border-radius:999px;
+      padding:10px 12px;
+      background:linear-gradient(135deg,#ffd54a,#f59e0b);
+      color:#06142e !important;
+      font-size:.78rem;
+      font-weight:900;
+      text-decoration:none;
+      cursor:pointer;
+    }
+
+    .btn-resgate.secundario{
+      background:linear-gradient(135deg,#0ea5e9,#22c55e);
+      color:#fff !important;
+    }
+
+    .status-online-album{
+      border:1px solid rgba(34,197,94,.35);
+      background:linear-gradient(145deg, rgba(20,83,45,.75), rgba(2,8,23,.92));
+    }
+
+    .status-online-album strong{
+      color:#86efac !important;
+    }
+
+    @media (max-width: 1100px){
+      .palco{ grid-template-columns:1fr; }
+      .lateral{ display:none; }
+      .barra{ grid-template-columns:1fr; height:auto; }
+      .area{ grid-template-rows:auto 1fr; }
+    }
+
+    @media (max-width: 850px){
+      .resultado{ grid-template-columns:1fr; }
+      .ficha-rev{ grid-template-columns:1fr; }
+    }
+  </style>
 </head>
 <body>
-  <header class="topo-site">
-    <a class="logo" href="copa.html">Radar da Copa 2026</a>
-    <nav>
-      <a href="#noticias">Notícias</a>
-      <a href="#figurinhas">Figurinhas grátis</a>
-      <a href="#personagens">Personagens</a>
-      <a href="#parceiros">Parceiros</a>
-      <a class="nav-destaque" href="album/index.html">Abrir Álbum</a>
-    </nav>
-  </header>
+  <div class="app">
+    <header class="topo">
+      <div class="marca">
+        <b>História em Campo 2026</b>
+        <small>Álbum 576 figurinhas • brinde inicial 20 pacotes • testes 8h • premium por compra</small>
+      </div>
+      <nav>
+        <button id="btnCapa">Capa</button>
+        <button id="btnRelatorio">Relatório</button>
+        <button id="btnResgate">Resgates</button>
+        <button id="btnEnvelope">Abrir envelope</button>
+        <button id="btnAnteriorTopo">← Página</button>
+        <button id="btnProximaTopo">Página →</button>
+        <button id="btnAudio">Som: ON</button>
+      </nav>
+    </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-texto">
-        <p class="tag">Copa do Mundo 2026 • álbum digital • simulados</p>
-        <h1>Radar da Copa 2026</h1>
-        <h2>Notícias reais da Copa, personagens históricos de cada país, figurinhas especiais e recompensas nos sites parceiros.</h2>
-
-        <div class="acoes">
-          <a href="album/index.html" class="btn btn-dourado">Abrir Álbum História em Campo</a>
-          <a href="#figurinhas" class="btn btn-contorno">Ganhar figurinhas grátis</a>
+    <main class="palco">
+      <aside class="lateral">
+        <div class="box">
+          <span class="tag">Buscar seleção</span>
+          <select id="filtroPais"></select>
         </div>
 
-        <div class="hero-pontos">
-          <span>48 seleções</span>
-          <span>576 figurinhas</span>
-          <span>Pacote grátis 12h</span>
-          <span>Premium +10 pacotes</span>
+        <div class="status">
+          <div><b id="totalSelecoes">48</b><span>seleções</span></div>
+          <div><b id="totalFigurinhasAlbum">576</b><span>figurinhas</span></div>
+          <div><b id="figsPorPais">12</b><span>por país</span></div>
+          <div><b id="qtdAudios">4</b><span>áudios</span></div>
         </div>
-      </div>
 
-      <div class="hero-imagem">
-        <img src="radar-copa-figurinhas-leque.png" alt="Radar da Copa 2026 - leque de figurinhas históricas">
-      </div>
-    </section>
+        <div class="box dica status-online-album">
+          <b>Supabase</b>
+          <p id="statusOnlineAlbum">Conectando banco online...</p>
+          <strong id="codigoTorcedorAlbum">Código em criação</strong>
+        </div>
 
-    <section class="faixa-premium">
-      <div>
-        <strong>🎁 Bônus Premium</strong>
-        <p>Comprando qualquer versão premium dos parceiros, você ganha <b>+10 pacotes</b> no álbum.</p>
-      </div>
-      <a href="album/index.html" class="btn btn-dourado">Resgatar no álbum</a>
-    </section>
+        <div class="controles">
+          <button id="btnAnterior">← Página</button>
+          <button id="btnProxima">Página →</button>
+        </div>
 
-    <section class="secao" id="noticias">
-      <div class="titulo">
-        <p>Notícias reais e guias permanentes</p>
-        <h2>Cobertura da Copa para usar durante todo o torneio</h2>
-      </div>
-      <div class="grid-noticias" id="gridNoticias"></div>
-    </section>
+        <div class="box dica">
+          <b>Como usar</b>
+          <p>CLIQUE NA FIGURINHA PARA VER A FICHA TECNICA DO PERSONAGEM</p>
+        </div>
 
-    <section class="secao" id="figurinhas">
-      <div class="titulo">
-        <p>Missões do colecionador</p>
-        <h2>Vários caminhos para ganhar figurinhas grátis</h2>
-      </div>
+        <div class="box dica">
+          <b>Estrutura das imagens</b>
+          <p><b>img/album/grupos/grupo-a/mexico/01.webp</b><br><br>O código já está pronto para 48 seleções e 576 figurinhas.</p>
+        </div>
+      </aside>
 
-      <div class="grid-missoes">
-        <a href="album/index.html" class="missao-card"><span>🎁</span><h3>Pacote grátis</h3><p>Abra um envelope grátis a cada 12 horas.</p></a>
-        <a href="album/index.html" class="missao-card"><span>📚</span><h3>Missão do dia</h3><p>Acesse o álbum e resgate figurinhas nas ações diárias.</p></a>
-        <a href="https://cincoregioes-star.github.io/oficial-portal-gabaritomax/?origem=radar_copa" target="_blank" class="missao-card"><span>✅</span><h3>Gabarito Max</h3><p>Entre no parceiro e ganhe recompensa no álbum.</p></a>
-        <a href="https://cincoregioes-star.github.io/DB-ENEM/?origem=radar_copa" target="_blank" class="missao-card"><span>🧠</span><h3>DB ENEM</h3><p>Simulados e testes liberam figurinhas.</p></a>
-        <a href="https://cincoregioes-star.github.io/matriz-educacional/?origem=radar_copa" target="_blank" class="missao-card"><span>✍️</span><h3>Matriz Educacional</h3><p>Estudo e premium destravam pacotes extras.</p></a>
-        <a href="https://cincoregioes-star.github.io/radar-conservador-brasil/?origem=radar_copa" target="_blank" class="missao-card"><span>📰</span><h3>Radar Conservador</h3><p>Notícias e campanhas também viram missão do álbum.</p></a>
-      </div>
-    </section>
+      <section class="area">
+        <div class="barra">
+          <div>
+            <span id="paginaAtual">Página 1</span>
+            <b id="tituloPagina">Capa</b>
+          </div>
+          <select id="filtroPaisTopo"></select>
+        </div>
 
-    <section class="secao" id="personagens">
-      <div class="titulo">
-        <p>Personagens históricos</p>
-        <h2>Um leque de figurinhas para levar o leitor aos parceiros</h2>
-      </div>
-      <div class="leque-figurinhas" id="lequeFigurinhas"></div>
-    </section>
+        <div class="livro" id="livro">
+          <div class="pagina esquerda" id="paginaEsquerda"></div>
+          <div class="miolo"></div>
+          <div class="pagina direita" id="paginaDireita"></div>
+        </div>
+      </section>
+    </main>
 
-    <section class="secao raridades">
-      <div class="titulo">
-        <p>Qualidades das figurinhas</p>
-        <h2>Comum, Rara, Épica, Lendária e Técnico Vintage Gold</h2>
-      </div>
-
-      <div class="grid-raridades">
-        <article class="raridade comum"><h3>Comum</h3><p>Acabamento matte, opaco, limpo e com foco no personagem.</p></article>
-        <article class="raridade rara"><h3>Rara</h3><p>Silver Chrome Card com bordas cromadas e brilho prateado.</p></article>
-        <article class="raridade epica"><h3>Épica</h3><p>Holofoil Card com reflexos iridescentes em arco-íris.</p></article>
-        <article class="raridade lendaria"><h3>Lendária</h3><p>Gold Card com textura de ouro escovado e brilho premium.</p></article>
-        <article class="raridade tecnico"><h3>Técnico camisa 12</h3><p>Vintage Gold: ouro antigo, clássico e com ar de autoridade.</p></article>
+    <section class="modal" id="modalPacote">
+      <div class="card-modal">
+        <button class="fechar" id="fecharPacote">×</button>
+        <span class="tag">Envelope</span>
+        <h2 style="color:#fff;">Abrir envelope</h2>
+        <p style="color:#cbd5e1; margin-top:8px;">Cada envelope contém 3 figurinhas. O envelope grátis fica disponível a cada 12 horas.</p>
+        <div id="avisoPacote" style="margin-top:12px;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(246,200,76,.25);border-radius:16px;padding:12px;line-height:1.35;"></div>
+        <button class="btn-dourado" id="btnAbrirPacote" style="margin-top:14px;">Abrir envelope agora</button>
+        <div id="resultadoPacote" class="resultado"></div>
       </div>
     </section>
 
-    <section class="secao" id="parceiros">
-      <div class="titulo">
-        <p>Ecossistema de parceiros</p>
-        <h2>Acesse, estude, leia notícias e destrave pacotes</h2>
-      </div>
-
-      <div class="grid-parceiros">
-        <a href="https://cincoregioes-star.github.io/oficial-portal-gabaritomax/" target="_blank" class="parceiro parceiro-gabarito"><strong>Gabarito Max</strong><span>Simulados e concursos</span></a>
-        <a href="https://cincoregioes-star.github.io/DB-ENEM/" target="_blank" class="parceiro parceiro-db"><strong>DB ENEM</strong><span>ENEM, testes e treino</span></a>
-        <a href="https://cincoregioes-star.github.io/matriz-educacional/" target="_blank" class="parceiro parceiro-matriz"><strong>Matriz Educacional</strong><span>Redação e qualificação</span></a>
-        <a href="https://cincoregioes-star.github.io/radar-conservador-brasil/" target="_blank" class="parceiro parceiro-radar"><strong>Radar Conservador</strong><span>Notícias e campanhas</span></a>
+    <section class="modal" id="modalFicha">
+      <div class="card-modal ficha-modal">
+        <button class="fechar" id="fecharFicha">×</button>
+        <div id="conteudoFicha"></div>
       </div>
     </section>
-  </main>
+  </div>
 
-  <footer>
-    <strong>Radar da Copa 2026</strong>
-    <p>Projeto independente de notícias, simulados e álbum digital de personagens históricos.</p>
-  </footer>
+  <script src="fichas_tecnicas/grupo-a.js"></script>
+  <script src="fichas_tecnicas/grupo-b.js"></script>
+  <script src="fichas_tecnicas/grupo-c.js"></script>
+  <script src="fichas_tecnicas/grupo-d.js"></script>
+  <script src="fichas_tecnicas/grupo-e.js"></script>
+  <script src="fichas_tecnicas/grupo-f.js"></script>
+  <script src="fichas_tecnicas/grupo-g.js"></script>
+  <script src="fichas_tecnicas/grupo-h.js"></script>
+  <script src="fichas_tecnicas/grupo-i.js"></script>
+  <script src="fichas_tecnicas/grupo-j.js"></script>
+  <script src="fichas_tecnicas/grupo-k.js"></script>
+  <script src="fichas_tecnicas/grupo-l.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script src="copa.js"></script>
+  <script>
+    // =========================================================
+    // CONFIG GERAL
+    // =========================================================
+    const STORAGE_KEY = "historia_em_campo_2026_album_576";
+    const FIGS_POR_PACOTE = 3;
+    const PACOTES_BRINDE_INICIAL = 20;
+    const FIGURINHAS_BRINDE_INICIAL = PACOTES_BRINDE_INICIAL * FIGS_POR_PACOTE;
+    const INTERVALO_PACOTE_HORAS = 12;
+    const INTERVALO_PACOTE_MS = INTERVALO_PACOTE_HORAS * 60 * 60 * 1000;
+
+    const INTERVALO_TESTE_HORAS = 8;
+    const INTERVALO_TESTE_MS = INTERVALO_TESTE_HORAS * 60 * 60 * 1000;
+
+    const PRODUTOS_PREMIUM_RADAR_COPA = {
+      "gabarito-max-copa-2026-premium": { nome: "Gabarito Max Copa Premium", pacotes: 10 },
+      "gabarito-max-analista-adm-premium": { nome: "Gabarito Max Analista Administrativo Premium", pacotes: 10 },
+      "db-enem-premium": { nome: "DB ENEM Premium", pacotes: 10 },
+      "matriz-educacional-premium": { nome: "Matriz Educacional Premium", pacotes: 10 },
+      "matriz-combo-17-simulados": { nome: "Combo Matriz 17 Simulados", pacotes: 200 }
+    };
+
+    function obterDataHojeISO() {
+      return new Date().toISOString().slice(0, 10);
+    }
+
+    function obterProdutoPremiumNormalizado(idProduto) {
+      const id = String(idProduto || "premium-generico").trim() || "premium-generico";
+      const regra = PRODUTOS_PREMIUM_RADAR_COPA[id] || { nome: id.replace(/-/g, " "), pacotes: 10 };
+      return { id, nome: regra.nome, pacotes: Number(regra.pacotes || 10) };
+    }
+
+    function chavePremiumResgate(idProduto) {
+      return `premium_${idProduto}`;
+    }
+
+    function statusTesteGratis8h() {
+      const ultimo = estado.ultimoResgateTesteGratis ? new Date(estado.ultimoResgateTesteGratis).getTime() : 0;
+      if (!ultimo) return { liberado:true, restante:0 };
+      const restante = (ultimo + INTERVALO_TESTE_MS) - Date.now();
+      return { liberado: restante <= 0, restante: Math.max(0, restante) };
+    }
+
+    function registrarTesteGratis8h(qtd, origem, descricao) {
+      const status = statusTesteGratis8h();
+      if (!status.liberado) {
+        alert(`Você já resgatou recompensa de teste/simulado grátis. Novo resgate em ${formatarTempo(status.restante)}.`);
+        return [];
+      }
+
+      estado.ultimoResgateTesteGratis = new Date().toISOString();
+      const novas = adicionarFigurinhasAleatorias(qtd, origem || "teste_gratis", descricao || `${qtd} figurinha(s) por teste/simulado grátis`);
+      salvar();
+      alert(`Você resgatou ${qtd} figurinha(s). Próximo teste/simulado grátis libera em 8 horas.`);
+      return novas;
+    }
+
+    function resgatarPremiumPorProduto(idProduto, pacotes = null, descricao = "") {
+      const produto = obterProdutoPremiumNormalizado(idProduto);
+      const totalPacotes = Number(pacotes || produto.pacotes || 10);
+      const chave = chavePremiumResgate(produto.id);
+
+      estado.resgatesParceiros = estado.resgatesParceiros || {};
+
+      if (estado.resgatesParceiros[chave]) {
+        alert(`Este bônus premium já foi resgatado para: ${produto.nome}.`);
+        return [];
+      }
+
+      estado.resgatesParceiros[chave] = true;
+
+      const qtdFigurinhas = totalPacotes * FIGS_POR_PACOTE;
+      const novas = adicionarFigurinhasAleatorias(
+        qtdFigurinhas,
+        produto.id,
+        descricao || `${totalPacotes} pacote(s) premium: ${produto.nome}`
+      );
+
+      estado.historico = estado.historico || [];
+      estado.historico.push({
+        tipo: "premium",
+        origem: produto.id,
+        qtd: qtdFigurinhas,
+        pacotes: totalPacotes,
+        descricao: `${produto.nome}: ${totalPacotes} pacote(s) premium resgatado(s)`,
+        data: new Date().toISOString()
+      });
+
+      salvar();
+      registrarMissaoOnline(produto.id, `Bônus premium: ${produto.nome}`, qtdFigurinhas, "premium");
+      alert(`Você resgatou ${totalPacotes} pacote(s) premium (${qtdFigurinhas} figurinhas). Volte ao relatório para conferir.`);
+      renderLivro();
+      return novas;
+    }
+
+    function processarBonusPremiumRecebido() {
+      try {
+        const bruto = localStorage.getItem("radar_copa_premium_bonus");
+        if (!bruto) return false;
+
+        const dados = JSON.parse(bruto);
+        const idProduto = dados.idProduto || dados.produto || dados.origem || "premium-generico";
+        const pacotes = Number(dados.pacotes || 10);
+
+        if (!idProduto) return false;
+
+        resgatarPremiumPorProduto(idProduto, pacotes, dados.descricao || "");
+        localStorage.removeItem("radar_copa_premium_bonus");
+        localStorage.removeItem("radar_copa_premium_pacotes");
+        return true;
+      } catch (e) {
+        console.warn("Não processou bônus premium recebido:", e);
+        return false;
+      }
+    }
+
+
+    // ÁUDIOS - NÃO MEXER NOS CAMINHOS
+    let audioAtivo = true;
+    let audioLiberado = false;
+    let audio = {};
+
+    function setupAudio() {
+      audio.bg = new Audio("audio/album/bg-adventure.mp3");
+      audio.pack = new Audio("audio/album/pack-open.mp3");
+      audio.page = new Audio("audio/album/page-turn.mp3");
+      audio.sticker = new Audio("audio/album/sticker-place.mp3");
+
+      audio.bg.loop = true;
+      audio.bg.preload = "auto";
+      audio.pack.preload = "auto";
+      audio.page.preload = "auto";
+      audio.sticker.preload = "auto";
+
+      audio.bg.volume = 0.16;
+      audio.pack.volume = 0.55;
+      audio.page.volume = 0.45;
+      audio.sticker.volume = 0.55;
+
+      atualizarBotaoAudio();
+    }
+
+    function atualizarBotaoAudio() {
+      document.getElementById("btnAudio").textContent = audioAtivo ? "Som: ON" : "Som: OFF";
+    }
+
+    function liberarAudio() {
+      if (!audioAtivo || audioLiberado) return;
+      audioLiberado = true;
+      if (audio.bg) {
+        const tentativa = audio.bg.play();
+        if (tentativa !== undefined) {
+          tentativa.catch(() => {
+            audioLiberado = false;
+          });
+        }
+      }
+    }
+
+    function playSom(nome) {
+      if (!audioAtivo || !audio[nome]) return;
+      liberarAudio();
+      try {
+        audio[nome].currentTime = 0;
+        audio[nome].play().catch(() => {});
+      } catch (e) {}
+    }
+
+    function alternarAudio() {
+      audioAtivo = !audioAtivo;
+      if (!audioAtivo && audio.bg) {
+        audio.bg.pause();
+        audio.bg.currentTime = 0;
+        audioLiberado = false;
+      } else {
+        liberarAudio();
+      }
+      atualizarBotaoAudio();
+    }
+
+    // =========================================================
+    // DADOS DO ÁLBUM
+    // =========================================================
+    const GRUPOS = [
+      { nome: "Grupo A", slug: "grupo-a", paises: [
+        { nome: "México", slug: "mexico" },
+        { nome: "África do Sul", slug: "africa-do-sul" },
+        { nome: "Coreia do Sul", slug: "coreia-do-sul" },
+        { nome: "Tchéquia", slug: "tchequia" }
+      ]},
+      { nome: "Grupo B", slug: "grupo-b", paises: [
+        { nome: "Canadá", slug: "canada" },
+        { nome: "Bósnia-Herzegovina", slug: "bosnia-herzegovina" },
+        { nome: "Catar", slug: "catar" },
+        { nome: "Suíça", slug: "suica" }
+      ]},
+      { nome: "Grupo C", slug: "grupo-c", paises: [
+        { nome: "Brasil", slug: "brasil" },
+        { nome: "Marrocos", slug: "marrocos" },
+        { nome: "Haiti", slug: "haiti" },
+        { nome: "Escócia", slug: "escocia" }
+      ]},
+      { nome: "Grupo D", slug: "grupo-d", paises: [
+        { nome: "Estados Unidos", slug: "estados-unidos" },
+        { nome: "Paraguai", slug: "paraguai" },
+        { nome: "Austrália", slug: "australia" },
+        { nome: "Turquia", slug: "turquia" }
+      ]},
+      { nome: "Grupo E", slug: "grupo-e", paises: [
+        { nome: "Alemanha", slug: "alemanha" },
+        { nome: "Curaçao", slug: "curacao" },
+        { nome: "Costa do Marfim", slug: "costa-do-marfim" },
+        { nome: "Equador", slug: "equador" }
+      ]},
+      { nome: "Grupo F", slug: "grupo-f", paises: [
+        { nome: "Holanda", slug: "holanda" },
+        { nome: "Japão", slug: "japao" },
+        { nome: "Suécia", slug: "suecia" },
+        { nome: "Tunísia", slug: "tunisia" }
+      ]},
+      { nome: "Grupo G", slug: "grupo-g", paises: [
+        { nome: "Bélgica", slug: "belgica" },
+        { nome: "Egito", slug: "egito" },
+        { nome: "Irã", slug: "ira" },
+        { nome: "Nova Zelândia", slug: "nova-zelandia" }
+      ]},
+      { nome: "Grupo H", slug: "grupo-h", paises: [
+        { nome: "Espanha", slug: "espanha" },
+        { nome: "Cabo Verde", slug: "cabo-verde" },
+        { nome: "Arábia Saudita", slug: "arabia-saudita" },
+        { nome: "Uruguai", slug: "uruguai" }
+      ]},
+      { nome: "Grupo I", slug: "grupo-i", paises: [
+        { nome: "França", slug: "franca" },
+        { nome: "Senegal", slug: "senegal" },
+        { nome: "Iraque", slug: "iraque" },
+        { nome: "Noruega", slug: "noruega" }
+      ]},
+      { nome: "Grupo J", slug: "grupo-j", paises: [
+        { nome: "Argentina", slug: "argentina" },
+        { nome: "Argélia", slug: "argelia" },
+        { nome: "Áustria", slug: "austria" },
+        { nome: "Jordânia", slug: "jordania" }
+      ]},
+      { nome: "Grupo K", slug: "grupo-k", paises: [
+        { nome: "Portugal", slug: "portugal" },
+        { nome: "RD Congo", slug: "rd-congo" },
+        { nome: "Uzbequistão", slug: "uzbequistao" },
+        { nome: "Colômbia", slug: "colombia" }
+      ]},
+      { nome: "Grupo L", slug: "grupo-l", paises: [
+        { nome: "Inglaterra", slug: "inglaterra" },
+        { nome: "Croácia", slug: "croacia" },
+        { nome: "Gana", slug: "gana" },
+        { nome: "Panamá", slug: "panama" }
+      ]}
+    ];
+
+    const RARIDADES = ["Comum","Comum","Incomum","Incomum","Rara","Rara","Rara","Especial","Especial","Cromada Dourada","Lendária","Lendária"];
+
+    function obterPontos(raridade) {
+      const mapa = {
+        "Comum": 10,
+        "Incomum": 20,
+        "Rara": 50,
+        "Especial": 100,
+        "Lendária": 200,
+        "Cromada Dourada": 500
+      };
+      return mapa[raridade] || 10;
+    }
+
+    function normalizarId(txt) {
+      return String(txt || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+    }
+
+    const LISTA_PAISES_48 = [];
+    const FIGURINHAS_COPA = [];
+
+    // Correção de nomes diferentes entre o álbum e os arquivos das fichas técnicas.
+    // NÃO altera imagens nem áudios; só garante que a ficha correta seja encontrada.
+    const ALIASES_FICHAS = {
+      "grupo-a-tchequia-01": "grupo-a-republica-tcheca-01",
+      "grupo-a-tchequia-02": "grupo-a-republica-tcheca-02",
+      "grupo-a-tchequia-03": "grupo-a-republica-tcheca-03",
+      "grupo-a-tchequia-04": "grupo-a-republica-tcheca-04",
+      "grupo-a-tchequia-05": "grupo-a-republica-tcheca-05",
+      "grupo-a-tchequia-06": "grupo-a-republica-tcheca-06",
+      "grupo-a-tchequia-07": "grupo-a-republica-tcheca-07",
+      "grupo-a-tchequia-08": "grupo-a-republica-tcheca-08",
+      "grupo-a-tchequia-09": "grupo-a-republica-tcheca-09",
+      "grupo-a-tchequia-10": "grupo-a-republica-tcheca-10",
+      "grupo-a-tchequia-11": "grupo-a-republica-tcheca-11",
+      "grupo-a-tchequia-12": "grupo-a-republica-tcheca-12",
+
+      "grupo-b-bosnia-herzegovina-01": "grupo-b-bosnia-01",
+      "grupo-b-bosnia-herzegovina-02": "grupo-b-bosnia-02",
+      "grupo-b-bosnia-herzegovina-03": "grupo-b-bosnia-03",
+      "grupo-b-bosnia-herzegovina-04": "grupo-b-bosnia-04",
+      "grupo-b-bosnia-herzegovina-05": "grupo-b-bosnia-05",
+      "grupo-b-bosnia-herzegovina-06": "grupo-b-bosnia-06",
+      "grupo-b-bosnia-herzegovina-07": "grupo-b-bosnia-07",
+      "grupo-b-bosnia-herzegovina-08": "grupo-b-bosnia-08",
+      "grupo-b-bosnia-herzegovina-09": "grupo-b-bosnia-09",
+      "grupo-b-bosnia-herzegovina-10": "grupo-b-bosnia-10",
+      "grupo-b-bosnia-herzegovina-11": "grupo-b-bosnia-11",
+      "grupo-b-bosnia-herzegovina-12": "grupo-b-bosnia-12",
+
+      "grupo-k-rd-congo-01": "grupo-k-rdc-01",
+      "grupo-k-rd-congo-02": "grupo-k-rdc-02",
+      "grupo-k-rd-congo-03": "grupo-k-rdc-03",
+      "grupo-k-rd-congo-04": "grupo-k-rdc-04",
+      "grupo-k-rd-congo-05": "grupo-k-rdc-05",
+      "grupo-k-rd-congo-06": "grupo-k-rdc-06",
+      "grupo-k-rd-congo-07": "grupo-k-rdc-07",
+      "grupo-k-rd-congo-08": "grupo-k-rdc-08",
+      "grupo-k-rd-congo-09": "grupo-k-rdc-09",
+      "grupo-k-rd-congo-10": "grupo-k-rdc-10",
+      "grupo-k-rd-congo-11": "grupo-k-rdc-11",
+      "grupo-k-rd-congo-12": "grupo-k-rdc-12"
+    };
+
+    function buscarFichaTecnica(id) {
+      if (!window.FICHAS_TECNICAS) return null;
+      return window.FICHAS_TECNICAS[id] || window.FICHAS_TECNICAS[ALIASES_FICHAS[id]] || null;
+    }
+
+    GRUPOS.forEach(grupo => {
+      grupo.paises.forEach(pais => {
+        LISTA_PAISES_48.push(pais.nome);
+
+        for (let i = 1; i <= 12; i++) {
+          const id = `${grupo.slug}-${pais.slug}-${String(i).padStart(2, "0")}`;
+          const ficha = buscarFichaTecnica(id);
+
+          FIGURINHAS_COPA.push({
+            id: id,
+            grupo: ficha?.grupo || grupo.nome,
+            grupoSlug: grupo.slug,
+            pais: pais.nome,
+            paisSlug: pais.slug,
+            numero: ficha?.numero || i,
+            nome: ficha?.nome || `Personagem Histórico ${String(i).padStart(2, "0")}`,
+            posicao: ficha?.posicao || (i === 12 ? "Técnico Histórico" : i === 10 ? "Camisa 10 Histórico" : "Histórico"),
+            raridade: ficha?.raridade || RARIDADES[i - 1],
+            periodo: ficha?.periodo || "0000-0000",
+            resumo: ficha?.resumo || `Ficha histórica de ${pais.nome} em construção.`,
+            legado: ficha?.legado || `Legado histórico de ${pais.nome} em construção.`,
+            imagem: `img/album/grupos/${grupo.slug}/${pais.slug}/${String(i).padStart(2, "0")}.webp`
+          });
+        }
+      });
+    });
+
+    // =========================================================
+    // ESTADO
+    // =========================================================
+    function estadoInicial() {
+      return {
+        album: {},
+        pacotes: 0,
+        ultimoPacoteGratis: null,
+        brindeInicial20Pacotes: false,
+        ultimoResgateTesteGratis: null,
+        historico: [],
+        resgatesParceiros: {},
+        codigoTorcedor: null,
+        supabaseOnline: false
+      };
+    }
+
+    function carregar() {
+      try {
+        const salvo = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        const base = estadoInicial();
+        return { ...base, ...(salvo || {}), album: (salvo && salvo.album) || {}, historico: (salvo && salvo.historico) || [], resgatesParceiros: (salvo && salvo.resgatesParceiros) || {} };
+      } catch {
+        return estadoInicial();
+      }
+    }
+
+    let estado = carregar();
+    let paginaAtual = Number(localStorage.getItem("pagina_album_atual") || 1);
+
+    function salvar() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
+    }
+
+
+    // =========================================================
+    // SUPABASE ONLINE — salva progresso sem quebrar o modo local
+    // =========================================================
+    const SUPABASE_URL_ALBUM = "https://cxxlsapgodwckrhkbwpo.supabase.co";
+    const SUPABASE_KEY_ALBUM = "sb_publishable_myoZQmhn0sAEgkvLkRGoFQ_u18JJjPm";
+    let supabaseClientAlbum = null;
+
+    function gerarCodigoTorcedorAutomatico() {
+      const salvo = localStorage.getItem("radar_copa_codigo_torcedor");
+      if (salvo) return salvo;
+
+      const base = "TORCEDOR-" + Math.random().toString(36).slice(2, 8).toUpperCase() + "-" + Date.now().toString().slice(-4);
+      localStorage.setItem("radar_copa_codigo_torcedor", base);
+      return base;
+    }
+
+    function garantirCodigoTorcedor() {
+      if (!estado.codigoTorcedor) {
+        estado.codigoTorcedor = gerarCodigoTorcedorAutomatico();
+        salvar();
+      }
+      return estado.codigoTorcedor;
+    }
+
+    function atualizarStatusOnlineAlbum(texto, detalhe = "") {
+      const status = document.getElementById("statusOnlineAlbum");
+      const codigo = document.getElementById("codigoTorcedorAlbum");
+      if (status) status.innerHTML = texto;
+      if (codigo) codigo.textContent = detalhe || garantirCodigoTorcedor();
+    }
+
+    async function iniciarSupabaseAlbum() {
+      try {
+        garantirCodigoTorcedor();
+
+        if (!window.supabase || !SUPABASE_URL_ALBUM || !SUPABASE_KEY_ALBUM) {
+          estado.supabaseOnline = false;
+          salvar();
+          atualizarStatusOnlineAlbum("Modo local ativo. Supabase não carregou.", estado.codigoTorcedor);
+          return false;
+        }
+
+        supabaseClientAlbum = window.supabase.createClient(SUPABASE_URL_ALBUM, SUPABASE_KEY_ALBUM);
+
+        const codigo = garantirCodigoTorcedor();
+        const { error } = await supabaseClientAlbum
+          .from("torcedores_copa")
+          .upsert({
+            codigo,
+            nome: "Torcedor Radar Copa",
+            cidade: "Radar Copa",
+            pontos: totalConquistadas(),
+            total_figurinhas: totalConquistadas(),
+            total_coladas: totais().coladas,
+            total_repetidas: totais().repetidas
+          }, { onConflict: "codigo" });
+
+        if (error) throw error;
+
+        estado.supabaseOnline = true;
+        salvar();
+        atualizarStatusOnlineAlbum("Online: progresso salvando no Supabase.", codigo);
+        sincronizarAlbumCompletoOnline("sincronizacao_inicial");
+        return true;
+      } catch (erro) {
+        console.warn("Supabase modo local:", erro);
+        estado.supabaseOnline = false;
+        salvar();
+        atualizarStatusOnlineAlbum("Modo local: banco não confirmou conexão.", estado.codigoTorcedor || "");
+        return false;
+      }
+    }
+
+    async function upsertFigurinhaCatalogoOnline(fig) {
+      if (!supabaseClientAlbum || !fig) return;
+      await supabaseClientAlbum
+        .from("figurinhas_copa")
+        .upsert({
+          id: fig.id,
+          numero: Number(fig.numero || 0),
+          pais: fig.pais || "",
+          selecao: fig.grupo || fig.pais || "",
+          nome: fig.nome || fig.id,
+          raridade: fig.raridade || "Comum",
+          posicao: fig.posicao || "",
+          inspiracao: fig.periodo || "",
+          significado: fig.resumo || "",
+          frase: fig.legado || "",
+          camisa10: Number(fig.numero || 0) === 10,
+          imagem: fig.imagem || "",
+          ativa: true
+        }, { onConflict: "id" });
+    }
+
+    async function salvarFigurinhaOnline(fig, origem = "album") {
+      try {
+        if (!supabaseClientAlbum || !fig) return;
+        const codigo = garantirCodigoTorcedor();
+        const r = reg(fig.id);
+
+        await upsertFigurinhaCatalogoOnline(fig);
+
+        const { error } = await supabaseClientAlbum
+          .from("album_torcedor")
+          .upsert({
+            codigo_torcedor: codigo,
+            figurinha_id: fig.id,
+            quantidade: Number(r.quantidade || 0),
+            colada: Boolean(r.colada),
+            origem,
+            updated_at: new Date().toISOString()
+          }, { onConflict: "codigo_torcedor,figurinha_id" });
+
+        if (error) throw error;
+        atualizarTorcedorOnline();
+      } catch (erro) {
+        console.warn("Não salvou figurinha online:", erro);
+      }
+    }
+
+    async function registrarMissaoOnline(missao, descricao, recompensa, origem = "album") {
+      try {
+        if (!supabaseClientAlbum) return;
+        const codigo = garantirCodigoTorcedor();
+        await supabaseClientAlbum.from("missoes_copa").insert({
+          codigo_torcedor: codigo,
+          missao,
+          descricao,
+          status: "concluida",
+          recompensa: Number(recompensa || 0),
+          origem
+        });
+      } catch (erro) {
+        console.warn("Não registrou missão online:", erro);
+      }
+    }
+
+    async function atualizarTorcedorOnline() {
+      try {
+        if (!supabaseClientAlbum) return;
+        const codigo = garantirCodigoTorcedor();
+        const t = totais();
+
+        await supabaseClientAlbum
+          .from("torcedores_copa")
+          .update({
+            pontos: totalConquistadas(),
+            total_figurinhas: totalConquistadas(),
+            total_coladas: t.coladas,
+            total_repetidas: t.repetidas
+          })
+          .eq("codigo", codigo);
+      } catch (erro) {
+        console.warn("Não atualizou torcedor online:", erro);
+      }
+    }
+
+    function sincronizarAlbumCompletoOnline(origem = "sincronizacao") {
+      if (!supabaseClientAlbum) return;
+      FIGURINHAS_COPA.forEach(fig => {
+        const r = reg(fig.id);
+        if ((r.quantidade || 0) > 0 || r.colada) {
+          salvarFigurinhaOnline(fig, origem);
+        }
+      });
+    }
+
+
+    function reg(id) {
+      if (!estado.album[id]) estado.album[id] = { quantidade: 0, colada: false };
+      return estado.album[id];
+    }
+
+    function safe(text) {
+      return String(text ?? "").replace(/[&<>"']/g, s => ({
+        "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+      }[s]));
+    }
+
+    function figurinhasPais(pais) {
+      return FIGURINHAS_COPA.filter(f => f.pais === pais).sort((a,b) => a.numero - b.numero);
+    }
+
+    function selecaoCompleta(pais) {
+      const figs = figurinhasPais(pais);
+      return figs.length > 0 && figs.every(f => reg(f.id).colada);
+    }
+
+    function totais() {
+      const regs = Object.values(estado.album);
+      const completas = LISTA_PAISES_48.filter(p => selecaoCompleta(p)).length;
+      return {
+        unicas: regs.filter(r => (r.quantidade || 0) > 0).length,
+        coladas: regs.filter(r => r.colada).length,
+        repetidas: regs.reduce((s, r) => s + Math.max(0, (r.quantidade || 0) - 1), 0),
+        pacotes: estado.pacotes || 0,
+        completas,
+        faltam: LISTA_PAISES_48.length - completas
+      };
+    }
+
+    // =========================================================
+    // PÁGINAS
+    // =========================================================
+    function paginas() {
+      const arr = [
+        { numero:1, tipo:"capa", titulo:"Capa" },
+        { numero:2, tipo:"relatorio", titulo:"Relatório" },
+        { numero:3, tipo:"sobre", titulo:"Como funciona" },
+        { numero:4, tipo:"resgates", titulo:"Resgates e parceiros" },
+        { numero:5, tipo:"premium", titulo:"Bônus Premium" },
+        { numero:6, tipo:"sumario", titulo:"Sumário" },
+        { numero:7, tipo:"raridades", titulo:"Raridades" }
+      ];
+
+      LISTA_PAISES_48.forEach((pais, i) => {
+        arr.push({
+          numero: i + 8,
+          tipo: "pais",
+          titulo: pais,
+          pais
+        });
+      });
+
+      return arr;
+    }
+
+    function pagina(n) {
+      return paginas().find(p => p.numero === n) || paginas()[0];
+    }
+
+    function totalPaginas() {
+      return paginas().length;
+    }
+
+    function par(n) {
+      if (n <= 1) return 1;
+      return n % 2 === 0 ? n : n - 1;
+    }
+
+    function grupoDoPais(pais) {
+      for (const grupo of GRUPOS) {
+        const achou = grupo.paises.find(p => p.nome === pais);
+        if (achou) return grupo.nome;
+      }
+      return "Grupo";
+    }
+
+    // =========================================================
+    // RENDER
+    // =========================================================
+    function buildArt(fig, resultado = false) {
+      const r = reg(fig.id);
+      const colada = r.colada;
+
+      if ((resultado || colada) && fig.imagem) {
+        return `<img src="${fig.imagem}" alt="${safe(fig.nome)}" onerror="albumImgError(this)">`;
+      }
+
+      return `
+        <div class="arte-vazia">
+          <span class="num-fig">${String(fig.numero).padStart(2, "0")}</span>
+          <span class="pais-mini">${safe(fig.pais)}<br>${safe(fig.grupo)}</span>
+          <span class="pts-fig">${obterPontos(fig.raridade)} pts</span>
+        </div>
+      `;
+    }
+
+    function card(fig, resultado = false) {
+      const r = reg(fig.id);
+      const tenho = r.quantidade > 0 || resultado;
+      const colada = r.colada;
+      const bloq = !tenho && !colada;
+
+      return `
+        <article class="fig ${bloq ? "bloq" : ""} ${tenho && !colada ? "tem-fig" : ""} ${colada ? "colada" : ""}"
+                 data-raridade="${safe(fig.raridade)}"
+                 data-tem="${tenho ? 1 : 0}"
+                 onclick="${colada || bloq ? `abrirFicha('${fig.id}')` : `colar('${fig.id}')`}">
+          <div class="arte">
+            ${buildArt(fig, resultado)}
+          </div>
+          <button class="acao" onclick="event.stopPropagation();${tenho && !colada ? `colar('${fig.id}')` : `abrirFicha('${fig.id}')`}">
+            ${colada ? "" : resultado ? "Ficha" : tenho ? "Colar" : "Bloqueada"}
+          </button>
+        </article>
+      `;
+    }
+
+
+    function totalConquistadas() {
+      return Object.values(estado.album).reduce((s, r) => s + Number(r.quantidade || 0) + (r.colada ? 1 : 0), 0);
+    }
+
+    function relatorioPorGrupoHTML() {
+      return GRUPOS.map(g => {
+        const figs = FIGURINHAS_COPA.filter(f => f.grupoSlug === g.slug);
+        const coladas = figs.filter(f => reg(f.id).colada).length;
+        const conquistadas = figs.filter(f => reg(f.id).quantidade > 0 || reg(f.id).colada).length;
+        const faltam = figs.length - coladas;
+        return `<div class="info-card"><b>${safe(g.nome)}</b><span>${coladas}/${figs.length}</span><p style="font-size:.78rem;margin-top:6px;color:#475569;">Conquistadas: ${conquistadas} • Faltam colar: ${faltam}</p></div>`;
+      }).join("");
+    }
+
+    function faltantesHTML() {
+      return GRUPOS.map(g => {
+        const linhas = g.paises.map(p => {
+          const faltam = figurinhasPais(p.nome).filter(f => !reg(f.id).colada).map(f => String(f.numero).padStart(2, "0"));
+          return `<p style="margin:.35rem 0;"><b>${safe(p.nome)}:</b> ${faltam.length ? faltam.join(", ") : "Completo"}</p>`;
+        }).join("");
+        return `<div class="grupo-item"><h3>${safe(g.nome)}</h3>${linhas}</div>`;
+      }).join("");
+    }
+
+    function historicoHTML() {
+      const itens = (estado.historico || []).slice(-12).reverse();
+      if (!itens.length) return `<p>Nenhuma figurinha conquistada ainda. Abra um envelope ou faça uma missão parceira.</p>`;
+      return itens.map(h => `<p style="margin:.35rem 0;"><b>${safe(h.origem || h.tipo)}:</b> ${safe(h.qtd || "")} ${safe(h.descricao || "")} <small>${new Date(h.data).toLocaleString("pt-BR")}</small></p>`).join("");
+    }
+
+    function formatarTempo(ms) {
+      const totalSegundos = Math.max(0, Math.ceil(ms / 1000));
+      const horas = Math.floor(totalSegundos / 3600);
+      const minutos = Math.floor((totalSegundos % 3600) / 60);
+      const segundos = totalSegundos % 60;
+      if (horas > 0) return `${horas}h ${String(minutos).padStart(2,"0")}min`;
+      if (minutos > 0) return `${minutos}min ${String(segundos).padStart(2,"0")}s`;
+      return `${segundos}s`;
+    }
+
+    function podeAbrirPacoteGratis() {
+      if (!estado.ultimoPacoteGratis) return { liberado:true, restante:0 };
+      const ultimo = new Date(estado.ultimoPacoteGratis).getTime();
+      const restante = (ultimo + INTERVALO_PACOTE_MS) - Date.now();
+      return { liberado: restante <= 0, restante: Math.max(0, restante) };
+    }
+
+    function atualizarBotaoPacoteGratis() {
+      const btn = document.getElementById("btnAbrirPacote");
+      const aviso = document.getElementById("avisoPacote");
+      if (!btn) return;
+      const status = podeAbrirPacoteGratis();
+      if (status.liberado) {
+        btn.disabled = false;
+        btn.textContent = "🎁 Abrir envelope grátis agora";
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+        if (aviso) aviso.innerHTML = "✅ Envelope grátis disponível. Depois de abrir, o próximo libera em 12 horas.";
+      } else {
+        btn.disabled = true;
+        btn.textContent = `⏳ Próximo envelope em ${formatarTempo(status.restante)}`;
+        btn.style.opacity = ".65";
+        btn.style.cursor = "not-allowed";
+        if (aviso) aviso.innerHTML = `⏳ Você já abriu um envelope grátis. Novo envelope em <b>${formatarTempo(status.restante)}</b>.`;
+      }
+    }
+
+    function adicionarFigurinhasAleatorias(qtd, origem, descricao = "figurinhas conquistadas") {
+      const todas = FIGURINHAS_COPA.slice();
+      const novas = [];
+      for (let i = 0; i < qtd && todas.length; i++) {
+        const idx = Math.floor(Math.random() * todas.length);
+        const f = todas.splice(idx, 1)[0];
+        reg(f.id).quantidade++;
+        novas.push(f);
+      }
+      estado.historico = estado.historico || [];
+      estado.historico.push({ tipo:"figurinhas", origem, qtd, descricao, data:new Date().toISOString() });
+      salvar();
+
+      novas.forEach(fig => salvarFigurinhaOnline(fig, origem));
+      registrarMissaoOnline(origem, descricao, qtd, origem);
+      return novas;
+    }
+
+    function regraParceiroHoje(parceiro, etapa) {
+      const chave = `${parceiro}_${etapa}_${obterDataHojeISO()}`;
+      estado.resgatesParceiros = estado.resgatesParceiros || {};
+      return chave;
+    }
+
+    window.resgatarParceiro = function(parceiro, etapa, qtd) {
+      // Recompensas de testes/simulados grátis: limite geral de 1 resgate a cada 8 horas
+      const etapaTxt = String(etapa || "").toLowerCase();
+      const parceiroTxt = String(parceiro || "").toLowerCase();
+
+      const isPremium = etapaTxt.includes("premium") || parceiroTxt.includes("premium");
+      const isComboMatriz = etapaTxt.includes("combo") || parceiroTxt.includes("combo") || etapaTxt.includes("17") || parceiroTxt.includes("17");
+
+      if (isPremium || isComboMatriz) {
+        const idProduto = isComboMatriz ? "matriz-combo-17-simulados" : `${parceiro}_${etapa}`.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
+        const pacotes = isComboMatriz ? 200 : 10;
+        const novasPremium = resgatarPremiumPorProduto(idProduto, pacotes, isComboMatriz ? "Combo Matriz 17 simulados" : "Bônus premium individual");
+        const painelPremium = document.getElementById("resultadoPacote");
+        if (painelPremium && novasPremium.length) painelPremium.innerHTML = novasPremium.slice(0, 12).map(f => card(f, true)).join("");
+        return;
+      }
+
+      const novas = registrarTesteGratis8h(qtd, parceiro, `${qtd} figurinha(s) por ${etapa}`);
+      const painel = document.getElementById("resultadoPacote");
+      if (painel && novas.length) painel.innerHTML = novas.map(f => card(f, true)).join("");
+      renderLivro();
+    };
+
+
+    function concederBrindeInicial20Pacotes() {
+      try {
+        if (estado.brindeInicial20Pacotes) return false;
+
+        estado.brindeInicial20Pacotes = true;
+        const novas = adicionarFigurinhasAleatorias(
+          FIGURINHAS_BRINDE_INICIAL,
+          "brinde_inicial_album",
+          `Brinde de boas-vindas: ${PACOTES_BRINDE_INICIAL} pacotes ao abrir o álbum pela primeira vez`
+        );
+
+        estado.historico = estado.historico || [];
+        estado.historico.push({
+          tipo: "brinde_inicial",
+          origem: "album",
+          qtd: FIGURINHAS_BRINDE_INICIAL,
+          pacotes: PACOTES_BRINDE_INICIAL,
+          descricao: `Boas-vindas: ${PACOTES_BRINDE_INICIAL} pacotes grátis`,
+          data: new Date().toISOString()
+        });
+
+        salvar();
+        registrarMissaoOnline(
+          "brinde_inicial_album",
+          `Brinde inicial de ${PACOTES_BRINDE_INICIAL} pacotes`,
+          FIGURINHAS_BRINDE_INICIAL,
+          "brinde_inicial"
+        );
+
+        setTimeout(() => {
+          alert(`🎁 Bem-vindo ao álbum! Você ganhou ${PACOTES_BRINDE_INICIAL} pacotes de brinde (${FIGURINHAS_BRINDE_INICIAL} figurinhas). Vá ao relatório para conferir e colar.`);
+          renderLivro();
+        }, 600);
+
+        return novas;
+      } catch (erro) {
+        console.warn("Não concedeu brinde inicial:", erro);
+        return false;
+      }
+    }
+
+    function renderEspecial(p) {
+      const t = totais();
+
+      if (p.tipo === "capa") {
+        return `
+          <div class="capa-album">
+            <div>
+              <span class="tag">Radar Copa História</span>
+              <h1>História em Campo 2026</h1>
+              <h2>Quando a Copa encontra a História Mundial</h2>
+              <p>Álbum digital independente com 48 seleções e 576 figurinhas. O código está pronto para receber as imagens nas pastas dos países e usar seus 4 áudios em <b>audio/album/</b>.</p>
+              <div class="premium-banner" style="max-width:760px;margin:18px auto 0;">
+                <small>Bônus Premium</small>
+                <h3>Abra o álbum e ganhe 20 pacotes de boas-vindas.</h3>
+                <p>Na primeira abertura do álbum, o participante recebe 20 pacotes grátis. Premium individual libera +10 pacotes por produto comprado. Combo Matriz 17 simulados libera +200 pacotes.</p>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (p.tipo === "relatorio") {
+        return `
+          <div class="pagina-especial">
+            <h2>Relatório do Colecionador</h2>
+            <p>Veja suas figurinhas conquistadas, coladas, repetidas e as que ainda faltam.</p>
+            <div class="info-grid">
+              <div class="info-card"><b>Seleções completas</b><span>${t.completas}</span></div>
+              <div class="info-card"><b>Seleções faltando</b><span>${t.faltam}</span></div>
+              <div class="info-card"><b>Figurinhas conquistadas</b><span>${totalConquistadas()}</span></div>
+              <div class="info-card"><b>Figurinhas coladas</b><span>${t.coladas}</span></div>
+              <div class="info-card"><b>Repetidas</b><span>${t.repetidas}</span></div>
+              <div class="info-card"><b>Envelopes abertos</b><span>${t.pacotes}</span></div>
+            </div>
+            <h2 style="font-size:1.4rem;margin-top:18px;">Progresso por grupo</h2>
+            <div class="info-grid">${relatorioPorGrupoHTML()}</div>
+            <h2 style="font-size:1.4rem;margin-top:18px;">Figurinhas faltantes por seleção</h2>
+            <div class="lista-grupos">${faltantesHTML()}</div>
+            <h2 style="font-size:1.4rem;margin-top:18px;">Últimas conquistas</h2>
+            <div class="grupo-item">${historicoHTML()}</div>
+          </div>
+        `;
+      }
+
+      if (p.tipo === "sobre") {
+        return `
+          <div class="pagina-especial">
+            <h2>Como funciona</h2>
+            <p>Ao abrir o álbum pela primeira vez, você ganha 20 pacotes de brinde. Depois, abra envelopes, ganhe figurinhas e cole no álbum. O envelope grátis libera a cada <b>12 horas</b>. Depois de colar, a ficha completa fica liberada. As imagens devem estar nas pastas dos países, sempre com o nome <b>01.webp</b> até <b>12.webp</b>.</p>
+            <div class="premium-banner">
+              <small>Regra Premium</small>
+              <h3>Premium individual +10 pacotes • Combo Matriz +200 pacotes</h3>
+              <p>Ao comprar uma versão premium individual, o jogador recebe +10 pacotes. O Combo Matriz 17 simulados libera +200 pacotes.</p>
+            </div>
+            <div class="info-grid">
+              <div class="info-card"><b>Seleções</b><span>48</span></div>
+              <div class="info-card"><b>Figurinhas por país</b><span>12</span></div>
+              <div class="info-card"><b>Total</b><span>576</span></div>
+              <div class="info-card"><b>Envelope</b><span>3 figurinhas</span></div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (p.tipo === "resgates") {
+        return `
+          <div class="pagina-especial">
+            <h2>Resgates e parceiros</h2>
+            <p>Use esta página como base para ligar o álbum ao Gabarito Max, DB ENEM, Matriz Educacional e simulados. Por enquanto, os botões registram o resgate local neste navegador.</p>
+
+            <div class="premium-banner">
+              <small>Bônus obrigatório</small>
+              <h3>🎁 Cada compra premium libera bônus próprio.</h3>
+              <p>Premium individual: +10 pacotes por produto. Combo Matriz 17 simulados: +200 pacotes.</p>
+            </div>
+
+            <div id="premiumResgatesProdutos">
+            <div class="parceiros-grid">
+              <div class="parceiro-card">
+                <h3>Gabarito Max Copa Premium</h3>
+                <p>Produto premium individual. Cada compra libera +10 pacotes.</p>
+                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('gabarito-max-copa-2026-premium',10,'Gabarito Max Copa Premium')">Resgatar +10 pacotes</button>
+              </div>
+              <div class="parceiro-card">
+                <h3>Gabarito Max Analista Adm Premium</h3>
+                <p>Produto premium individual. Cada compra libera +10 pacotes.</p>
+                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('gabarito-max-analista-adm-premium',10,'Gabarito Max Analista Administrativo Premium')">Resgatar +10 pacotes</button>
+              </div>
+              <div class="parceiro-card">
+                <h3>Combo Matriz 17 Simulados</h3>
+                <p>Combo premium completo. Libera bônus especial de +200 pacotes.</p>
+                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('matriz-combo-17-simulados',200,'Combo Matriz 17 simulados')">Resgatar +200 pacotes</button>
+              </div>
+            </div>
+</div>
+
+            <div class="info-grid">
+              <div class="info-card"><b>Abriu teste/simulado</b><span>+1</span></div>
+              <div class="info-card"><b>Acertou metade</b><span>+3</span></div>
+              <div class="info-card"><b>Gabaritou</b><span>+5</span></div>
+              <div class="info-card"><b>Premium individual</b><span>+10 pacotes</span></div><div class="info-card"><b>Combo Matriz 17 simulados</b><span>+200 pacotes</span></div>
+            </div>
+
+            <div class="parceiros-grid">
+              <div class="parceiro-card">
+                <h3>Gabarito Max</h3>
+                <p>Simulados, testes e versão premium gerando pacotes para o álbum.</p>
+                <a class="btn-resgate" href="https://cincoregioes-star.github.io/oficial-portal-gabaritomax/?origem=radar_copa_album" target="_blank" onclick="resgatarParceiro('gabarito_max','acesso_site',1)">Acessar e ganhar 1 figurinha</a>
+              </div>
+              <div class="parceiro-card">
+                <h3>DB ENEM</h3>
+                <p>Desempenho nos testes pode liberar figurinhas e bônus premium.</p>
+                <a class="btn-resgate" href="https://cincoregioes-star.github.io/DB-ENEM/?origem=radar_copa_album" target="_blank" onclick="resgatarParceiro('db_enem','acesso_site',1)">Acessar e ganhar 1 figurinha</a>
+              </div>
+              <div class="parceiro-card">
+                <h3>Matriz Educacional</h3>
+                <p>Estudo, trilhas e acesso premium com recompensa no Radar Copa.</p>
+                <a class="btn-resgate" href="https://cincoregioes-star.github.io/matriz-educacional/?origem=radar_copa_album" target="_blank" onclick="resgatarParceiro('matriz_educacional','acesso_site',1)">Acessar e ganhar 1 figurinha</a>
+              </div>
+              <div class="parceiro-card">
+                <h3>Radar Conservador</h3>
+                <p>Notícias, política e cobertura nacional também passam a liberar recompensas no álbum.</p>
+                <a class="btn-resgate" href="https://cincoregioes-star.github.io/radar-conservador-brasil/?origem=radar_copa_album" target="_blank" onclick="resgatarParceiro('radar_conservador','acesso_site',1)">Acessar e ganhar 1 figurinha</a>
+              </div>
+            </div>
+
+            <div class="premium-banner">
+              <small>Resgate manual provisório</small>
+              <h3>Já comprou qualquer premium? Libere +10 pacotes agora.</h3>
+              <p>Botão provisório para lançamento. Depois ligamos esse resgate ao checkout/Supabase automaticamente.</p>
+              <button class="btn-resgate secundario" onclick="resgatarParceiro('premium','bonus_10_pacotes',30)">Resgatar bônus premium: +10 pacotes</button>
+              <button class="btn-resgate" onclick="verificarRecompensasParceiros()">Verificar recompensas dos parceiros</button>
+            </div>
+
+            <div class="passos-resgate">
+              <div class="passo-resgate"><span>Passo 1</span>Acesse um parceiro pelo Radar Copa.</div>
+              <div class="passo-resgate"><span>Passo 2</span>Faça teste, simulado ou compre uma versão premium.</div>
+              <div class="passo-resgate"><span>Passo 3</span>Volte ao álbum e resgate os pacotes.</div>
+              <div class="passo-resgate"><span>Regra</span>Simulado não acumula: vale sempre a maior recompensa.</div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (p.tipo === "premium") {
+        return `
+          <div class="pagina-especial">
+            <h2>Bônus Premium</h2>
+            <div class="premium-banner">
+              <small>Oferta especial do álbum</small>
+              <h3>🎁 Comprou qualquer versão premium? Ganhe +10 pacotes.</h3>
+              <p>O bônus premium foi criado para incentivar o acesso aos projetos parceiros e acelerar a coleção das 576 figurinhas.</p>
+            </div>
+
+            <div class="info-grid">
+              <div class="info-card"><b>Bônus</b><span>10 pacotes</span></div>
+              <div class="info-card"><b>Figurinhas por pacote</b><span>3</span></div>
+              <div class="info-card"><b>Total possível</b><span>30 figurinhas</span></div>
+              <div class="info-card"><b>Validade</b><span>qualquer premium</span></div>
+            </div>
+
+            <div class="parceiros-grid">
+              <div class="parceiro-card"><h3>Gabarito Max Premium</h3><p>Compra premium libera 10 pacotes no Radar Copa.</p></div>
+              <div class="parceiro-card"><h3>DB ENEM Premium</h3><p>Compra premium libera 10 pacotes no Radar Copa.</p></div>
+              <div class="parceiro-card"><h3>Matriz Educacional Premium</h3><p>Compra premium libera 10 pacotes no Radar Copa.</p></div>
+              <div class="parceiro-card"><h3>Radar Conservador</h3><p>Acesso e campanhas editoriais também podem destravar missões e recompensas.</p></div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (p.tipo === "sumario") {
+        return `
+          <div class="pagina-especial">
+            <h2>Sumário</h2>
+            <div class="lista-grupos">
+              ${GRUPOS.map(g => `
+                <div class="grupo-item">
+                  <h3>${safe(g.nome)}</h3>
+                  <p>${g.paises.map(p => safe(p.nome)).join(" • ")}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="pagina-especial">
+          <h2>Raridades</h2>
+          <div class="raridades">
+            <div class="rar r-comum">Comum (10 pts)</div>
+            <div class="rar r-incomum">Incomum (20 pts)</div>
+            <div class="rar r-rara">Rara (50 pts)</div>
+            <div class="rar r-especial">Especial (100 pts)</div>
+            <div class="rar r-lendaria">Lendária (200 pts)</div>
+            <div class="rar r-cromada">Cromada Dourada (500 pts)</div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPais(p) {
+      const figs = figurinhasPais(p.pais);
+      const cards = figs.map(f => card(f)).join("");
+
+      return `
+        <div class="pais-pagina">
+          <div class="pais-topo">
+            <div>
+              <small>${safe(grupoDoPais(p.pais))}</small>
+              <h2>${safe(p.pais)}</h2>
+            </div>
+            <strong>12 figurinhas</strong>
+          </div>
+          <div class="grid-fig">${cards}</div>
+        </div>
+      `;
+    }
+
+    function renderPagina(n) {
+      const p = pagina(n);
+      return p.tipo === "pais" ? renderPais(p) : renderEspecial(p);
+    }
+
+    function renderLivro() {
+      const total = totalPaginas();
+      const livro = document.getElementById("livro");
+      const esq = document.getElementById("paginaEsquerda");
+      const dir = document.getElementById("paginaDireita");
+      const paginaAtualEl = document.getElementById("paginaAtual");
+      const titulo = document.getElementById("tituloPagina");
+
+      if (paginaAtual <= 1) {
+        livro.classList.add("capa");
+        esq.innerHTML = "";
+        dir.innerHTML = renderPagina(1);
+        paginaAtualEl.textContent = `Página 1 de ${total}`;
+        titulo.textContent = "Capa";
+      } else {
+        livro.classList.remove("capa");
+        const e = pagina(paginaAtual);
+        const d = pagina(paginaAtual + 1);
+
+        esq.innerHTML = renderPagina(paginaAtual);
+        dir.innerHTML = d ? renderPagina(paginaAtual + 1) : "";
+
+        paginaAtualEl.textContent = d
+          ? `Páginas ${paginaAtual} e ${Math.min(paginaAtual + 1, total)} de ${total}`
+          : `Página ${paginaAtual} de ${total}`;
+
+        titulo.textContent = `${e.titulo}${d ? " / " + d.titulo : ""}`;
+      }
+
+      resumo();
+    }
+
+    function ir(n) {
+      n = Math.max(1, Math.min(totalPaginas(), n));
+      if (n > 1) n = par(n);
+      paginaAtual = n;
+      localStorage.setItem("pagina_album_atual", String(n));
+      playSom("page");
+      renderLivro();
+    }
+
+    function renderFiltros() {
+      const html = `<option value="">Buscar país</option>` +
+        LISTA_PAISES_48.map(p => `<option value="${safe(p)}">${safe(p)}</option>`).join("");
+
+      const filtro1 = document.getElementById("filtroPais");
+      const filtro2 = document.getElementById("filtroPaisTopo");
+
+      filtro1.innerHTML = html;
+      filtro2.innerHTML = html;
+
+      function navegarPais(valor) {
+        const p = paginas().find(x => x.pais === valor);
+        if (p) ir(p.numero);
+      }
+
+      filtro1.onchange = () => {
+        filtro2.value = filtro1.value;
+        navegarPais(filtro1.value);
+      };
+
+      filtro2.onchange = () => {
+        filtro1.value = filtro2.value;
+        navegarPais(filtro2.value);
+      };
+    }
+
+    function resumo() {
+      document.getElementById("totalSelecoes").textContent = String(LISTA_PAISES_48.length);
+      document.getElementById("totalFigurinhasAlbum").textContent = String(FIGURINHAS_COPA.length);
+      document.getElementById("figsPorPais").textContent = "12";
+      document.getElementById("qtdAudios").textContent = "4";
+    }
+
+    // =========================================================
+    // ENVELOPE / FICHAS
+    // =========================================================
+    function abrirPacote() {
+      liberarAudio();
+      const status = podeAbrirPacoteGratis();
+      if (!status.liberado) {
+        atualizarBotaoPacoteGratis();
+        alert(`O próximo envelope grátis libera em ${formatarTempo(status.restante)}.`);
+        return;
+      }
+
+      const novas = adicionarFigurinhasAleatorias(FIGS_POR_PACOTE, "envelope_gratis_12h", "envelope grátis de 12 horas");
+      estado.pacotes = (estado.pacotes || 0) + 1;
+      estado.ultimoPacoteGratis = new Date().toISOString();
+      salvar();
+      playSom("pack");
+
+      document.getElementById("resultadoPacote").innerHTML = novas.map(f => card(f, true)).join("");
+      atualizarBotaoPacoteGratis();
+      resumo();
+      renderLivro();
+    }
+
+    window.colar = function(id) {
+      liberarAudio();
+      const fig = FIGURINHAS_COPA.find(f => f.id === id);
+      if (!fig) return;
+
+      const antesCompleta = selecaoCompleta(fig.pais);
+      const r = reg(id);
+
+      if (r.quantidade <= 0) {
+        abrirFicha(id);
+        return;
+      }
+
+      r.colada = true;
+      r.quantidade--;
+      salvar();
+      salvarFigurinhaOnline(fig, "figurinha_colada");
+
+      const depoisCompleta = selecaoCompleta(fig.pais);
+      playSom(depoisCompleta && !antesCompleta ? "pack" : "sticker");
+
+      renderLivro();
+      abrirFicha(id);
+    };
+
+    window.abrirFicha = function(id) {
+      liberarAudio();
+      const fig = FIGURINHAS_COPA.find(f => f.id === id);
+      if (!fig) return;
+
+      const r = reg(id);
+      const conteudo = document.getElementById("conteudoFicha");
+
+      if (!r.colada) {
+        conteudo.innerHTML = `
+          <div class="ficha-bloq">
+            <div>
+              <div class="lock">🔒</div>
+              <h2>Ficha Histórica Bloqueada</h2>
+              <p>Cole a figurinha de <b>Número ${fig.numero}</b> (${safe(fig.raridade)}) para revelar a ficha de ${safe(fig.pais)}.</p>
+            </div>
+          </div>
+        `;
+      } else {
+        conteudo.innerHTML = `
+          <div class="ficha-rev">
+            <div class="ficha-img">
+              <img src="${fig.imagem}" alt="${safe(fig.nome)}" onerror="albumImgError(this)">
+            </div>
+            <div class="ficha-dados">
+              <span class="tag" style="background:var(--gold)">Ficha Revelada</span>
+              <h2>${safe(fig.nome)}</h2>
+
+              <div class="meta">
+                <div><span>País</span><b>${safe(fig.pais)}</b></div>
+                <div><span>Grupo</span><b>${safe(fig.grupo)}</b></div>
+                <div><span>Camisa</span><b>${String(fig.numero).padStart(2, "0")}</b></div>
+                <div><span>Função</span><b>${safe(fig.posicao)}</b></div>
+                <div><span>Raridade</span><b>${safe(fig.raridade)}</b></div>
+                <div><span>Período</span><b>${safe(fig.periodo)}</b></div>
+              </div>
+
+              <div class="texto-ficha">
+                <article>
+                  <h3>Atuação histórica</h3>
+                  <p>${safe(fig.resumo)}</p>
+                </article>
+                <article>
+                  <h3>Legado</h3>
+                  <p>${safe(fig.legado)}</p>
+                </article>
+                <article>
+                  <h3>Caminho da imagem</h3>
+                  <p>${safe(fig.imagem)}</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      document.getElementById("modalFicha").classList.add("ativo");
+    };
+
+    window.albumImgError = function(img) {
+      const parent = img.parentElement;
+      img.remove();
+      if (parent && !parent.querySelector(".arte-vazia")) {
+        const div = document.createElement("div");
+        div.className = "arte-vazia";
+        div.innerHTML = `
+          <span class="num-fig">?</span>
+          <span class="pais-mini">Imagem não encontrada</span>
+          <span class="pts-fig">Verifique a pasta</span>
+        `;
+        parent.appendChild(div);
+      }
+    };
+
+    // =========================================================
+    // INIT
+    // =========================================================
+    function init() {
+      setupAudio();
+      processarBonusPremiumRecebido();
+      concederBrindeInicial20Pacotes();
+      renderFiltros();
+      renderLivro();
+      iniciarSupabaseAlbum();
+      if (typeof verificarRecompensasParceirosAutomatico === "function") {
+  verificarRecompensasParceirosAutomatico();
+}
+
+      document.getElementById("btnCapa").onclick = () => ir(1);
+      document.getElementById("btnRelatorio").onclick = () => ir(2);
+      document.getElementById("btnResgate").onclick = () => ir(4);
+      document.getElementById("btnEnvelope").onclick = () => {
+        liberarAudio();
+        document.getElementById("modalPacote").classList.add("ativo");
+      };
+
+      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
+      document.getElementById("btnProxima").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
+      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
+      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
+
+      document.getElementById("btnAudio").onclick = alternarAudio;
+      document.getElementById("btnAbrirPacote").onclick = abrirPacote;
+      atualizarBotaoPacoteGratis();
+      setInterval(atualizarBotaoPacoteGratis, 1000);
+
+      document.getElementById("fecharPacote").onclick = () => {
+        document.getElementById("modalPacote").classList.remove("ativo");
+      };
+
+      document.getElementById("fecharFicha").onclick = () => {
+        document.getElementById("modalFicha").classList.remove("ativo");
+      };
+
+      document.addEventListener("click", liberarAudio, { once:true });
+
+      document.addEventListener("keydown", e => {
+        if (e.key === "ArrowRight") {
+          document.getElementById("btnProxima").click();
+        }
+        if (e.key === "ArrowLeft") {
+          document.getElementById("btnAnterior").click();
+        }
+        if (e.key === "Escape") {
+          document.getElementById("modalPacote").classList.remove("ativo");
+          document.getElementById("modalFicha").classList.remove("ativo");
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
 </body>
 </html>
-
