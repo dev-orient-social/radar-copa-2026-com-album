@@ -3,210 +3,124 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Radar Copa 2026 | História em Campo</title>
-  <meta name="description" content="Radar Copa 2026 com álbum digital História em Campo: 48 países, mais de 500 figurinhas, simulados e recompensas." />
-  <style>
-    :root{
-      --bg:#020817; --bg2:#071b3f; --blue:#00f3ff; --gold:#ffd54a; --gold2:#f59e0b;
-      --green:#22c55e; --text:#f8fafc; --muted:#cbd5e1; --line:rgba(255,213,74,.28);
-    }
-    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
-    html{scroll-behavior:smooth}
-    body{
-      min-height:100vh;
-      background:
-        radial-gradient(circle at 15% 8%, rgba(255,213,74,.18), transparent 28%),
-        radial-gradient(circle at 85% 12%, rgba(0,243,255,.12), transparent 28%),
-        linear-gradient(135deg,#020817,#071b3f 55%,#020817);
-      color:var(--text);
-      overflow-x:hidden;
-    }
-    a{text-decoration:none;color:inherit}
-    .wrap{width:min(1120px,92%);margin:0 auto}
-    header{
-      position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);
-      background:rgba(2,8,23,.82);border-bottom:1px solid var(--line);
-    }
-    .topo{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0}
-    .marca{display:flex;flex-direction:column;line-height:1.05}
-    .marca b{color:#fff;font-size:1.1rem;letter-spacing:.03em}
-    .marca span{color:var(--gold);font-size:.78rem;font-weight:800;margin-top:5px}
-    nav{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
-    nav a{
-      border:1px solid rgba(255,213,74,.35);border-radius:999px;padding:9px 13px;
-      font-size:.8rem;font-weight:900;color:#fff;background:rgba(255,255,255,.04);
-    }
-    nav a:hover{color:var(--gold);border-color:var(--gold)}
-    .hero{padding:58px 0 34px;display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:center}
-    .tag{
-      display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border-radius:999px;
-      color:#07142e;background:linear-gradient(135deg,#fff7c2,var(--gold),var(--gold2));
-      font-weight:900;font-size:.78rem;text-transform:uppercase;box-shadow:0 0 24px rgba(255,213,74,.18);
-    }
-    h1{margin-top:18px;font-size:clamp(2.5rem,6vw,5.3rem);line-height:.92;letter-spacing:-.05em}
-    h1 span{color:var(--gold)}
-    .lead{margin-top:18px;color:#e5e7eb;font-size:1.1rem;line-height:1.55;max-width:680px}
-    .acoes{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
-    .btn{
-      display:inline-flex;justify-content:center;align-items:center;min-height:50px;padding:13px 18px;
-      border-radius:999px;font-weight:950;border:1px solid rgba(255,213,74,.55);text-align:center;
-    }
-    .btn.principal{color:#06142e;background:linear-gradient(135deg,#fff7c2,var(--gold),var(--gold2));box-shadow:0 0 24px rgba(255,213,74,.2)}
-    .btn.sec{background:rgba(255,255,255,.06);color:#fff}
-    .mock{
-      position:relative;border-radius:34px;padding:18px;min-height:470px;
-      background:radial-gradient(circle at 25% 18%, rgba(255,213,74,.25), transparent 32%),
-      linear-gradient(145deg,rgba(11,47,107,.98),rgba(2,8,23,.96));
-      border:1px solid rgba(255,213,74,.32);box-shadow:0 24px 60px rgba(0,0,0,.35);overflow:hidden;
-    }
-    .phone{
-      margin:0 auto;width:min(330px,90%);min-height:420px;border-radius:34px;border:10px solid #020817;
-      background:linear-gradient(180deg,#06142e,#0b2f6b);box-shadow:0 20px 50px rgba(0,0,0,.45);
-      padding:18px 14px;position:relative;
-    }
-    .phone::before{
-      content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);
-      width:90px;height:8px;border-radius:999px;background:#111827;
-    }
-    .album-title{margin-top:20px;text-align:center;color:var(--gold);font-size:1.4rem;font-weight:950;line-height:1.1}
-    .gridcards{margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .sticker{
-      height:96px;border-radius:14px;background:radial-gradient(circle at 45% 28%, rgba(255,255,255,.7), transparent 18%),
-      linear-gradient(145deg,#1d4ed8,#020817);border:2px solid rgba(255,213,74,.65);
-      display:flex;align-items:end;justify-content:center;padding:7px;color:#fff;font-size:.55rem;font-weight:900;text-align:center;
-      box-shadow:0 0 18px rgba(255,213,74,.08);
-    }
-    .pack{margin:18px auto 0;width:150px;padding:14px 12px;text-align:center;border-radius:18px;color:#06142e;background:linear-gradient(135deg,#fff7c2,var(--gold),var(--gold2));font-weight:950;box-shadow:0 0 24px rgba(255,213,74,.22)}
-    section{padding:34px 0}
-    .section-title{text-align:center;font-size:clamp(1.8rem,4vw,3rem);line-height:1;margin-bottom:12px}
-    .section-title span{color:var(--gold)}
-    .section-sub{color:var(--muted);text-align:center;line-height:1.55;max-width:780px;margin:0 auto 24px}
-    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-    .card{
-      border:1px solid var(--line);background:linear-gradient(145deg,rgba(7,27,63,.86),rgba(2,8,23,.86));
-      border-radius:24px;padding:18px;min-height:150px;box-shadow:0 14px 32px rgba(0,0,0,.18);
-    }
-    .card b{display:block;color:var(--gold);font-size:1.75rem;line-height:1;margin-bottom:10px}
-    .card h3{font-size:1rem;margin-bottom:8px}
-    .card p{color:#dbeafe;font-size:.9rem;line-height:1.45}
-    .como{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-    .passo{border:1px solid var(--line);border-radius:24px;padding:20px;background:rgba(255,255,255,.05)}
-    .passo span{display:inline-flex;margin-bottom:10px;padding:6px 10px;border-radius:999px;color:#06142e;background:linear-gradient(135deg,#fff7c2,var(--gold));font-weight:950;font-size:.75rem}
-    .passo h3{font-size:1.25rem;margin-bottom:8px}
-    .passo p{color:#dbeafe;line-height:1.5}
-    .cta{margin:34px 0 44px;border-radius:32px;padding:34px 20px;text-align:center;border:1px solid rgba(255,213,74,.42);background:radial-gradient(circle at 50% 0%, rgba(255,213,74,.22), transparent 32%),linear-gradient(145deg,#071b3f,#020817)}
-    .cta h2{font-size:clamp(2rem,4vw,3.5rem);line-height:1}
-    .cta p{margin:14px auto 0;color:#dbeafe;line-height:1.55;max-width:720px}
-    footer{border-top:1px solid var(--line);color:#94a3b8;text-align:center;padding:22px 0;font-size:.86rem;background:rgba(2,8,23,.65)}
-    @media(max-width:900px){
-      .topo{align-items:flex-start;flex-direction:column}
-      nav{width:100%;display:grid;grid-template-columns:1fr 1fr}
-      nav a{text-align:center}
-      .hero{grid-template-columns:1fr;padding-top:32px}
-      .mock{min-height:auto}
-      .cards{grid-template-columns:1fr 1fr}
-      .como{grid-template-columns:1fr}
-    }
-    @media(max-width:540px){
-      .cards{grid-template-columns:1fr}
-      .acoes .btn{width:100%}
-      nav{grid-template-columns:1fr}
-    }
-  </style>
+
+  <title>Radar da Copa 2026 — Notícias, Álbum, Figurinhas e Simulados</title>
+  <meta name="description" content="Radar da Copa 2026: notícias reais da Copa, calendário, sedes, simulados, sites parceiros e Álbum História em Campo 2026 com 576 figurinhas digitais." />
+
+  <link rel="stylesheet" href="copa.css" />
 </head>
 <body>
-  <header>
-    <div class="wrap topo">
-      <div class="marca">
-        <b>Radar Copa 2026</b>
-        <span>História, futebol, simulados e álbum digital</span>
-      </div>
-      <nav>
-        <a href="#album">Álbum</a>
-        <a href="#simulados">Simulados</a>
-        <a href="album/index.html?v=4000">Abrir Álbum</a>
-        <a href="#comecar">Começar</a>
-      </nav>
-    </div>
+  <header class="topo-site">
+    <a class="logo" href="./">Radar da Copa 2026</a>
+    <nav>
+      <a href="#noticias">Notícias</a>
+      <a href="#figurinhas">Figurinhas grátis</a>
+      <a href="#personagens">Personagens</a>
+      <a href="#parceiros">Parceiros</a>
+      <a class="nav-destaque" href="album/index.html?v=4000">Abrir Álbum</a>
+    </nav>
   </header>
 
   <main>
-    <section class="wrap hero">
-      <div>
-        <span class="tag">Lançamento Digital</span>
-        <h1>Chegou o <span>Radar Copa</span> com Álbum Digital</h1>
-        <p class="lead">
-          Uma experiência independente que mistura Copa, história mundial e educação.
-          Colecione figurinhas dos países, conheça personagens históricos e ganhe pacotes
-          respondendo simulados de ENEM, concursos e áreas profissionais.
-        </p>
+    <section class="hero">
+      <div class="hero-texto">
+        <p class="tag">Copa do Mundo 2026 • álbum digital • simulados</p>
+        <h1>Radar da Copa 2026</h1>
+        <h2>Notícias reais da Copa, personagens históricos de cada país, figurinhas especiais e recompensas nos sites parceiros.</h2>
+
         <div class="acoes">
-          <a class="btn principal" href="album/index.html?v=4000">Abrir Álbum Digital</a>
-          <a class="btn sec" href="#simulados">Ver como ganhar pacotes</a>
+          <a href="album/index.html?v=4000" class="btn btn-dourado">Abrir Álbum História em Campo</a>
+          <a href="#figurinhas" class="btn btn-contorno">Ganhar figurinhas grátis</a>
+        </div>
+
+        <div class="hero-pontos">
+          <span>48 seleções</span>
+          <span>576 figurinhas</span>
+          <span>Pacote grátis 12h</span>
+          <span>Premium +10 pacotes</span>
         </div>
       </div>
 
-      <div class="mock" aria-label="Prévia do álbum digital">
-        <div class="phone">
-          <div class="album-title">História em Campo<br>2026</div>
-          <div class="gridcards">
-            <div class="sticker">BRASIL</div>
-            <div class="sticker">FRANÇA</div>
-            <div class="sticker">JAPÃO</div>
-            <div class="sticker">EGITO</div>
-            <div class="sticker">ARGENTINA</div>
-            <div class="sticker">PORTUGAL</div>
-          </div>
-          <div class="pack">PACOTE DIGITAL</div>
-        </div>
+      <div class="hero-imagem">
+        <img src="radar-copa-figurinhas-leque.png" alt="Radar da Copa 2026 - leque de figurinhas históricas">
       </div>
     </section>
 
-    <section class="wrap" id="album">
-      <h2 class="section-title">História em Campo <span>2026</span></h2>
-      <p class="section-sub">
-        Um álbum digital com seleções da Copa, personagens históricos, cards especiais,
-        cromados, dourados e sistema de pacotes para engajar torcedores e estudantes.
-      </p>
-      <div class="cards">
-        <div class="card"><b>48</b><h3>países</h3><p>Seleções organizadas em grupos para navegação rápida dentro do álbum.</p></div>
-        <div class="card"><b>+500</b><h3>figurinhas</h3><p>Mais de 500 cards colecionáveis com personagens e trajetórias históricas.</p></div>
-        <div class="card"><b>3</b><h3>por pacote</h3><p>Abra envelopes, cole figurinhas e acompanhe seu progresso no álbum.</p></div>
-        <div class="card"><b>10+</b><h3>pacotes premium</h3><p>Compras premium e combos educacionais podem liberar pacotes extras.</p></div>
+    <section class="faixa-premium">
+      <div>
+        <strong>🎁 Bônus Premium</strong>
+        <p>Comprando qualquer versão premium dos parceiros, você ganha <b>+10 pacotes</b> no álbum.</p>
+      </div>
+      <a href="album/index.html?v=4000" class="btn btn-dourado">Resgatar no álbum</a>
+    </section>
+
+    <section class="secao" id="noticias">
+      <div class="titulo">
+        <p>Notícias reais e guias permanentes</p>
+        <h2>Cobertura da Copa para usar durante todo o torneio</h2>
+      </div>
+      <div class="grid-noticias" id="gridNoticias"></div>
+    </section>
+
+    <section class="secao" id="figurinhas">
+      <div class="titulo">
+        <p>Missões do colecionador</p>
+        <h2>Vários caminhos para ganhar figurinhas grátis</h2>
+      </div>
+
+      <div class="grid-missoes">
+        <a href="album/index.html?v=4000" class="missao-card"><span>🎁</span><h3>Pacote grátis</h3><p>Abra um envelope grátis a cada 12 horas.</p></a>
+        <a href="album/index.html?v=4000" class="missao-card"><span>📚</span><h3>Missão do dia</h3><p>Acesse o álbum e resgate figurinhas nas ações diárias.</p></a>
+        <a href="https://cincoregioes-star.github.io/oficial-portal-gabaritomax/?origem=radar_copa" target="_blank" class="missao-card"><span>✅</span><h3>Gabarito Max</h3><p>Entre no parceiro e ganhe recompensa no álbum.</p></a>
+        <a href="https://cincoregioes-star.github.io/DB-ENEM/?origem=radar_copa" target="_blank" class="missao-card"><span>🧠</span><h3>DB ENEM</h3><p>Simulados e testes liberam figurinhas.</p></a>
+        <a href="https://cincoregioes-star.github.io/matriz-educacional/?origem=radar_copa" target="_blank" class="missao-card"><span>✍️</span><h3>Matriz Educacional</h3><p>Estudo e premium destravam pacotes extras.</p></a>
+        <a href="https://cincoregioes-star.github.io/radar-conservador-brasil/?origem=radar_copa" target="_blank" class="missao-card"><span>📰</span><h3>Radar Conservador</h3><p>Notícias e campanhas também viram missão do álbum.</p></a>
       </div>
     </section>
 
-    <section class="wrap" id="simulados">
-      <h2 class="section-title">Ganhe pacotes <span>respondendo simulados</span></h2>
-      <p class="section-sub">
-        O Radar Copa conecta entretenimento e educação: ao testar simulados gratuitos,
-        o participante pode receber recompensas e continuar completando o álbum.
-      </p>
-      <div class="como">
-        <div class="passo"><span>01</span><h3>Acesse o álbum</h3><p>Entre no História em Campo 2026, gere seu torcedor e abra seus envelopes grátis.</p></div>
-        <div class="passo"><span>02</span><h3>Faça simulados</h3><p>Teste conhecimentos em ENEM, concursos e áreas profissionais para ganhar pacotes.</p></div>
-        <div class="passo"><span>03</span><h3>Colecione e aprenda</h3><p>Cada figurinha apresenta personagens históricos e trajetórias marcantes.</p></div>
-        <div class="passo"><span>04</span><h3>Complete o álbum</h3><p>Avance por países, raridades e cartas especiais até completar sua coleção.</p></div>
+    <section class="secao" id="personagens">
+      <div class="titulo">
+        <p>Personagens históricos</p>
+        <h2>Um leque de figurinhas para levar o leitor aos parceiros</h2>
+      </div>
+      <div class="leque-figurinhas" id="lequeFigurinhas"></div>
+    </section>
+
+    <section class="secao raridades">
+      <div class="titulo">
+        <p>Qualidades das figurinhas</p>
+        <h2>Comum, Rara, Épica, Lendária e Técnico Vintage Gold</h2>
+      </div>
+
+      <div class="grid-raridades">
+        <article class="raridade comum"><h3>Comum</h3><p>Acabamento matte, opaco, limpo e com foco no personagem.</p></article>
+        <article class="raridade rara"><h3>Rara</h3><p>Silver Chrome Card com bordas cromadas e brilho prateado.</p></article>
+        <article class="raridade epica"><h3>Épica</h3><p>Holofoil Card com reflexos iridescentes em arco-íris.</p></article>
+        <article class="raridade lendaria"><h3>Lendária</h3><p>Gold Card com textura de ouro escovado e brilho premium.</p></article>
+        <article class="raridade tecnico"><h3>Técnico camisa 12</h3><p>Vintage Gold: ouro antigo, clássico e com ar de autoridade.</p></article>
       </div>
     </section>
 
-    <section class="wrap" id="comecar">
-      <div class="cta">
-        <span class="tag">Comece agora</span>
-        <h2>Abra o Radar Copa e entre no álbum</h2>
-        <p>
-          Use o link principal para divulgar o site. O botão abaixo leva o visitante para
-          o álbum digital oficial, sem liberar bônus premium automático.
-        </p>
-        <div class="acoes" style="justify-content:center;">
-          <a class="btn principal" href="album/index.html?v=4000">Abrir Álbum Digital</a>
-        </div>
+    <section class="secao" id="parceiros">
+      <div class="titulo">
+        <p>Ecossistema de parceiros</p>
+        <h2>Acesse, estude, leia notícias e destrave pacotes</h2>
+      </div>
+
+      <div class="grid-parceiros">
+        <a href="https://cincoregioes-star.github.io/oficial-portal-gabaritomax/" target="_blank" class="parceiro parceiro-gabarito"><strong>Gabarito Max</strong><span>Simulados e concursos</span></a>
+        <a href="https://cincoregioes-star.github.io/DB-ENEM/" target="_blank" class="parceiro parceiro-db"><strong>DB ENEM</strong><span>ENEM, testes e treino</span></a>
+        <a href="https://cincoregioes-star.github.io/matriz-educacional/" target="_blank" class="parceiro parceiro-matriz"><strong>Matriz Educacional</strong><span>Redação e qualificação</span></a>
+        <a href="https://cincoregioes-star.github.io/radar-conservador-brasil/" target="_blank" class="parceiro parceiro-radar"><strong>Radar Conservador</strong><span>Notícias e campanhas</span></a>
       </div>
     </section>
   </main>
 
   <footer>
-    Radar Copa 2026 • Projeto independente • Sem uso de marcas oficiais da FIFA ou Panini
+    <strong>Radar da Copa 2026</strong>
+    <p>Projeto independente de notícias, simulados e álbum digital de personagens históricos.</p>
   </footer>
+
+  <script src="copa.js"></script>
 </body>
 </html>
