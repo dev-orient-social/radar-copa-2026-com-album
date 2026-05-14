@@ -911,228 +911,215 @@
       .ficha-rev{ grid-template-columns:1fr; }
     }
   
-/* =========================================================
-   MOBILE SEGURO — não altera imagens, fichas, áudio nem JS
-   ========================================================= */
-@media (max-width: 760px){
-
-  html, body{
-    height:auto !important;
-    min-height:100% !important;
-    overflow-x:hidden !important;
-    overflow-y:auto !important;
+/* ===== MOBILE MINIMO SEGURO - NAO ALTERA JS, IMAGENS, FICHAS OU AUDIO ===== */
+@media (max-width: 760px) {
+  html,
+  body {
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
   }
 
-  body{
-    overflow-y:auto !important;
+  body {
+    display: block !important;
   }
 
-  .app{
-    height:auto !important;
-    min-height:100vh !important;
-    display:block !important;
-    overflow:visible !important;
+  .app {
+    height: auto !important;
+    min-height: 100vh !important;
+    display: block !important;
+    overflow: visible !important;
   }
 
-  .topo{
-    position:relative !important;
-    height:auto !important;
-    min-height:0 !important;
-    display:block !important;
-    padding:10px 12px !important;
+  .topo {
+    height: auto !important;
+    min-height: 0 !important;
+    display: block !important;
+    padding: 10px 12px !important;
   }
 
-  .marca{
-    min-width:0 !important;
-    width:100% !important;
-    margin-bottom:10px !important;
+  .marca {
+    min-width: 0 !important;
+    width: 100% !important;
+    margin-bottom: 10px !important;
   }
 
-  .marca b{
-    display:block !important;
-    font-size:1.15rem !important;
-    line-height:1.15 !important;
+  .marca b {
+    display: block !important;
+    font-size: 1.15rem !important;
+    line-height: 1.15 !important;
   }
 
-  .marca small{
-    display:block !important;
-    font-size:.88rem !important;
-    line-height:1.25 !important;
+  .marca small {
+    display: block !important;
+    font-size: 0.85rem !important;
+    line-height: 1.25 !important;
   }
 
-  .topo nav{
-    display:grid !important;
-    grid-template-columns:1fr 1fr !important;
-    gap:8px !important;
-    width:100% !important;
+  .topo nav {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
   }
 
-  .topo button,
-  .topo a{
-    width:100% !important;
-    min-height:42px !important;
-    padding:8px 6px !important;
-    font-size:.78rem !important;
-    white-space:normal !important;
+  .topo nav button,
+  .topo nav a {
+    width: 100% !important;
+    min-height: 42px !important;
+    padding: 8px 6px !important;
+    font-size: 0.78rem !important;
+    white-space: normal !important;
   }
 
-  .palco{
-    display:block !important;
-    height:auto !important;
-    min-height:0 !important;
-    overflow:visible !important;
-    padding:8px !important;
+  .palco {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding: 8px !important;
   }
 
-  .lateral{
-    display:none !important;
+  .lateral {
+    display: none !important;
   }
 
-  .area{
-    display:block !important;
-    height:auto !important;
-    min-height:0 !important;
-    overflow:visible !important;
+  .area {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
   }
 
-  .barra{
-    display:block !important;
-    height:auto !important;
-    padding:10px !important;
-    margin-bottom:10px !important;
+  .barra {
+    display: block !important;
+    height: auto !important;
+    padding: 10px !important;
+    margin-bottom: 10px !important;
   }
 
   .barra span,
-  .barra b{
-    white-space:normal !important;
+  .barra b {
+    white-space: normal !important;
   }
 
-  .barra select{
-    margin-top:10px !important;
-    min-height:44px !important;
-    font-size:1rem !important;
+  .barra select {
+    margin-top: 10px !important;
+    height: 44px !important;
+    font-size: 1rem !important;
   }
 
-  .livro{
-    display:block !important;
-    height:auto !important;
-    min-height:0 !important;
-    overflow:visible !important;
-  }
-
-  .livro.capa{
-    display:block !important;
+  .livro {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    filter: none !important;
   }
 
   .miolo,
-  .pagina.esquerda{
-    display:none !important;
+  .pagina.esquerda {
+    display: none !important;
   }
 
+  .pagina,
   .pagina.direita,
-  .livro.capa .pagina.direita{
-    display:block !important;
-    width:100% !important;
-    height:auto !important;
-    min-height:calc(100vh - 210px) !important;
-    overflow:visible !important;
-    border-radius:22px !important;
+  .livro.capa .pagina.direita {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    border-radius: 22px !important;
   }
 
-  .pagina-especial{
-    height:auto !important;
-    min-height:calc(100vh - 230px) !important;
-    overflow:visible !important;
+  .pagina-especial {
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
   }
 
-  .capa-album{
-    height:auto !important;
-    min-height:calc(100vh - 250px) !important;
-    padding:24px 14px !important;
+  .capa-album {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 24px 14px !important;
   }
 
-  .capa-album h1{
-    font-size:2.3rem !important;
-    line-height:1.08 !important;
+  .capa-album h1 {
+    font-size: 2.3rem !important;
+    line-height: 1.08 !important;
   }
 
-  .capa-album h2{
-    font-size:1.15rem !important;
-    line-height:1.25 !important;
+  .capa-album h2 {
+    font-size: 1.15rem !important;
+    line-height: 1.25 !important;
   }
 
-  .premium-banner h3{
-    font-size:1.35rem !important;
-    line-height:1.15 !important;
+  .premium-banner h3 {
+    font-size: 1.35rem !important;
+    line-height: 1.15 !important;
   }
 
-  .info-grid,
-  .lista-grupos,
-  .raridades,
-  .parceiros-grid,
-  .passos-resgate{
-    grid-template-columns:1fr !important;
+  .pais-pagina {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
   }
 
-  .pais-pagina{
-    display:block !important;
-    height:auto !important;
-    min-height:0 !important;
-    overflow:visible !important;
+  .pais-topo {
+    height: auto !important;
+    display: block !important;
+    padding-bottom: 10px !important;
   }
 
-  .pais-topo{
-    height:auto !important;
-    display:block !important;
-    padding-bottom:10px !important;
+  .pais-topo h2 {
+    font-size: 1.45rem !important;
+    margin: 5px 0 10px !important;
   }
 
-  .pais-topo h2{
-    font-size:1.45rem !important;
-    margin:5px 0 10px !important;
+  .grid-fig {
+    height: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-auto-rows: 180px !important;
+    gap: 10px !important;
   }
 
-  .grid-fig{
-    height:auto !important;
-    display:grid !important;
-    grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows:180px !important;
-    gap:10px !important;
+  .fig {
+    min-height: 180px !important;
   }
 
-  .fig{
-    min-height:180px !important;
+  .modal {
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+    padding: 12px !important;
   }
 
-  .modal{
-    align-items:flex-start !important;
-    overflow-y:auto !important;
-    padding:12px !important;
+  .card-modal {
+    width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 10px 0 40px !important;
+    padding: 18px !important;
   }
 
-  .card-modal{
-    width:100% !important;
-    max-height:none !important;
-    overflow:visible !important;
-    margin:10px 0 40px !important;
-    padding:18px !important;
+  .resultado {
+    grid-template-columns: 1fr !important;
   }
 
-  .resultado{
-    grid-template-columns:1fr !important;
+  .ficha-rev {
+    display: block !important;
   }
 
-  .ficha-rev{
-    display:block !important;
+  .ficha-img {
+    min-height: 360px !important;
+    margin-bottom: 14px !important;
   }
 
-  .ficha-img{
-    min-height:360px !important;
-    margin-bottom:14px !important;
-  }
-
-  .meta{
-    grid-template-columns:1fr !important;
+  .meta {
+    grid-template-columns: 1fr !important;
   }
 }
 
@@ -1143,7 +1130,7 @@
     <header class="topo">
       <div class="marca">
         <b>História em Campo 2026</b>
-        <small>Álbum 576 figurinhas • brinde inicial 20 pacotes • testes 8h • premium por compra</small>
+        <small>Álbum 576 figurinhas • pacotes 12h • premium ganha 10 pacotes</small>
       </div>
       <nav>
         <button id="btnCapa">Capa</button>
@@ -1249,116 +1236,8 @@
     // =========================================================
     const STORAGE_KEY = "historia_em_campo_2026_album_576";
     const FIGS_POR_PACOTE = 3;
-    const PACOTES_BRINDE_INICIAL = 20;
-    const FIGURINHAS_BRINDE_INICIAL = PACOTES_BRINDE_INICIAL * FIGS_POR_PACOTE;
     const INTERVALO_PACOTE_HORAS = 12;
     const INTERVALO_PACOTE_MS = INTERVALO_PACOTE_HORAS * 60 * 60 * 1000;
-
-    const INTERVALO_TESTE_HORAS = 8;
-    const INTERVALO_TESTE_MS = INTERVALO_TESTE_HORAS * 60 * 60 * 1000;
-
-    const PRODUTOS_PREMIUM_RADAR_COPA = {
-      "gabarito-max-copa-2026-premium": { nome: "Gabarito Max Copa Premium", pacotes: 10 },
-      "gabarito-max-analista-adm-premium": { nome: "Gabarito Max Analista Administrativo Premium", pacotes: 10 },
-      "db-enem-premium": { nome: "DB ENEM Premium", pacotes: 10 },
-      "matriz-educacional-premium": { nome: "Matriz Educacional Premium", pacotes: 10 },
-      "matriz-combo-17-simulados": { nome: "Combo Matriz 17 Simulados", pacotes: 200 }
-    };
-
-    function obterDataHojeISO() {
-      return new Date().toISOString().slice(0, 10);
-    }
-
-    function obterProdutoPremiumNormalizado(idProduto) {
-      const id = String(idProduto || "premium-generico").trim() || "premium-generico";
-      const regra = PRODUTOS_PREMIUM_RADAR_COPA[id] || { nome: id.replace(/-/g, " "), pacotes: 10 };
-      return { id, nome: regra.nome, pacotes: Number(regra.pacotes || 10) };
-    }
-
-    function chavePremiumResgate(idProduto) {
-      return `premium_${idProduto}`;
-    }
-
-    function statusTesteGratis8h() {
-      const ultimo = estado.ultimoResgateTesteGratis ? new Date(estado.ultimoResgateTesteGratis).getTime() : 0;
-      if (!ultimo) return { liberado:true, restante:0 };
-      const restante = (ultimo + INTERVALO_TESTE_MS) - Date.now();
-      return { liberado: restante <= 0, restante: Math.max(0, restante) };
-    }
-
-    function registrarTesteGratis8h(qtd, origem, descricao) {
-      const status = statusTesteGratis8h();
-      if (!status.liberado) {
-        alert(`Você já resgatou recompensa de teste/simulado grátis. Novo resgate em ${formatarTempo(status.restante)}.`);
-        return [];
-      }
-
-      estado.ultimoResgateTesteGratis = new Date().toISOString();
-      const novas = adicionarFigurinhasAleatorias(qtd, origem || "teste_gratis", descricao || `${qtd} figurinha(s) por teste/simulado grátis`);
-      salvar();
-      alert(`Você resgatou ${qtd} figurinha(s). Próximo teste/simulado grátis libera em 8 horas.`);
-      return novas;
-    }
-
-    function resgatarPremiumPorProduto(idProduto, pacotes = null, descricao = "") {
-      const produto = obterProdutoPremiumNormalizado(idProduto);
-      const totalPacotes = Number(pacotes || produto.pacotes || 10);
-      const chave = chavePremiumResgate(produto.id);
-
-      estado.resgatesParceiros = estado.resgatesParceiros || {};
-
-      if (estado.resgatesParceiros[chave]) {
-        alert(`Este bônus premium já foi resgatado para: ${produto.nome}.`);
-        return [];
-      }
-
-      estado.resgatesParceiros[chave] = true;
-
-      const qtdFigurinhas = totalPacotes * FIGS_POR_PACOTE;
-      const novas = adicionarFigurinhasAleatorias(
-        qtdFigurinhas,
-        produto.id,
-        descricao || `${totalPacotes} pacote(s) premium: ${produto.nome}`
-      );
-
-      estado.historico = estado.historico || [];
-      estado.historico.push({
-        tipo: "premium",
-        origem: produto.id,
-        qtd: qtdFigurinhas,
-        pacotes: totalPacotes,
-        descricao: `${produto.nome}: ${totalPacotes} pacote(s) premium resgatado(s)`,
-        data: new Date().toISOString()
-      });
-
-      salvar();
-      registrarMissaoOnline(produto.id, `Bônus premium: ${produto.nome}`, qtdFigurinhas, "premium");
-      alert(`Você resgatou ${totalPacotes} pacote(s) premium (${qtdFigurinhas} figurinhas). Volte ao relatório para conferir.`);
-      renderLivro();
-      return novas;
-    }
-
-    function processarBonusPremiumRecebido() {
-      try {
-        const bruto = localStorage.getItem("radar_copa_premium_bonus");
-        if (!bruto) return false;
-
-        const dados = JSON.parse(bruto);
-        const idProduto = dados.idProduto || dados.produto || dados.origem || "premium-generico";
-        const pacotes = Number(dados.pacotes || 10);
-
-        if (!idProduto) return false;
-
-        resgatarPremiumPorProduto(idProduto, pacotes, dados.descricao || "");
-        localStorage.removeItem("radar_copa_premium_bonus");
-        localStorage.removeItem("radar_copa_premium_pacotes");
-        return true;
-      } catch (e) {
-        console.warn("Não processou bônus premium recebido:", e);
-        return false;
-      }
-    }
-
 
     // ÁUDIOS - NÃO MEXER NOS CAMINHOS
     let audioAtivo = true;
@@ -1610,8 +1489,6 @@
         album: {},
         pacotes: 0,
         ultimoPacoteGratis: null,
-        brindeInicial20Pacotes: false,
-        ultimoResgateTesteGratis: null,
         historico: [],
         resgatesParceiros: {},
         codigoTorcedor: null,
@@ -2013,75 +1890,24 @@
     }
 
     function regraParceiroHoje(parceiro, etapa) {
-      const chave = `${parceiro}_${etapa}_${obterDataHojeISO()}`;
+      const chave = `${parceiro}_${etapa}_${new Date().toISOString().slice(0,10)}`;
       estado.resgatesParceiros = estado.resgatesParceiros || {};
       return chave;
     }
 
     window.resgatarParceiro = function(parceiro, etapa, qtd) {
-      // Recompensas de testes/simulados grátis: limite geral de 1 resgate a cada 8 horas
-      const etapaTxt = String(etapa || "").toLowerCase();
-      const parceiroTxt = String(parceiro || "").toLowerCase();
-
-      const isPremium = etapaTxt.includes("premium") || parceiroTxt.includes("premium");
-      const isComboMatriz = etapaTxt.includes("combo") || parceiroTxt.includes("combo") || etapaTxt.includes("17") || parceiroTxt.includes("17");
-
-      if (isPremium || isComboMatriz) {
-        const idProduto = isComboMatriz ? "matriz-combo-17-simulados" : `${parceiro}_${etapa}`.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
-        const pacotes = isComboMatriz ? 200 : 10;
-        const novasPremium = resgatarPremiumPorProduto(idProduto, pacotes, isComboMatriz ? "Combo Matriz 17 simulados" : "Bônus premium individual");
-        const painelPremium = document.getElementById("resultadoPacote");
-        if (painelPremium && novasPremium.length) painelPremium.innerHTML = novasPremium.slice(0, 12).map(f => card(f, true)).join("");
+      const chave = regraParceiroHoje(parceiro, etapa);
+      if (estado.resgatesParceiros[chave]) {
+        alert("Essa recompensa já foi resgatada hoje para essa etapa.");
         return;
       }
-
-      const novas = registrarTesteGratis8h(qtd, parceiro, `${qtd} figurinha(s) por ${etapa}`);
+      estado.resgatesParceiros[chave] = true;
+      const novas = adicionarFigurinhasAleatorias(qtd, parceiro, `${qtd} figurinha(s) por ${etapa}`);
+      alert(`Você resgatou ${qtd} figurinha(s). Volte ao relatório para conferir.`);
       const painel = document.getElementById("resultadoPacote");
-      if (painel && novas.length) painel.innerHTML = novas.map(f => card(f, true)).join("");
+      if (painel) painel.innerHTML = novas.map(f => card(f, true)).join("");
       renderLivro();
     };
-
-
-    function concederBrindeInicial20Pacotes() {
-      try {
-        if (estado.brindeInicial20Pacotes) return false;
-
-        estado.brindeInicial20Pacotes = true;
-        const novas = adicionarFigurinhasAleatorias(
-          FIGURINHAS_BRINDE_INICIAL,
-          "brinde_inicial_album",
-          `Brinde de boas-vindas: ${PACOTES_BRINDE_INICIAL} pacotes ao abrir o álbum pela primeira vez`
-        );
-
-        estado.historico = estado.historico || [];
-        estado.historico.push({
-          tipo: "brinde_inicial",
-          origem: "album",
-          qtd: FIGURINHAS_BRINDE_INICIAL,
-          pacotes: PACOTES_BRINDE_INICIAL,
-          descricao: `Boas-vindas: ${PACOTES_BRINDE_INICIAL} pacotes grátis`,
-          data: new Date().toISOString()
-        });
-
-        salvar();
-        registrarMissaoOnline(
-          "brinde_inicial_album",
-          `Brinde inicial de ${PACOTES_BRINDE_INICIAL} pacotes`,
-          FIGURINHAS_BRINDE_INICIAL,
-          "brinde_inicial"
-        );
-
-        setTimeout(() => {
-          alert(`🎁 Bem-vindo ao álbum! Você ganhou ${PACOTES_BRINDE_INICIAL} pacotes de brinde (${FIGURINHAS_BRINDE_INICIAL} figurinhas). Vá ao relatório para conferir e colar.`);
-          renderLivro();
-        }, 600);
-
-        return novas;
-      } catch (erro) {
-        console.warn("Não concedeu brinde inicial:", erro);
-        return false;
-      }
-    }
 
     function renderEspecial(p) {
       const t = totais();
@@ -2096,8 +1922,8 @@
               <p>Álbum digital independente com 48 seleções e 576 figurinhas. O código está pronto para receber as imagens nas pastas dos países e usar seus 4 áudios em <b>audio/album/</b>.</p>
               <div class="premium-banner" style="max-width:760px;margin:18px auto 0;">
                 <small>Bônus Premium</small>
-                <h3>Abra o álbum e ganhe 20 pacotes de boas-vindas.</h3>
-                <p>Na primeira abertura do álbum, o participante recebe 20 pacotes grátis. Premium individual libera +10 pacotes por produto comprado. Combo Matriz 17 simulados libera +200 pacotes.</p>
+                <h3>Comprou qualquer versão premium? Ganhe +10 pacotes no álbum.</h3>
+                <p>Vale para Gabarito Max, DB ENEM, Matriz Educacional, Radar Conservador ou qualquer versão premium vinculada ao Radar Copa.</p>
               </div>
             </div>
           </div>
@@ -2131,11 +1957,11 @@
         return `
           <div class="pagina-especial">
             <h2>Como funciona</h2>
-            <p>Ao abrir o álbum pela primeira vez, você ganha 20 pacotes de brinde. Depois, abra envelopes, ganhe figurinhas e cole no álbum. O envelope grátis libera a cada <b>12 horas</b>. Depois de colar, a ficha completa fica liberada. As imagens devem estar nas pastas dos países, sempre com o nome <b>01.webp</b> até <b>12.webp</b>.</p>
+            <p>Abra envelopes, ganhe figurinhas e cole no álbum. O envelope grátis libera a cada <b>12 horas</b>. Depois de colar, a ficha completa fica liberada. As imagens devem estar nas pastas dos países, sempre com o nome <b>01.webp</b> até <b>12.webp</b>.</p>
             <div class="premium-banner">
               <small>Regra Premium</small>
-              <h3>Premium individual +10 pacotes • Combo Matriz +200 pacotes</h3>
-              <p>Ao comprar uma versão premium individual, o jogador recebe +10 pacotes. O Combo Matriz 17 simulados libera +200 pacotes.</p>
+              <h3>Qualquer versão premium vale +10 pacotes</h3>
+              <p>Ao comprar uma versão premium, o jogador recebe 10 pacotes extras no álbum. Esse resgate será ligado aos sites parceiros na próxima etapa com Supabase.</p>
             </div>
             <div class="info-grid">
               <div class="info-card"><b>Seleções</b><span>48</span></div>
@@ -2155,35 +1981,15 @@
 
             <div class="premium-banner">
               <small>Bônus obrigatório</small>
-              <h3>🎁 Cada compra premium libera bônus próprio.</h3>
-              <p>Premium individual: +10 pacotes por produto. Combo Matriz 17 simulados: +200 pacotes.</p>
+              <h3>🎁 Comprando qualquer versão premium, você ganha +10 pacotes.</h3>
+              <p>Vale para qualquer oferta premium vinculada ao Radar Copa: Gabarito Max, DB ENEM, Matriz Educacional, Radar Conservador ou simulados premium.</p>
             </div>
-
-            <div id="premiumResgatesProdutos">
-            <div class="parceiros-grid">
-              <div class="parceiro-card">
-                <h3>Gabarito Max Copa Premium</h3>
-                <p>Produto premium individual. Cada compra libera +10 pacotes.</p>
-                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('gabarito-max-copa-2026-premium',10,'Gabarito Max Copa Premium')">Resgatar +10 pacotes</button>
-              </div>
-              <div class="parceiro-card">
-                <h3>Gabarito Max Analista Adm Premium</h3>
-                <p>Produto premium individual. Cada compra libera +10 pacotes.</p>
-                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('gabarito-max-analista-adm-premium',10,'Gabarito Max Analista Administrativo Premium')">Resgatar +10 pacotes</button>
-              </div>
-              <div class="parceiro-card">
-                <h3>Combo Matriz 17 Simulados</h3>
-                <p>Combo premium completo. Libera bônus especial de +200 pacotes.</p>
-                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('matriz-combo-17-simulados',200,'Combo Matriz 17 simulados')">Resgatar +200 pacotes</button>
-              </div>
-            </div>
-</div>
 
             <div class="info-grid">
               <div class="info-card"><b>Abriu teste/simulado</b><span>+1</span></div>
               <div class="info-card"><b>Acertou metade</b><span>+3</span></div>
               <div class="info-card"><b>Gabaritou</b><span>+5</span></div>
-              <div class="info-card"><b>Premium individual</b><span>+10 pacotes</span></div><div class="info-card"><b>Combo Matriz 17 simulados</b><span>+200 pacotes</span></div>
+              <div class="info-card"><b>Comprou premium</b><span>+10 pacotes</span></div>
             </div>
 
             <div class="parceiros-grid">
@@ -2510,8 +2316,6 @@
     // =========================================================
     function init() {
       setupAudio();
-      processarBonusPremiumRecebido();
-      concederBrindeInicial20Pacotes();
       renderFiltros();
       renderLivro();
       iniciarSupabaseAlbum();
