@@ -910,232 +910,7 @@
       .resultado{ grid-template-columns:1fr; }
       .ficha-rev{ grid-template-columns:1fr; }
     }
-  
-/* =========================================================
-   MODO CELULAR OFICIAL - UMA PÁGINA REAL
-   Desktop continua usando o livro original.
-   ========================================================= */
-.mobile-only-page {
-  display: none;
-}
-
-@media (max-width: 900px) {
-  html,
-  body {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 100% !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-  }
-
-  body {
-    display: block !important;
-  }
-
-  .app {
-    display: block !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow: visible !important;
-  }
-
-  .topo {
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 10px 12px !important;
-  }
-
-  .marca {
-    width: 100% !important;
-    min-width: 0 !important;
-    margin-bottom: 10px !important;
-  }
-
-  .marca b {
-    display: block !important;
-    font-size: 1.16rem !important;
-    line-height: 1.15 !important;
-  }
-
-  .marca small {
-    display: block !important;
-    font-size: .86rem !important;
-    line-height: 1.25 !important;
-  }
-
-  .topo nav {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    width: 100% !important;
-  }
-
-  .topo nav button,
-  .topo nav a {
-    width: 100% !important;
-    min-height: 42px !important;
-    padding: 8px 6px !important;
-    font-size: .78rem !important;
-    white-space: normal !important;
-  }
-
-  .palco {
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-    padding: 8px !important;
-  }
-
-  .lateral {
-    display: none !important;
-  }
-
-  .area {
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-  }
-
-  .barra {
-    display: block !important;
-    height: auto !important;
-    padding: 10px !important;
-    margin-bottom: 10px !important;
-  }
-
-  .barra span,
-  .barra b {
-    white-space: normal !important;
-  }
-
-  .barra select {
-    margin-top: 10px !important;
-    height: 44px !important;
-    font-size: 1rem !important;
-  }
-
-  /* O livro desktop de 2 páginas fica escondido no celular */
-  #livro {
-    display: none !important;
-  }
-
-  /* Página mobile própria */
-  .mobile-only-page {
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    overflow: visible !important;
-  }
-
-  .mobile-only-page .pagina {
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    border-radius: 22px !important;
-    padding: 10px !important;
-  }
-
-  .mobile-only-page .pagina-especial,
-  .mobile-only-page .pais-pagina,
-  .mobile-only-page .capa-album {
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
-
-  .mobile-only-page .capa-album {
-    padding: 24px 14px !important;
-  }
-
-  .mobile-only-page .capa-album h1 {
-    font-size: 2.35rem !important;
-    line-height: 1.08 !important;
-  }
-
-  .mobile-only-page .capa-album h2,
-  .mobile-only-page .premium-banner h3 {
-    font-size: 1.2rem !important;
-    line-height: 1.25 !important;
-  }
-
-  .mobile-only-page .info-grid,
-  .mobile-only-page .lista-grupos,
-  .mobile-only-page .raridades,
-  .mobile-only-page .parceiros-grid,
-  .mobile-only-page .passos-resgate {
-    grid-template-columns: 1fr !important;
-  }
-
-  .mobile-only-page .pais-topo {
-    display: block !important;
-    height: auto !important;
-    padding-bottom: 10px !important;
-  }
-
-  .mobile-only-page .pais-topo h2 {
-    font-size: 1.45rem !important;
-    margin: 5px 0 10px !important;
-  }
-
-  .mobile-only-page .pais-topo strong {
-    display: inline-flex !important;
-    margin-top: 6px !important;
-  }
-
-  .mobile-only-page .grid-fig {
-    height: auto !important;
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-template-rows: none !important;
-    grid-auto-rows: 190px !important;
-    gap: 10px !important;
-    overflow: visible !important;
-  }
-
-  .mobile-only-page .fig {
-    height: 190px !important;
-    min-height: 190px !important;
-  }
-
-  .mobile-only-page .resultado {
-    grid-template-columns: 1fr !important;
-  }
-
-  .mobile-only-page .ficha-rev,
-  .mobile-only-page .meta {
-    grid-template-columns: 1fr !important;
-  }
-
-  .mobile-only-page .ficha-img {
-    min-height: 360px !important;
-    margin-bottom: 14px !important;
-  }
-
-  .modal {
-    align-items: flex-start !important;
-    overflow-y: auto !important;
-    padding: 12px !important;
-  }
-
-  .card-modal {
-    width: 100% !important;
-    max-height: none !important;
-    overflow: visible !important;
-    margin: 10px 0 40px !important;
-    padding: 18px !important;
-  }
-}
-
-</style>
+  </style>
 </head>
 <body>
   <div class="app">
@@ -1205,8 +980,6 @@
           <div class="miolo"></div>
           <div class="pagina direita" id="paginaDireita"></div>
         </div>
-
-        <div class="mobile-only-page" id="paginaMobileUnica"></div>
       </section>
     </main>
 
@@ -1336,6 +1109,39 @@
       renderLivro();
       return novas;
     }
+
+
+    function processarBonusPremiumRecebidoPorUrl() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const bonus = params.get("bonus") || params.get("idProduto") || params.get("produto");
+        const pacotes = Number(params.get("pacotes") || params.get("qtd") || 0);
+
+        if (!bonus) return false;
+
+        const idProduto = String(bonus).trim();
+        const totalPacotes = pacotes > 0 ? pacotes : (
+          idProduto === "matriz-combo-17-simulados" ? 200 : 10
+        );
+
+        resgatarPremiumPorProduto(
+          idProduto,
+          totalPacotes,
+          idProduto === "matriz-combo-17-simulados"
+            ? "Combo Matriz 17 simulados: bônus de 200 pacotes"
+            : "Bônus premium recebido por link"
+        );
+
+        // Limpa a URL depois do resgate para evitar tentativa repetida ao atualizar a página.
+        const limpa = window.location.origin + window.location.pathname + "?v=3100";
+        window.history.replaceState({}, document.title, limpa);
+        return true;
+      } catch (e) {
+        console.warn("Não processou bônus por URL:", e);
+        return false;
+      }
+    }
+
 
     function processarBonusPremiumRecebido() {
       try {
@@ -1870,15 +1676,6 @@
       return paginas().length;
     }
 
-
-    function isMobileAlbum() {
-      return window.innerWidth <= 900 || screen.width <= 900 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
-
-    function passoPaginaAlbum() {
-      return isMobileAlbum() ? 1 : 2;
-    }
-
     function par(n) {
       if (n <= 1) return 1;
       return n % 2 === 0 ? n : n - 1;
@@ -2278,27 +2075,8 @@
       const livro = document.getElementById("livro");
       const esq = document.getElementById("paginaEsquerda");
       const dir = document.getElementById("paginaDireita");
-      const mob = document.getElementById("paginaMobileUnica");
       const paginaAtualEl = document.getElementById("paginaAtual");
       const titulo = document.getElementById("tituloPagina");
-
-      if (isMobileAlbum()) {
-        if (mob) {
-          mob.innerHTML = `<div class="pagina direita">${renderPagina(paginaAtual)}</div>`;
-        }
-        if (esq) esq.innerHTML = "";
-        if (dir) dir.innerHTML = "";
-        if (livro) livro.classList.add("capa");
-
-        const p = pagina(paginaAtual);
-        paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
-        titulo.textContent = p.titulo;
-
-        resumo();
-        return;
-      }
-
-      if (mob) mob.innerHTML = "";
 
       if (paginaAtual <= 1) {
         livro.classList.add("capa");
@@ -2325,8 +2103,8 @@
     }
 
     function ir(n) {
-      n = Math.max(1, Math.min(totalPaginas(), Number(n || 1)));
-      if (!isMobileAlbum() && n > 1) n = par(n);
+      n = Math.max(1, Math.min(totalPaginas(), n));
+      if (n > 1) n = par(n);
       paginaAtual = n;
       localStorage.setItem("pagina_album_atual", String(n));
       playSom("page");
@@ -2494,11 +2272,10 @@
     // =========================================================
     function init() {
       setupAudio();
+      processarBonusPremiumRecebidoPorUrl();
       processarBonusPremiumRecebido();
       renderFiltros();
       renderLivro();
-      window.addEventListener("resize", () => setTimeout(renderLivro, 150));
-      window.addEventListener("orientationchange", () => setTimeout(renderLivro, 250));
       iniciarSupabaseAlbum();
       if (typeof verificarRecompensasParceirosAutomatico === "function") {
   verificarRecompensasParceirosAutomatico();
@@ -2512,10 +2289,10 @@
         document.getElementById("modalPacote").classList.add("ativo");
       };
 
-      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - passoPaginaAlbum());
-      document.getElementById("btnProxima").onclick = () => ir(paginaAtual + passoPaginaAlbum());
-      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - passoPaginaAlbum());
-      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual + passoPaginaAlbum());
+      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
+      document.getElementById("btnProxima").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
+      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
+      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
 
       document.getElementById("btnAudio").onclick = alternarAudio;
       document.getElementById("btnAbrirPacote").onclick = abrirPacote;
