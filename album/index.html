@@ -912,9 +912,13 @@
     }
   
 /* =========================================================
-   MOBILE DEFINITIVO — 1 PÁGINA POR VEZ NO CELULAR
-   NÃO ALTERA IMAGENS, FICHAS, ÁUDIO, SUPABASE OU REGRAS
+   MODO CELULAR OFICIAL - UMA PÁGINA REAL
+   Desktop continua usando o livro original.
    ========================================================= */
+.mobile-only-page {
+  display: none;
+}
+
 @media (max-width: 900px) {
   html,
   body {
@@ -930,16 +934,16 @@
   }
 
   .app {
+    display: block !important;
     height: auto !important;
     min-height: 100vh !important;
-    display: block !important;
     overflow: visible !important;
   }
 
   .topo {
+    display: block !important;
     height: auto !important;
     min-height: 0 !important;
-    display: block !important;
     padding: 10px 12px !important;
   }
 
@@ -985,10 +989,7 @@
     padding: 8px !important;
   }
 
-  .lateral,
-  .miolo,
-  .pagina.esquerda,
-  #paginaEsquerda {
+  .lateral {
     display: none !important;
   }
 
@@ -1017,20 +1018,21 @@
     font-size: 1rem !important;
   }
 
-  .livro,
-  .livro.capa {
-    display: block !important;
-    grid-template-columns: 1fr !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-    filter: none !important;
+  /* O livro desktop de 2 páginas fica escondido no celular */
+  #livro {
+    display: none !important;
   }
 
-  .pagina,
-  .pagina.direita,
-  .livro.capa .direita,
-  #paginaDireita {
+  /* Página mobile própria */
+  .mobile-only-page {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+  }
+
+  .mobile-only-page .pagina {
     display: block !important;
     width: 100% !important;
     height: auto !important;
@@ -1041,56 +1043,55 @@
     padding: 10px !important;
   }
 
-  .pagina-especial,
-  .pais-pagina {
+  .mobile-only-page .pagina-especial,
+  .mobile-only-page .pais-pagina,
+  .mobile-only-page .capa-album {
     height: auto !important;
     min-height: auto !important;
     max-height: none !important;
     overflow: visible !important;
   }
 
-  .capa-album {
-    height: auto !important;
-    min-height: auto !important;
+  .mobile-only-page .capa-album {
     padding: 24px 14px !important;
   }
 
-  .capa-album h1 {
+  .mobile-only-page .capa-album h1 {
     font-size: 2.35rem !important;
     line-height: 1.08 !important;
   }
 
-  .capa-album h2,
-  .premium-banner h3 {
+  .mobile-only-page .capa-album h2,
+  .mobile-only-page .premium-banner h3 {
     font-size: 1.2rem !important;
     line-height: 1.25 !important;
   }
 
-  .info-grid,
-  .lista-grupos,
-  .raridades,
-  .parceiros-grid,
-  .passos-resgate {
+  .mobile-only-page .info-grid,
+  .mobile-only-page .lista-grupos,
+  .mobile-only-page .raridades,
+  .mobile-only-page .parceiros-grid,
+  .mobile-only-page .passos-resgate {
     grid-template-columns: 1fr !important;
   }
 
-  .pais-topo {
+  .mobile-only-page .pais-topo {
     display: block !important;
     height: auto !important;
     padding-bottom: 10px !important;
   }
 
-  .pais-topo h2 {
+  .mobile-only-page .pais-topo h2 {
     font-size: 1.45rem !important;
     margin: 5px 0 10px !important;
   }
 
-  .pais-topo strong {
+  .mobile-only-page .pais-topo strong {
     display: inline-flex !important;
     margin-top: 6px !important;
   }
 
-  .grid-fig {
+  .mobile-only-page .grid-fig {
     height: auto !important;
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -1100,9 +1101,23 @@
     overflow: visible !important;
   }
 
-  .fig {
+  .mobile-only-page .fig {
     height: 190px !important;
     min-height: 190px !important;
+  }
+
+  .mobile-only-page .resultado {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mobile-only-page .ficha-rev,
+  .mobile-only-page .meta {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mobile-only-page .ficha-img {
+    min-height: 360px !important;
+    margin-bottom: 14px !important;
   }
 
   .modal {
@@ -1117,20 +1132,6 @@
     overflow: visible !important;
     margin: 10px 0 40px !important;
     padding: 18px !important;
-  }
-
-  .resultado {
-    grid-template-columns: 1fr !important;
-  }
-
-  .ficha-rev,
-  .meta {
-    grid-template-columns: 1fr !important;
-  }
-
-  .ficha-img {
-    min-height: 360px !important;
-    margin-bottom: 14px !important;
   }
 }
 
@@ -1204,6 +1205,8 @@
           <div class="miolo"></div>
           <div class="pagina direita" id="paginaDireita"></div>
         </div>
+
+        <div class="mobile-only-page" id="paginaMobileUnica"></div>
       </section>
     </main>
 
@@ -2275,13 +2278,17 @@
       const livro = document.getElementById("livro");
       const esq = document.getElementById("paginaEsquerda");
       const dir = document.getElementById("paginaDireita");
+      const mob = document.getElementById("paginaMobileUnica");
       const paginaAtualEl = document.getElementById("paginaAtual");
       const titulo = document.getElementById("tituloPagina");
 
       if (isMobileAlbum()) {
-        livro.classList.add("capa");
+        if (mob) {
+          mob.innerHTML = `<div class="pagina direita">${renderPagina(paginaAtual)}</div>`;
+        }
         if (esq) esq.innerHTML = "";
-        if (dir) dir.innerHTML = renderPagina(paginaAtual);
+        if (dir) dir.innerHTML = "";
+        if (livro) livro.classList.add("capa");
 
         const p = pagina(paginaAtual);
         paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
@@ -2290,6 +2297,8 @@
         resumo();
         return;
       }
+
+      if (mob) mob.innerHTML = "";
 
       if (paginaAtual <= 1) {
         livro.classList.add("capa");
