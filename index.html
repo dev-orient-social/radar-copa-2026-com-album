@@ -911,262 +911,230 @@
       .ficha-rev{ grid-template-columns:1fr; }
     }
   
-/* ===== MOBILE FORCADO FINAL - SO CSS, NAO MEXE EM JS, AUDIO, IMAGENS OU FICHAS ===== */
-@media screen and (max-width: 1100px), screen and (max-device-width: 1100px) {
-  html,
-  body {
-    width: 100% !important;
-    height: auto !important;
-    min-height: 100% !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-  }
+/* ===== MOBILE REAL - CLASSE CONTROLADA POR JS ===== */
+body.album-mobile {
+  height: auto !important;
+  min-height: 100% !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  display: block !important;
+}
 
-  body {
-    display: block !important;
-  }
+body.album-mobile .app {
+  height: auto !important;
+  min-height: 100vh !important;
+  display: block !important;
+  overflow: visible !important;
+}
 
-  .app {
-    display: block !important;
-    height: auto !important;
-    min-height: 100vh !important;
-    overflow: visible !important;
-  }
+body.album-mobile .topo {
+  height: auto !important;
+  min-height: 0 !important;
+  display: block !important;
+  padding: 10px 12px !important;
+}
 
-  .topo {
-    position: relative !important;
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-    padding: 10px 12px !important;
-  }
+body.album-mobile .marca {
+  min-width: 0 !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
+}
 
-  .marca {
-    min-width: 0 !important;
-    width: 100% !important;
-    margin-bottom: 10px !important;
-  }
+body.album-mobile .marca b {
+  display: block !important;
+  font-size: 1.18rem !important;
+  line-height: 1.12 !important;
+}
 
-  .marca b {
-    display: block !important;
-    font-size: 1.18rem !important;
-    line-height: 1.12 !important;
-  }
+body.album-mobile .marca small {
+  display: block !important;
+  font-size: .86rem !important;
+  line-height: 1.28 !important;
+}
 
-  .marca small {
-    display: block !important;
-    font-size: .86rem !important;
-    line-height: 1.28 !important;
-  }
+body.album-mobile .topo nav {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
 
-  .topo nav {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 8px !important;
-    width: 100% !important;
-    justify-content: stretch !important;
-  }
+body.album-mobile .topo nav button,
+body.album-mobile .topo nav a {
+  width: 100% !important;
+  min-height: 42px !important;
+  padding: 8px 6px !important;
+  font-size: .78rem !important;
+  white-space: normal !important;
+  text-align: center !important;
+}
 
-  .topo nav button,
-  .topo nav a {
-    width: 100% !important;
-    min-height: 42px !important;
-    padding: 8px 6px !important;
-    font-size: .78rem !important;
-    white-space: normal !important;
-    text-align: center !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
+body.album-mobile .palco {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  padding: 8px !important;
+}
 
-  .palco {
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-    padding: 8px !important;
-  }
+body.album-mobile .lateral {
+  display: none !important;
+}
 
-  .lateral {
-    display: none !important;
-  }
+body.album-mobile .area {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+}
 
-  .area {
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-  }
+body.album-mobile .barra {
+  display: block !important;
+  height: auto !important;
+  padding: 10px !important;
+  margin-bottom: 10px !important;
+}
 
-  .barra {
-    display: block !important;
-    height: auto !important;
-    padding: 10px !important;
-    margin-bottom: 10px !important;
-  }
+body.album-mobile .barra span,
+body.album-mobile .barra b {
+  white-space: normal !important;
+}
 
-  .barra span,
-  .barra b {
-    white-space: normal !important;
-  }
+body.album-mobile .barra select {
+  margin-top: 10px !important;
+  height: 44px !important;
+  font-size: 1rem !important;
+}
 
-  .barra select {
-    margin-top: 10px !important;
-    height: 44px !important;
-    font-size: 1rem !important;
-  }
+body.album-mobile .livro,
+body.album-mobile .livro.capa {
+  display: block !important;
+  grid-template-columns: none !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: visible !important;
+  filter: none !important;
+}
 
-  .livro,
-  .livro.capa {
-    display: block !important;
-    grid-template-columns: none !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-    filter: none !important;
-  }
+body.album-mobile .miolo,
+body.album-mobile .pagina.esquerda {
+  display: none !important;
+}
 
-  .miolo {
-    display: none !important;
-  }
+body.album-mobile .pagina.direita,
+body.album-mobile .livro.capa .pagina.direita {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+  border-radius: 22px !important;
+  padding: 10px !important;
+}
 
-  .pagina.esquerda {
-    display: none !important;
-  }
+body.album-mobile .pagina-especial,
+body.album-mobile .pais-pagina {
+  height: auto !important;
+  min-height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
 
-  .pagina.direita,
-  .livro.capa .pagina.direita {
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    border-radius: 22px !important;
-    padding: 10px !important;
-  }
+body.album-mobile .capa-album {
+  height: auto !important;
+  min-height: auto !important;
+  padding: 24px 14px !important;
+}
 
-  .pagina-especial {
-    height: auto !important;
-    min-height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    padding: 10px !important;
-  }
+body.album-mobile .capa-album h1 {
+  font-size: 2.35rem !important;
+  line-height: 1.08 !important;
+}
 
-  .capa-album {
-    height: auto !important;
-    min-height: auto !important;
-    padding: 24px 14px !important;
-  }
+body.album-mobile .capa-album h2 {
+  font-size: 1.15rem !important;
+  line-height: 1.25 !important;
+}
 
-  .capa-album h1 {
-    font-size: 2.35rem !important;
-    line-height: 1.08 !important;
-  }
+body.album-mobile .premium-banner h3 {
+  font-size: 1.35rem !important;
+  line-height: 1.15 !important;
+}
 
-  .capa-album h2 {
-    font-size: 1.15rem !important;
-    line-height: 1.25 !important;
-  }
+body.album-mobile .info-grid,
+body.album-mobile .lista-grupos,
+body.album-mobile .raridades,
+body.album-mobile .parceiros-grid,
+body.album-mobile .passos-resgate {
+  grid-template-columns: 1fr !important;
+}
 
-  .capa-album p,
-  .premium-banner p {
-    font-size: 1rem !important;
-    line-height: 1.45 !important;
-  }
+body.album-mobile .pais-topo {
+  display: block !important;
+  height: auto !important;
+  padding-bottom: 10px !important;
+}
 
-  .premium-banner h3 {
-    font-size: 1.35rem !important;
-    line-height: 1.15 !important;
-  }
+body.album-mobile .pais-topo h2 {
+  font-size: 1.45rem !important;
+  margin: 5px 0 10px !important;
+}
 
-  .info-grid,
-  .lista-grupos,
-  .raridades,
-  .parceiros-grid,
-  .passos-resgate {
-    grid-template-columns: 1fr !important;
-  }
+body.album-mobile .pais-topo strong {
+  display: inline-flex !important;
+  margin-top: 6px !important;
+}
 
-  .pais-pagina {
-    display: block !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    overflow: visible !important;
-  }
+body.album-mobile .grid-fig {
+  height: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-rows: none !important;
+  grid-auto-rows: 190px !important;
+  gap: 10px !important;
+  overflow: visible !important;
+}
 
-  .pais-topo {
-    display: block !important;
-    height: auto !important;
-    padding-bottom: 10px !important;
-  }
+body.album-mobile .fig {
+  min-height: 190px !important;
+  height: 190px !important;
+}
 
-  .pais-topo h2 {
-    font-size: 1.45rem !important;
-    margin: 5px 0 10px !important;
-  }
+body.album-mobile .modal {
+  align-items: flex-start !important;
+  overflow-y: auto !important;
+  padding: 12px !important;
+}
 
-  .pais-topo strong {
-    display: inline-flex !important;
-    margin-top: 6px !important;
-  }
+body.album-mobile .card-modal {
+  width: 100% !important;
+  max-height: none !important;
+  overflow: visible !important;
+  margin: 10px 0 40px !important;
+  padding: 18px !important;
+}
 
-  .grid-fig {
-    height: auto !important;
-    display: grid !important;
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-    grid-auto-rows: 180px !important;
-    grid-template-rows: none !important;
-    gap: 10px !important;
-    overflow: visible !important;
-  }
+body.album-mobile .resultado {
+  grid-template-columns: 1fr !important;
+}
 
-  .fig {
-    min-height: 180px !important;
-    height: 180px !important;
-  }
+body.album-mobile .resultado .fig {
+  min-height: 320px !important;
+  height: 320px !important;
+}
 
-  .arte-vazia .num-fig {
-    font-size: 2.3rem !important;
-  }
+body.album-mobile .ficha-rev {
+  display: block !important;
+}
 
-  .modal {
-    align-items: flex-start !important;
-    overflow-y: auto !important;
-    padding: 12px !important;
-  }
+body.album-mobile .ficha-img {
+  min-height: 360px !important;
+  margin-bottom: 14px !important;
+}
 
-  .card-modal {
-    width: 100% !important;
-    max-height: none !important;
-    overflow: visible !important;
-    margin: 10px 0 40px !important;
-    padding: 18px !important;
-  }
-
-  .resultado {
-    grid-template-columns: 1fr !important;
-  }
-
-  .resultado .fig {
-    min-height: 320px !important;
-    height: 320px !important;
-  }
-
-  .ficha-rev {
-    display: block !important;
-  }
-
-  .ficha-img {
-    min-height: 360px !important;
-    margin-bottom: 14px !important;
-  }
-
-  .meta {
-    grid-template-columns: 1fr !important;
-  }
+body.album-mobile .meta {
+  grid-template-columns: 1fr !important;
 }
 
 </style>
@@ -2160,13 +2128,35 @@
       return p.tipo === "pais" ? renderPais(p) : renderEspecial(p);
     }
 
+
+    function isAlbumMobile() {
+      return window.matchMedia("(max-width: 900px)").matches || window.innerWidth <= 900 || screen.width <= 900;
+    }
+
+    function aplicarClasseMobileAlbum() {
+      document.body.classList.toggle("album-mobile", isAlbumMobile());
+    }
+
     function renderLivro() {
+      aplicarClasseMobileAlbum();
+
       const total = totalPaginas();
       const livro = document.getElementById("livro");
       const esq = document.getElementById("paginaEsquerda");
       const dir = document.getElementById("paginaDireita");
       const paginaAtualEl = document.getElementById("paginaAtual");
       const titulo = document.getElementById("tituloPagina");
+
+      if (isAlbumMobile()) {
+        livro.classList.add("capa");
+        esq.innerHTML = "";
+        dir.innerHTML = renderPagina(paginaAtual);
+        const p = pagina(paginaAtual);
+        paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
+        titulo.textContent = p.titulo;
+        resumo();
+        return;
+      }
 
       if (paginaAtual <= 1) {
         livro.classList.add("capa");
@@ -2194,7 +2184,7 @@
 
     function ir(n) {
       n = Math.max(1, Math.min(totalPaginas(), n));
-      if (n > 1) n = par(n);
+      if (!isAlbumMobile() && n > 1) n = par(n);
       paginaAtual = n;
       localStorage.setItem("pagina_album_atual", String(n));
       playSom("page");
@@ -2364,6 +2354,8 @@
       setupAudio();
       renderFiltros();
       renderLivro();
+      window.addEventListener("resize", renderLivro);
+      window.addEventListener("orientationchange", () => setTimeout(renderLivro, 250));
       iniciarSupabaseAlbum();
       if (typeof verificarRecompensasParceirosAutomatico === "function") {
   verificarRecompensasParceirosAutomatico();
@@ -2377,10 +2369,10 @@
         document.getElementById("modalPacote").classList.add("ativo");
       };
 
-      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
-      document.getElementById("btnProxima").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
-      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
-      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
+      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - (isAlbumMobile() ? 1 : 2));
+      document.getElementById("btnProxima").onclick = () => ir(paginaAtual + (isAlbumMobile() ? 1 : (paginaAtual === 1 ? 1 : 2)));
+      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - (isAlbumMobile() ? 1 : 2));
+      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual + (isAlbumMobile() ? 1 : (paginaAtual === 1 ? 1 : 2)));
 
       document.getElementById("btnAudio").onclick = alternarAudio;
       document.getElementById("btnAbrirPacote").onclick = abrirPacote;
