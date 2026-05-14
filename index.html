@@ -911,10 +911,11 @@
       .ficha-rev{ grid-template-columns:1fr; }
     }
   
-/* ===== MOBILE MINIMO SEGURO - NAO ALTERA JS, IMAGENS, FICHAS OU AUDIO ===== */
-@media (max-width: 760px) {
+/* ===== MOBILE FORCADO FINAL - SO CSS, NAO MEXE EM JS, AUDIO, IMAGENS OU FICHAS ===== */
+@media screen and (max-width: 1100px), screen and (max-device-width: 1100px) {
   html,
   body {
+    width: 100% !important;
     height: auto !important;
     min-height: 100% !important;
     overflow-x: hidden !important;
@@ -926,16 +927,17 @@
   }
 
   .app {
+    display: block !important;
     height: auto !important;
     min-height: 100vh !important;
-    display: block !important;
     overflow: visible !important;
   }
 
   .topo {
+    position: relative !important;
+    display: block !important;
     height: auto !important;
     min-height: 0 !important;
-    display: block !important;
     padding: 10px 12px !important;
   }
 
@@ -947,14 +949,14 @@
 
   .marca b {
     display: block !important;
-    font-size: 1.15rem !important;
-    line-height: 1.15 !important;
+    font-size: 1.18rem !important;
+    line-height: 1.12 !important;
   }
 
   .marca small {
     display: block !important;
-    font-size: 0.85rem !important;
-    line-height: 1.25 !important;
+    font-size: .86rem !important;
+    line-height: 1.28 !important;
   }
 
   .topo nav {
@@ -962,6 +964,7 @@
     grid-template-columns: 1fr 1fr !important;
     gap: 8px !important;
     width: 100% !important;
+    justify-content: stretch !important;
   }
 
   .topo nav button,
@@ -969,8 +972,11 @@
     width: 100% !important;
     min-height: 42px !important;
     padding: 8px 6px !important;
-    font-size: 0.78rem !important;
+    font-size: .78rem !important;
     white-space: normal !important;
+    text-align: center !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .palco {
@@ -1010,34 +1016,42 @@
     font-size: 1rem !important;
   }
 
-  .livro {
+  .livro,
+  .livro.capa {
     display: block !important;
+    grid-template-columns: none !important;
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
     filter: none !important;
   }
 
-  .miolo,
+  .miolo {
+    display: none !important;
+  }
+
   .pagina.esquerda {
     display: none !important;
   }
 
-  .pagina,
   .pagina.direita,
   .livro.capa .pagina.direita {
     display: block !important;
     width: 100% !important;
     height: auto !important;
     min-height: auto !important;
+    max-height: none !important;
     overflow: visible !important;
     border-radius: 22px !important;
+    padding: 10px !important;
   }
 
   .pagina-especial {
     height: auto !important;
     min-height: auto !important;
+    max-height: none !important;
     overflow: visible !important;
+    padding: 10px !important;
   }
 
   .capa-album {
@@ -1047,7 +1061,7 @@
   }
 
   .capa-album h1 {
-    font-size: 2.3rem !important;
+    font-size: 2.35rem !important;
     line-height: 1.08 !important;
   }
 
@@ -1056,21 +1070,36 @@
     line-height: 1.25 !important;
   }
 
+  .capa-album p,
+  .premium-banner p {
+    font-size: 1rem !important;
+    line-height: 1.45 !important;
+  }
+
   .premium-banner h3 {
     font-size: 1.35rem !important;
     line-height: 1.15 !important;
+  }
+
+  .info-grid,
+  .lista-grupos,
+  .raridades,
+  .parceiros-grid,
+  .passos-resgate {
+    grid-template-columns: 1fr !important;
   }
 
   .pais-pagina {
     display: block !important;
     height: auto !important;
     min-height: 0 !important;
+    max-height: none !important;
     overflow: visible !important;
   }
 
   .pais-topo {
-    height: auto !important;
     display: block !important;
+    height: auto !important;
     padding-bottom: 10px !important;
   }
 
@@ -1079,16 +1108,28 @@
     margin: 5px 0 10px !important;
   }
 
+  .pais-topo strong {
+    display: inline-flex !important;
+    margin-top: 6px !important;
+  }
+
   .grid-fig {
     height: auto !important;
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     grid-auto-rows: 180px !important;
+    grid-template-rows: none !important;
     gap: 10px !important;
+    overflow: visible !important;
   }
 
   .fig {
     min-height: 180px !important;
+    height: 180px !important;
+  }
+
+  .arte-vazia .num-fig {
+    font-size: 2.3rem !important;
   }
 
   .modal {
@@ -1107,6 +1148,11 @@
 
   .resultado {
     grid-template-columns: 1fr !important;
+  }
+
+  .resultado .fig {
+    min-height: 320px !important;
+    height: 320px !important;
   }
 
   .ficha-rev {
