@@ -911,184 +911,151 @@
       .ficha-rev{ grid-template-columns:1fr; }
     }
   
-/* ===== MOBILE REAL - CLASSE CONTROLADA POR JS ===== */
-body.album-mobile {
+/* ===== MOBILE DEFINITIVO VIA JS - NÃO ALTERA IMAGEM, FICHA NEM ÁUDIO ===== */
+body.album-mobile-real,
+body.album-mobile-real .app,
+body.album-mobile-real .palco,
+body.album-mobile-real .area,
+body.album-mobile-real .livro,
+body.album-mobile-real .pagina {
   height: auto !important;
-  min-height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+body.album-mobile-real {
   overflow-x: hidden !important;
   overflow-y: auto !important;
   display: block !important;
 }
 
-body.album-mobile .app {
-  height: auto !important;
-  min-height: 100vh !important;
+body.album-mobile-real .app,
+body.album-mobile-real .palco,
+body.album-mobile-real .area,
+body.album-mobile-real .livro,
+body.album-mobile-real .livro.capa {
   display: block !important;
-  overflow: visible !important;
+  grid-template-columns: none !important;
+  filter: none !important;
 }
 
-body.album-mobile .topo {
-  height: auto !important;
-  min-height: 0 !important;
+body.album-mobile-real .topo {
   display: block !important;
+  height: auto !important;
   padding: 10px 12px !important;
 }
 
-body.album-mobile .marca {
+body.album-mobile-real .marca {
   min-width: 0 !important;
   width: 100% !important;
   margin-bottom: 10px !important;
 }
 
-body.album-mobile .marca b {
+body.album-mobile-real .marca b {
   display: block !important;
   font-size: 1.18rem !important;
-  line-height: 1.12 !important;
+  line-height: 1.15 !important;
 }
 
-body.album-mobile .marca small {
+body.album-mobile-real .marca small {
   display: block !important;
   font-size: .86rem !important;
-  line-height: 1.28 !important;
+  line-height: 1.25 !important;
 }
 
-body.album-mobile .topo nav {
+body.album-mobile-real .topo nav {
   display: grid !important;
   grid-template-columns: 1fr 1fr !important;
   gap: 8px !important;
   width: 100% !important;
 }
 
-body.album-mobile .topo nav button,
-body.album-mobile .topo nav a {
+body.album-mobile-real .topo nav button,
+body.album-mobile-real .topo nav a {
   width: 100% !important;
   min-height: 42px !important;
   padding: 8px 6px !important;
   font-size: .78rem !important;
   white-space: normal !important;
-  text-align: center !important;
 }
 
-body.album-mobile .palco {
-  display: block !important;
-  height: auto !important;
-  min-height: 0 !important;
-  overflow: visible !important;
-  padding: 8px !important;
-}
-
-body.album-mobile .lateral {
+body.album-mobile-real .lateral,
+body.album-mobile-real .miolo,
+body.album-mobile-real #paginaEsquerda {
   display: none !important;
 }
 
-body.album-mobile .area {
-  display: block !important;
-  height: auto !important;
-  min-height: 0 !important;
-  overflow: visible !important;
-}
-
-body.album-mobile .barra {
+body.album-mobile-real .barra {
   display: block !important;
   height: auto !important;
   padding: 10px !important;
   margin-bottom: 10px !important;
 }
 
-body.album-mobile .barra span,
-body.album-mobile .barra b {
+body.album-mobile-real .barra span,
+body.album-mobile-real .barra b {
   white-space: normal !important;
 }
 
-body.album-mobile .barra select {
+body.album-mobile-real .barra select {
   margin-top: 10px !important;
   height: 44px !important;
   font-size: 1rem !important;
 }
 
-body.album-mobile .livro,
-body.album-mobile .livro.capa {
-  display: block !important;
-  grid-template-columns: none !important;
-  height: auto !important;
-  min-height: 0 !important;
-  overflow: visible !important;
-  filter: none !important;
-}
-
-body.album-mobile .miolo,
-body.album-mobile .pagina.esquerda {
-  display: none !important;
-}
-
-body.album-mobile .pagina.direita,
-body.album-mobile .livro.capa .pagina.direita {
+body.album-mobile-real #paginaDireita {
   display: block !important;
   width: 100% !important;
-  height: auto !important;
-  min-height: auto !important;
-  max-height: none !important;
-  overflow: visible !important;
   border-radius: 22px !important;
   padding: 10px !important;
 }
 
-body.album-mobile .pagina-especial,
-body.album-mobile .pais-pagina {
+body.album-mobile-real .pagina-especial,
+body.album-mobile-real .pais-pagina,
+body.album-mobile-real .capa-album {
   height: auto !important;
   min-height: auto !important;
-  max-height: none !important;
   overflow: visible !important;
 }
 
-body.album-mobile .capa-album {
-  height: auto !important;
-  min-height: auto !important;
+body.album-mobile-real .capa-album {
   padding: 24px 14px !important;
 }
 
-body.album-mobile .capa-album h1 {
+body.album-mobile-real .capa-album h1 {
   font-size: 2.35rem !important;
   line-height: 1.08 !important;
 }
 
-body.album-mobile .capa-album h2 {
-  font-size: 1.15rem !important;
-  line-height: 1.25 !important;
+body.album-mobile-real .capa-album h2,
+body.album-mobile-real .premium-banner h3 {
+  font-size: 1.25rem !important;
+  line-height: 1.2 !important;
 }
 
-body.album-mobile .premium-banner h3 {
-  font-size: 1.35rem !important;
-  line-height: 1.15 !important;
-}
-
-body.album-mobile .info-grid,
-body.album-mobile .lista-grupos,
-body.album-mobile .raridades,
-body.album-mobile .parceiros-grid,
-body.album-mobile .passos-resgate {
+body.album-mobile-real .info-grid,
+body.album-mobile-real .lista-grupos,
+body.album-mobile-real .raridades,
+body.album-mobile-real .parceiros-grid,
+body.album-mobile-real .passos-resgate {
   grid-template-columns: 1fr !important;
 }
 
-body.album-mobile .pais-topo {
+body.album-mobile-real .pais-topo {
   display: block !important;
   height: auto !important;
   padding-bottom: 10px !important;
 }
 
-body.album-mobile .pais-topo h2 {
+body.album-mobile-real .pais-topo h2 {
   font-size: 1.45rem !important;
   margin: 5px 0 10px !important;
 }
 
-body.album-mobile .pais-topo strong {
-  display: inline-flex !important;
-  margin-top: 6px !important;
-}
-
-body.album-mobile .grid-fig {
-  height: auto !important;
+body.album-mobile-real .grid-fig {
   display: grid !important;
+  height: auto !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   grid-template-rows: none !important;
   grid-auto-rows: 190px !important;
@@ -1096,18 +1063,18 @@ body.album-mobile .grid-fig {
   overflow: visible !important;
 }
 
-body.album-mobile .fig {
-  min-height: 190px !important;
+body.album-mobile-real .fig {
   height: 190px !important;
+  min-height: 190px !important;
 }
 
-body.album-mobile .modal {
+body.album-mobile-real .modal {
   align-items: flex-start !important;
   overflow-y: auto !important;
   padding: 12px !important;
 }
 
-body.album-mobile .card-modal {
+body.album-mobile-real .card-modal {
   width: 100% !important;
   max-height: none !important;
   overflow: visible !important;
@@ -1115,25 +1082,20 @@ body.album-mobile .card-modal {
   padding: 18px !important;
 }
 
-body.album-mobile .resultado {
+body.album-mobile-real .resultado {
   grid-template-columns: 1fr !important;
 }
 
-body.album-mobile .resultado .fig {
-  min-height: 320px !important;
-  height: 320px !important;
-}
-
-body.album-mobile .ficha-rev {
+body.album-mobile-real .ficha-rev {
   display: block !important;
 }
 
-body.album-mobile .ficha-img {
+body.album-mobile-real .ficha-img {
   min-height: 360px !important;
   margin-bottom: 14px !important;
 }
 
-body.album-mobile .meta {
+body.album-mobile-real .meta {
   grid-template-columns: 1fr !important;
 }
 
@@ -2128,35 +2090,13 @@ body.album-mobile .meta {
       return p.tipo === "pais" ? renderPais(p) : renderEspecial(p);
     }
 
-
-    function isAlbumMobile() {
-      return window.matchMedia("(max-width: 900px)").matches || window.innerWidth <= 900 || screen.width <= 900;
-    }
-
-    function aplicarClasseMobileAlbum() {
-      document.body.classList.toggle("album-mobile", isAlbumMobile());
-    }
-
     function renderLivro() {
-      aplicarClasseMobileAlbum();
-
       const total = totalPaginas();
       const livro = document.getElementById("livro");
       const esq = document.getElementById("paginaEsquerda");
       const dir = document.getElementById("paginaDireita");
       const paginaAtualEl = document.getElementById("paginaAtual");
       const titulo = document.getElementById("tituloPagina");
-
-      if (isAlbumMobile()) {
-        livro.classList.add("capa");
-        esq.innerHTML = "";
-        dir.innerHTML = renderPagina(paginaAtual);
-        const p = pagina(paginaAtual);
-        paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
-        titulo.textContent = p.titulo;
-        resumo();
-        return;
-      }
 
       if (paginaAtual <= 1) {
         livro.classList.add("capa");
@@ -2184,7 +2124,7 @@ body.album-mobile .meta {
 
     function ir(n) {
       n = Math.max(1, Math.min(totalPaginas(), n));
-      if (!isAlbumMobile() && n > 1) n = par(n);
+      if (n > 1) n = par(n);
       paginaAtual = n;
       localStorage.setItem("pagina_album_atual", String(n));
       playSom("page");
@@ -2354,8 +2294,6 @@ body.album-mobile .meta {
       setupAudio();
       renderFiltros();
       renderLivro();
-      window.addEventListener("resize", renderLivro);
-      window.addEventListener("orientationchange", () => setTimeout(renderLivro, 250));
       iniciarSupabaseAlbum();
       if (typeof verificarRecompensasParceirosAutomatico === "function") {
   verificarRecompensasParceirosAutomatico();
@@ -2369,10 +2307,10 @@ body.album-mobile .meta {
         document.getElementById("modalPacote").classList.add("ativo");
       };
 
-      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - (isAlbumMobile() ? 1 : 2));
-      document.getElementById("btnProxima").onclick = () => ir(paginaAtual + (isAlbumMobile() ? 1 : (paginaAtual === 1 ? 1 : 2)));
-      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - (isAlbumMobile() ? 1 : 2));
-      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual + (isAlbumMobile() ? 1 : (paginaAtual === 1 ? 1 : 2)));
+      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
+      document.getElementById("btnProxima").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
+      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
+      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
 
       document.getElementById("btnAudio").onclick = alternarAudio;
       document.getElementById("btnAbrirPacote").onclick = abrirPacote;
@@ -2405,5 +2343,120 @@ body.album-mobile .meta {
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
+
+<script>
+(function(){
+  function mobileReal(){
+    return window.innerWidth <= 900 || screen.width <= 900 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  function ativarClasseMobile(){
+    document.body.classList.toggle("album-mobile-real", mobileReal());
+  }
+
+  function renderMobileForcado(){
+    if(!mobileReal()) return false;
+
+    ativarClasseMobile();
+
+    try{
+      const livro = document.getElementById("livro");
+      const esq = document.getElementById("paginaEsquerda");
+      const dir = document.getElementById("paginaDireita");
+      const paginaAtualEl = document.getElementById("paginaAtual");
+      const titulo = document.getElementById("tituloPagina");
+
+      if(!livro || !dir || typeof renderPagina !== "function") return false;
+
+      livro.classList.add("capa");
+
+      if(esq) esq.innerHTML = "";
+
+      const paginaNumero = Number(window.paginaAtual || paginaAtual || 1);
+      dir.innerHTML = renderPagina(paginaNumero);
+
+      if(typeof totalPaginas === "function" && paginaAtualEl){
+        paginaAtualEl.textContent = "Página " + paginaNumero + " de " + totalPaginas();
+      }
+
+      if(typeof pagina === "function" && titulo){
+        const p = pagina(paginaNumero);
+        titulo.textContent = p && p.titulo ? p.titulo : "Página " + paginaNumero;
+      }
+
+      if(typeof resumo === "function") resumo();
+
+      return true;
+    }catch(e){
+      console.warn("Mobile Radar Copa:", e);
+      return false;
+    }
+  }
+
+  function instalarMobile(){
+    ativarClasseMobile();
+
+    if(typeof renderLivro === "function" && !window.__radarCopaRenderMobileCorrigido){
+      window.__radarCopaRenderMobileCorrigido = true;
+
+      const renderOriginal = renderLivro;
+      renderLivro = function(){
+        if(mobileReal()){
+          renderOriginal();
+          renderMobileForcado();
+          return;
+        }
+        ativarClasseMobile();
+        renderOriginal();
+      };
+    }
+
+    if(typeof ir === "function" && !window.__radarCopaIrMobileCorrigido){
+      window.__radarCopaIrMobileCorrigido = true;
+
+      const irOriginal = ir;
+      ir = function(n){
+        if(mobileReal()){
+          n = Math.max(1, Math.min(totalPaginas(), Number(n || 1)));
+          window.paginaAtual = n;
+          try { paginaAtual = n; } catch(e){}
+          localStorage.setItem("pagina_album_atual", String(n));
+          if(typeof playSom === "function") playSom("page");
+          renderMobileForcado();
+          return;
+        }
+        return irOriginal(n);
+      };
+    }
+
+    // Ajusta botões do topo e laterais para andar 1 página no celular
+    const ant = document.getElementById("btnAnterior");
+    const prox = document.getElementById("btnProxima");
+    const antT = document.getElementById("btnAnteriorTopo");
+    const proxT = document.getElementById("btnProximaTopo");
+
+    if(ant) ant.onclick = function(){ ir(Math.max(1, Number(window.paginaAtual || paginaAtual || 1) - (mobileReal() ? 1 : 2))); };
+    if(prox) prox.onclick = function(){ ir(Number(window.paginaAtual || paginaAtual || 1) + (mobileReal() ? 1 : 2)); };
+    if(antT) antT.onclick = function(){ ir(Math.max(1, Number(window.paginaAtual || paginaAtual || 1) - (mobileReal() ? 1 : 2))); };
+    if(proxT) proxT.onclick = function(){ ir(Number(window.paginaAtual || paginaAtual || 1) + (mobileReal() ? 1 : 2)); };
+
+    renderMobileForcado();
+  }
+
+  window.addEventListener("load", function(){
+    setTimeout(instalarMobile, 300);
+    setTimeout(renderMobileForcado, 700);
+  });
+
+  window.addEventListener("resize", function(){
+    setTimeout(instalarMobile, 200);
+  });
+
+  window.addEventListener("orientationchange", function(){
+    setTimeout(instalarMobile, 400);
+  });
+})();
+</script>
+
 </body>
 </html>
