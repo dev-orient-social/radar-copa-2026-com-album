@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -910,7 +910,231 @@
       .resultado{ grid-template-columns:1fr; }
       .ficha-rev{ grid-template-columns:1fr; }
     }
-  </style>
+  
+/* =========================================================
+   MOBILE DEFINITIVO — 1 PÁGINA POR VEZ NO CELULAR
+   NÃO ALTERA IMAGENS, FICHAS, ÁUDIO, SUPABASE OU REGRAS
+   ========================================================= */
+@media (max-width: 900px) {
+  html,
+  body {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  body {
+    display: block !important;
+  }
+
+  .app {
+    height: auto !important;
+    min-height: 100vh !important;
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .topo {
+    height: auto !important;
+    min-height: 0 !important;
+    display: block !important;
+    padding: 10px 12px !important;
+  }
+
+  .marca {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .marca b {
+    display: block !important;
+    font-size: 1.16rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .marca small {
+    display: block !important;
+    font-size: .86rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .topo nav {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .topo nav button,
+  .topo nav a {
+    width: 100% !important;
+    min-height: 42px !important;
+    padding: 8px 6px !important;
+    font-size: .78rem !important;
+    white-space: normal !important;
+  }
+
+  .palco {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding: 8px !important;
+  }
+
+  .lateral,
+  .miolo,
+  .pagina.esquerda,
+  #paginaEsquerda {
+    display: none !important;
+  }
+
+  .area {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .barra {
+    display: block !important;
+    height: auto !important;
+    padding: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .barra span,
+  .barra b {
+    white-space: normal !important;
+  }
+
+  .barra select {
+    margin-top: 10px !important;
+    height: 44px !important;
+    font-size: 1rem !important;
+  }
+
+  .livro,
+  .livro.capa {
+    display: block !important;
+    grid-template-columns: 1fr !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    filter: none !important;
+  }
+
+  .pagina,
+  .pagina.direita,
+  .livro.capa .direita,
+  #paginaDireita {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border-radius: 22px !important;
+    padding: 10px !important;
+  }
+
+  .pagina-especial,
+  .pais-pagina {
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  .capa-album {
+    height: auto !important;
+    min-height: auto !important;
+    padding: 24px 14px !important;
+  }
+
+  .capa-album h1 {
+    font-size: 2.35rem !important;
+    line-height: 1.08 !important;
+  }
+
+  .capa-album h2,
+  .premium-banner h3 {
+    font-size: 1.2rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .info-grid,
+  .lista-grupos,
+  .raridades,
+  .parceiros-grid,
+  .passos-resgate {
+    grid-template-columns: 1fr !important;
+  }
+
+  .pais-topo {
+    display: block !important;
+    height: auto !important;
+    padding-bottom: 10px !important;
+  }
+
+  .pais-topo h2 {
+    font-size: 1.45rem !important;
+    margin: 5px 0 10px !important;
+  }
+
+  .pais-topo strong {
+    display: inline-flex !important;
+    margin-top: 6px !important;
+  }
+
+  .grid-fig {
+    height: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    grid-template-rows: none !important;
+    grid-auto-rows: 190px !important;
+    gap: 10px !important;
+    overflow: visible !important;
+  }
+
+  .fig {
+    height: 190px !important;
+    min-height: 190px !important;
+  }
+
+  .modal {
+    align-items: flex-start !important;
+    overflow-y: auto !important;
+    padding: 12px !important;
+  }
+
+  .card-modal {
+    width: 100% !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 10px 0 40px !important;
+    padding: 18px !important;
+  }
+
+  .resultado {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ficha-rev,
+  .meta {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ficha-img {
+    min-height: 360px !important;
+    margin-bottom: 14px !important;
+  }
+}
+
+</style>
 </head>
 <body>
   <div class="app">
@@ -1643,6 +1867,15 @@
       return paginas().length;
     }
 
+
+    function isMobileAlbum() {
+      return window.innerWidth <= 900 || screen.width <= 900 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    function passoPaginaAlbum() {
+      return isMobileAlbum() ? 1 : 2;
+    }
+
     function par(n) {
       if (n <= 1) return 1;
       return n % 2 === 0 ? n : n - 1;
@@ -2045,6 +2278,19 @@
       const paginaAtualEl = document.getElementById("paginaAtual");
       const titulo = document.getElementById("tituloPagina");
 
+      if (isMobileAlbum()) {
+        livro.classList.add("capa");
+        if (esq) esq.innerHTML = "";
+        if (dir) dir.innerHTML = renderPagina(paginaAtual);
+
+        const p = pagina(paginaAtual);
+        paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
+        titulo.textContent = p.titulo;
+
+        resumo();
+        return;
+      }
+
       if (paginaAtual <= 1) {
         livro.classList.add("capa");
         esq.innerHTML = "";
@@ -2070,8 +2316,8 @@
     }
 
     function ir(n) {
-      n = Math.max(1, Math.min(totalPaginas(), n));
-      if (n > 1) n = par(n);
+      n = Math.max(1, Math.min(totalPaginas(), Number(n || 1)));
+      if (!isMobileAlbum() && n > 1) n = par(n);
       paginaAtual = n;
       localStorage.setItem("pagina_album_atual", String(n));
       playSom("page");
@@ -2242,6 +2488,8 @@
       processarBonusPremiumRecebido();
       renderFiltros();
       renderLivro();
+      window.addEventListener("resize", () => setTimeout(renderLivro, 150));
+      window.addEventListener("orientationchange", () => setTimeout(renderLivro, 250));
       iniciarSupabaseAlbum();
       if (typeof verificarRecompensasParceirosAutomatico === "function") {
   verificarRecompensasParceirosAutomatico();
@@ -2255,10 +2503,10 @@
         document.getElementById("modalPacote").classList.add("ativo");
       };
 
-      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
-      document.getElementById("btnProxima").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
-      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 2 ? 1 : paginaAtual - 2);
-      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual === 1 ? 2 : paginaAtual + 2);
+      document.getElementById("btnAnterior").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - passoPaginaAlbum());
+      document.getElementById("btnProxima").onclick = () => ir(paginaAtual + passoPaginaAlbum());
+      document.getElementById("btnAnteriorTopo").onclick = () => ir(paginaAtual <= 1 ? 1 : paginaAtual - passoPaginaAlbum());
+      document.getElementById("btnProximaTopo").onclick = () => ir(paginaAtual + passoPaginaAlbum());
 
       document.getElementById("btnAudio").onclick = alternarAudio;
       document.getElementById("btnAbrirPacote").onclick = abrirPacote;
