@@ -1259,6 +1259,65 @@
   }
 }
 
+
+/* Correção definitiva: relatório com dados do torcedor */
+.dados-torcedor-page{
+  height:100%;
+  overflow:auto;
+  padding:12px;
+}
+.dados-torcedor-page h2{
+  color:#ffd54a;
+  font-size:2.15rem;
+  margin-bottom:10px;
+}
+.dados-torcedor-page p{
+  color:#dbeafe;
+  line-height:1.45;
+}
+.dados-torcedor-card{
+  margin-top:14px;
+  padding:16px;
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(15,23,42,.92),rgba(7,27,63,.88));
+  border:1px solid rgba(246,200,76,.35);
+}
+.dados-torcedor-card b{
+  display:block;
+  color:#ffd54a;
+  margin-bottom:10px;
+}
+.dados-torcedor-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.dados-torcedor-grid input{
+  width:100%;
+  margin:0;
+}
+.dados-torcedor-card button{
+  width:100%;
+  margin-top:10px;
+  border:0;
+  border-radius:999px;
+  padding:11px 12px;
+  background:linear-gradient(135deg,#ffd54a,#f59e0b);
+  color:#06142e;
+  font-weight:900;
+}
+#filtroPais,
+#filtroPaisTopo{
+  text-align:center !important;
+  text-align-last:center !important;
+  font-weight:900 !important;
+}
+@media(max-width:900px){
+  .dados-torcedor-grid{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1849,6 +1908,9 @@
             nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
             cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
             whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
+            nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
+            cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
+            whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
             pontos: totalConquistadas(),
             total_figurinhas: totalConquistadas(),
             total_coladas: totais().coladas,
@@ -1944,6 +2006,9 @@
         await supabaseClientAlbum
           .from("torcedores_copa")
           .update({
+            nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
+            cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
+            whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
             nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
             cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
             whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
@@ -3006,35 +3071,99 @@
     document.addEventListener("DOMContentLoaded", init);
   </script>
 
+
 <script>
 /* =========================================================
-   RADAR COPA - CIDADE + BOTÕES FUNCIONANDO
+   CORREÇÃO RELATÓRIO DADOS TORCEDOR
+   Usa captura e bloqueia o evento antigo do botão Relatório.
    ========================================================= */
 (function(){
-  function radarSafe(text){
+  function safeRadar(text){
     return String(text ?? "").replace(/[&<>"']/g, s => ({
       "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
     }[s]));
   }
 
-  function radarIrParaPaginaNumero(numero){
+  function getEstadoValor(chave, fallback){
     try{
-      window.paginaAtual = numero;
-      localStorage.setItem("pagina_album_atual", String(numero));
-      if (typeof playSom === "function") playSom("page");
-      if (typeof renderLivro === "function") renderLivro();
-    }catch(e){
-      console.warn("Falha ao mudar página:", e);
-    }
+      if (typeof estado !== "undefined" && estado && estado[chave]) return estado[chave];
+    }catch(e){}
+    const mapa = {
+      nomeTorcedor: "radar_copa_nome_torcedor",
+      cidadeTorcedor: "radar_copa_cidade_torcedor",
+      whatsappTorcedor: "radar_copa_whatsapp_torcedor"
+    };
+    return localStorage.getItem(mapa[chave]) || fallback;
   }
 
-  window.radarSalvarDadosTorcedorFinal = function(){
-    const nome = String(document.getElementById("radarNomeTorcedor")?.value || "").trim() || "Torcedor Radar Copa";
-    const cidade = String(document.getElementById("radarCidadeTorcedor")?.value || "").trim() || "Cidade não informada";
-    const whatsapp = String(document.getElementById("radarWhatsappTorcedor")?.value || "").trim();
+  function colocarHtmlNoLivro(htmlTela, tituloTela){
+    const livro = document.getElementById("livro");
+    const esq = document.getElementById("paginaEsquerda");
+    const dir = document.getElementById("paginaDireita");
+    const mobile = document.getElementById("paginaMobileUnica");
+    const titulo = document.getElementById("tituloPagina");
+    const pag = document.getElementById("paginaAtual");
+
+    if (titulo) titulo.textContent = tituloTela;
+    if (pag) pag.textContent = tituloTela;
+
+    const mobileAtivo = (typeof isMobileAlbum === "function") ? isMobileAlbum() : window.innerWidth <= 900;
+
+    if (mobileAtivo) {
+      if (mobile) mobile.innerHTML = `<div class="pagina direita">${htmlTela}</div>`;
+      return;
+    }
+
+    if (livro) livro.className = "livro capa";
+    if (esq) esq.innerHTML = "";
+    if (dir) dir.innerHTML = htmlTela;
+    if (mobile) mobile.innerHTML = "";
+  }
+
+  window.abrirDadosTorcedorRadarFinal = function(){
+    const nome = getEstadoValor("nomeTorcedor", "Torcedor Radar Copa");
+    const cidade = getEstadoValor("cidadeTorcedor", "Cidade não informada");
+    const whatsapp = getEstadoValor("whatsappTorcedor", "");
+
+    const htmlTela = `
+      <div class="dados-torcedor-page">
+        <h2>Dados do Torcedor</h2>
+        <p>Preencha nome, cidade e WhatsApp para aparecer corretamente no Supabase e nos relatórios daqui para frente.</p>
+
+        <div class="dados-torcedor-card">
+          <b>Cadastro do torcedor</b>
+          <div class="dados-torcedor-grid">
+            <input id="radarNomeTorcedorFinal" placeholder="Nome do torcedor" value="${safeRadar(nome)}">
+            <input id="radarCidadeTorcedorFinal" placeholder="Cidade" value="${safeRadar(cidade)}">
+            <input id="radarWhatsappTorcedorFinal" placeholder="WhatsApp opcional" value="${safeRadar(whatsapp)}">
+            <button onclick="salvarDadosTorcedorRadarFinal()">Salvar dados</button>
+          </div>
+        </div>
+
+        <div class="dados-torcedor-card">
+          <b>Dados atuais</b>
+          <p><strong>Nome:</strong> ${safeRadar(nome)}</p>
+          <p><strong>Cidade:</strong> ${safeRadar(cidade)}</p>
+          <p><strong>WhatsApp:</strong> ${safeRadar(whatsapp || "não informado")}</p>
+        </div>
+
+        <div class="dados-torcedor-card">
+          <b>Observação</b>
+          <p>Registros antigos que já ficaram como “Radar Copa” ou “Copa Radar” só podem ser corrigidos manualmente no Supabase. A partir de agora, novos salvamentos usarão a cidade informada aqui.</p>
+        </div>
+      </div>
+    `;
+
+    colocarHtmlNoLivro(htmlTela, "Dados do Torcedor");
+  };
+
+  window.salvarDadosTorcedorRadarFinal = function(){
+    const nome = String(document.getElementById("radarNomeTorcedorFinal")?.value || "").trim() || "Torcedor Radar Copa";
+    const cidade = String(document.getElementById("radarCidadeTorcedorFinal")?.value || "").trim() || "Cidade não informada";
+    const whatsapp = String(document.getElementById("radarWhatsappTorcedorFinal")?.value || "").trim();
 
     try{
-      if (typeof estado !== "undefined") {
+      if (typeof estado !== "undefined" && estado) {
         estado.nomeTorcedor = nome;
         estado.cidadeTorcedor = cidade;
         estado.whatsappTorcedor = whatsapp;
@@ -3047,99 +3176,88 @@
       if (typeof salvar === "function") salvar();
       if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
 
-      alert("Dados salvos. A cidade será enviada ao Supabase daqui para frente.");
-      radarAbrirDadosTorcedor();
+      alert("Dados salvos. Cidade atualizada para os próximos salvamentos no Supabase.");
+      abrirDadosTorcedorRadarFinal();
     }catch(e){
       console.warn(e);
       alert("Dados salvos localmente.");
+      abrirDadosTorcedorRadarFinal();
     }
   };
 
-  function radarAbrirDadosTorcedor(){
-    const nome = (typeof estado !== "undefined" && estado.nomeTorcedor) || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa";
-    const cidade = (typeof estado !== "undefined" && estado.cidadeTorcedor) || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada";
-    const whatsapp = (typeof estado !== "undefined" && estado.whatsappTorcedor) || localStorage.getItem("radar_copa_whatsapp_torcedor") || "";
-
-    const htmlDados = `
-      <div class="extra-radar-page">
-        <h2>Dados do Torcedor</h2>
-        <p>Preencha a cidade para aparecer corretamente no ranking e no Supabase daqui para frente.</p>
-
-        <div class="extra-card-radar">
-          <b>Cadastro do torcedor</b>
-          <div class="extra-form-radar">
-            <input id="radarNomeTorcedor" placeholder="Nome" value="${radarSafe(nome)}">
-            <input id="radarCidadeTorcedor" placeholder="Cidade" value="${radarSafe(cidade)}">
-            <input id="radarWhatsappTorcedor" placeholder="WhatsApp opcional" value="${radarSafe(whatsapp)}">
-            <button onclick="radarSalvarDadosTorcedorFinal()">Salvar dados</button>
-          </div>
-        </div>
-
-        <div class="extra-card-radar">
-          <b>Importante</b>
-          <p>Os registros antigos que aparecem como “Radar Copa” ou “Copa Radar” não têm como descobrir a cidade real automaticamente. A correção vale para novos salvamentos a partir de agora.</p>
-        </div>
-      </div>
-    `;
-
-    const livro = document.getElementById("livro");
-    const esq = document.getElementById("paginaEsquerda");
-    const dir = document.getElementById("paginaDireita");
-    const mobile = document.getElementById("paginaMobileUnica");
-    const titulo = document.getElementById("tituloPagina");
-    const pag = document.getElementById("paginaAtual");
-
-    if (titulo) titulo.textContent = "Dados do Torcedor";
-    if (pag) pag.textContent = "Cadastro";
-
-    const isMob = (typeof isMobileAlbum === "function") ? isMobileAlbum() : window.innerWidth <= 900;
-
-    if (isMob) {
-      if (mobile) mobile.innerHTML = `<div class="pagina direita">${htmlDados}</div>`;
-      return;
+  function irParaPaginaRadar(numero){
+    try{
+      window.paginaAtual = numero;
+      localStorage.setItem("pagina_album_atual", String(numero));
+      if (typeof playSom === "function") playSom("page");
+      if (typeof renderLivro === "function") renderLivro();
+    }catch(e){
+      console.warn(e);
     }
-
-    if (livro) livro.className = "livro capa";
-    if (esq) esq.innerHTML = "";
-    if (dir) dir.innerHTML = htmlDados;
-    if (mobile) mobile.innerHTML = "";
   }
 
-  function conectarBotoesRadarFinal(){
-    const btnTrocas = document.getElementById("btnTrocas");
-    const btnCodigos = document.getElementById("btnCodigos");
-    const btnPalpites = document.getElementById("btnPalpites");
-    const btnRelatorio = document.getElementById("btnRelatorio");
+  function ligarBotoesComCaptura(){
+    const relatorio = document.getElementById("btnRelatorio");
+    const trocas = document.getElementById("btnTrocas");
+    const codigos = document.getElementById("btnCodigos");
+    const palpites = document.getElementById("btnPalpites");
 
-    if(btnTrocas) btnTrocas.onclick = function(ev){
-      ev.preventDefault();
-      radarIrParaPaginaNumero(6);
-    };
+    if (relatorio && !relatorio.dataset.radarFix) {
+      relatorio.dataset.radarFix = "1";
+      relatorio.addEventListener("click", function(ev){
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.stopImmediatePropagation();
+        abrirDadosTorcedorRadarFinal();
+      }, true);
+      relatorio.onclick = function(ev){
+        ev.preventDefault();
+        ev.stopPropagation();
+        abrirDadosTorcedorRadarFinal();
+        return false;
+      };
+    }
 
-    if(btnCodigos) btnCodigos.onclick = function(ev){
-      ev.preventDefault();
-      radarIrParaPaginaNumero(7);
-    };
+    if (trocas && !trocas.dataset.radarFix) {
+      trocas.dataset.radarFix = "1";
+      trocas.addEventListener("click", function(ev){
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.stopImmediatePropagation();
+        irParaPaginaRadar(6);
+      }, true);
+    }
 
-    if(btnPalpites) btnPalpites.onclick = function(ev){
-      ev.preventDefault();
-      radarIrParaPaginaNumero(8);
-    };
+    if (codigos && !codigos.dataset.radarFix) {
+      codigos.dataset.radarFix = "1";
+      codigos.addEventListener("click", function(ev){
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.stopImmediatePropagation();
+        irParaPaginaRadar(7);
+      }, true);
+    }
 
-    if(btnRelatorio) btnRelatorio.onclick = function(ev){
-      ev.preventDefault();
-      radarAbrirDadosTorcedor();
-    };
+    if (palpites && !palpites.dataset.radarFix) {
+      palpites.dataset.radarFix = "1";
+      palpites.addEventListener("click", function(ev){
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.stopImmediatePropagation();
+        irParaPaginaRadar(8);
+      }, true);
+    }
   }
 
   if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", conectarBotoesRadarFinal);
+    document.addEventListener("DOMContentLoaded", ligarBotoesComCaptura);
   }else{
-    conectarBotoesRadarFinal();
+    ligarBotoesComCaptura();
   }
 
-  setTimeout(conectarBotoesRadarFinal, 500);
-  setTimeout(conectarBotoesRadarFinal, 1500);
+  setTimeout(ligarBotoesComCaptura, 500);
+  setTimeout(ligarBotoesComCaptura, 1500);
+  setTimeout(ligarBotoesComCaptura, 3000);
 })();
 </script>
 
