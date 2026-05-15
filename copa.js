@@ -11,21 +11,9 @@ const noticiasCopa = [
 ];
 
 const figurinhasDestaque = [
-  ["México","Guardião histórico","🇲🇽"],
-  ["Brasil","Herói cultural","🇧🇷"],
-  ["França","Ícone histórico","🇫🇷"],
-  ["Japão","Lenda oriental","🇯🇵"],
-  ["Inglaterra","Tradição real","🏴"],
-  ["Argentina","Personagem nacional","🇦🇷"],
-  ["Egito","Legado antigo","🇪🇬"],
-  ["Canadá","Força do norte","🇨🇦"],
-  ["Espanha","Memória ibérica","🇪🇸"],
-  ["Coreia do Sul","Sabedoria e tradição","🇰🇷"],
-  ["Alemanha","Lenda europeia","🇩🇪"],
-  ["Holanda","Mestre dos mares","🇳🇱"],
-  ["Portugal","Navegador lendário","🇵🇹"],
-  ["Cabo Verde","Atlântico cultural","🇨🇻"],
-  ["Panamá","Ponte histórica","🇵🇦"]
+  ["México","Guardião histórico","🇲🇽"],["Brasil","Herói cultural","🇧🇷"],["França","Ícone histórico","🇫🇷"],["Japão","Lenda oriental","🇯🇵"],["Inglaterra","Tradição real","🏴"],
+  ["Argentina","Personagem nacional","🇦🇷"],["Egito","Legado antigo","🇪🇬"],["Canadá","Força do norte","🇨🇦"],["Espanha","Memória ibérica","🇪🇸"],["Coreia do Sul","Sabedoria e tradição","🇰🇷"],
+  ["Alemanha","Lenda europeia","🇩🇪"],["Holanda","Mestre dos mares","🇳🇱"],["Portugal","Navegador lendário","🇵🇹"],["Cabo Verde","Atlântico cultural","🇨🇻"],["Panamá","Ponte histórica","🇵🇦"]
 ];
 
 function renderNoticias(){
