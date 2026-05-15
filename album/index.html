@@ -1199,6 +1199,66 @@
   }
 }
 
+
+/* Correção final: tela de dados do torcedor + botões */
+.extra-radar-page{
+  height:100%;
+  overflow:auto;
+  padding:10px;
+}
+.extra-radar-page h2{
+  color:#ffd54a;
+  font-size:2rem;
+  margin-bottom:10px;
+}
+.extra-radar-page p{
+  color:#dbeafe;
+  line-height:1.45;
+}
+.extra-card-radar{
+  border:1px solid rgba(246,200,76,.35);
+  background:linear-gradient(145deg,rgba(15,23,42,.88),rgba(7,27,63,.86));
+  border-radius:18px;
+  padding:14px;
+  margin-top:12px;
+}
+.extra-card-radar b{
+  display:block;
+  color:#ffd54a;
+  margin-bottom:8px;
+}
+.extra-card-radar button{
+  width:100%;
+  margin-top:10px;
+  border:0;
+  border-radius:999px;
+  padding:10px 12px;
+  background:linear-gradient(135deg,#ffd54a,#f59e0b);
+  color:#06142e;
+  font-weight:900;
+}
+.extra-form-radar{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin:12px 0;
+}
+.extra-form-radar input{
+  width:100%;
+  margin:0;
+}
+#filtroPais,
+#filtroPaisTopo{
+  text-align:center !important;
+  text-align-last:center !important;
+  font-weight:900 !important;
+}
+@media(max-width:900px){
+  .extra-form-radar{
+    grid-template-columns:1fr;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -2889,12 +2949,6 @@
       if (mobile) mobile.innerHTML = "";
     }
 
-
-      document.getElementById("btnTrocas")?.addEventListener("click", () => radarAbrirTelaExtra("trocas"));
-      document.getElementById("btnCodigos")?.addEventListener("click", () => radarAbrirTelaExtra("codigos"));
-      document.getElementById("btnPalpites")?.addEventListener("click", () => radarAbrirTelaExtra("palpites"));
-      document.getElementById("btnRelatorio")?.addEventListener("click", () => radarAbrirTelaExtra("relatorio"));
-
     setupAudio();
       processarBonusPremiumRecebidoPorUrl();
       processarBonusPremiumRecebido();
@@ -2951,5 +3005,143 @@
 
     document.addEventListener("DOMContentLoaded", init);
   </script>
+
+<script>
+/* =========================================================
+   RADAR COPA - CIDADE + BOTÕES FUNCIONANDO
+   ========================================================= */
+(function(){
+  function radarSafe(text){
+    return String(text ?? "").replace(/[&<>"']/g, s => ({
+      "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+    }[s]));
+  }
+
+  function radarIrParaPaginaNumero(numero){
+    try{
+      window.paginaAtual = numero;
+      localStorage.setItem("pagina_album_atual", String(numero));
+      if (typeof playSom === "function") playSom("page");
+      if (typeof renderLivro === "function") renderLivro();
+    }catch(e){
+      console.warn("Falha ao mudar página:", e);
+    }
+  }
+
+  window.radarSalvarDadosTorcedorFinal = function(){
+    const nome = String(document.getElementById("radarNomeTorcedor")?.value || "").trim() || "Torcedor Radar Copa";
+    const cidade = String(document.getElementById("radarCidadeTorcedor")?.value || "").trim() || "Cidade não informada";
+    const whatsapp = String(document.getElementById("radarWhatsappTorcedor")?.value || "").trim();
+
+    try{
+      if (typeof estado !== "undefined") {
+        estado.nomeTorcedor = nome;
+        estado.cidadeTorcedor = cidade;
+        estado.whatsappTorcedor = whatsapp;
+      }
+
+      localStorage.setItem("radar_copa_nome_torcedor", nome);
+      localStorage.setItem("radar_copa_cidade_torcedor", cidade);
+      localStorage.setItem("radar_copa_whatsapp_torcedor", whatsapp);
+
+      if (typeof salvar === "function") salvar();
+      if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
+
+      alert("Dados salvos. A cidade será enviada ao Supabase daqui para frente.");
+      radarAbrirDadosTorcedor();
+    }catch(e){
+      console.warn(e);
+      alert("Dados salvos localmente.");
+    }
+  };
+
+  function radarAbrirDadosTorcedor(){
+    const nome = (typeof estado !== "undefined" && estado.nomeTorcedor) || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa";
+    const cidade = (typeof estado !== "undefined" && estado.cidadeTorcedor) || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada";
+    const whatsapp = (typeof estado !== "undefined" && estado.whatsappTorcedor) || localStorage.getItem("radar_copa_whatsapp_torcedor") || "";
+
+    const htmlDados = `
+      <div class="extra-radar-page">
+        <h2>Dados do Torcedor</h2>
+        <p>Preencha a cidade para aparecer corretamente no ranking e no Supabase daqui para frente.</p>
+
+        <div class="extra-card-radar">
+          <b>Cadastro do torcedor</b>
+          <div class="extra-form-radar">
+            <input id="radarNomeTorcedor" placeholder="Nome" value="${radarSafe(nome)}">
+            <input id="radarCidadeTorcedor" placeholder="Cidade" value="${radarSafe(cidade)}">
+            <input id="radarWhatsappTorcedor" placeholder="WhatsApp opcional" value="${radarSafe(whatsapp)}">
+            <button onclick="radarSalvarDadosTorcedorFinal()">Salvar dados</button>
+          </div>
+        </div>
+
+        <div class="extra-card-radar">
+          <b>Importante</b>
+          <p>Os registros antigos que aparecem como “Radar Copa” ou “Copa Radar” não têm como descobrir a cidade real automaticamente. A correção vale para novos salvamentos a partir de agora.</p>
+        </div>
+      </div>
+    `;
+
+    const livro = document.getElementById("livro");
+    const esq = document.getElementById("paginaEsquerda");
+    const dir = document.getElementById("paginaDireita");
+    const mobile = document.getElementById("paginaMobileUnica");
+    const titulo = document.getElementById("tituloPagina");
+    const pag = document.getElementById("paginaAtual");
+
+    if (titulo) titulo.textContent = "Dados do Torcedor";
+    if (pag) pag.textContent = "Cadastro";
+
+    const isMob = (typeof isMobileAlbum === "function") ? isMobileAlbum() : window.innerWidth <= 900;
+
+    if (isMob) {
+      if (mobile) mobile.innerHTML = `<div class="pagina direita">${htmlDados}</div>`;
+      return;
+    }
+
+    if (livro) livro.className = "livro capa";
+    if (esq) esq.innerHTML = "";
+    if (dir) dir.innerHTML = htmlDados;
+    if (mobile) mobile.innerHTML = "";
+  }
+
+  function conectarBotoesRadarFinal(){
+    const btnTrocas = document.getElementById("btnTrocas");
+    const btnCodigos = document.getElementById("btnCodigos");
+    const btnPalpites = document.getElementById("btnPalpites");
+    const btnRelatorio = document.getElementById("btnRelatorio");
+
+    if(btnTrocas) btnTrocas.onclick = function(ev){
+      ev.preventDefault();
+      radarIrParaPaginaNumero(6);
+    };
+
+    if(btnCodigos) btnCodigos.onclick = function(ev){
+      ev.preventDefault();
+      radarIrParaPaginaNumero(7);
+    };
+
+    if(btnPalpites) btnPalpites.onclick = function(ev){
+      ev.preventDefault();
+      radarIrParaPaginaNumero(8);
+    };
+
+    if(btnRelatorio) btnRelatorio.onclick = function(ev){
+      ev.preventDefault();
+      radarAbrirDadosTorcedor();
+    };
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", conectarBotoesRadarFinal);
+  }else{
+    conectarBotoesRadarFinal();
+  }
+
+  setTimeout(conectarBotoesRadarFinal, 500);
+  setTimeout(conectarBotoesRadarFinal, 1500);
+})();
+</script>
+
 </body>
 </html>
