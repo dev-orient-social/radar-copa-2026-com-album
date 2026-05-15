@@ -1134,169 +1134,53 @@
 }
 
 
-/* RADAR COPA - telas extras seguras */
-.extra-radar-page{
-  height:100%;
-  overflow:auto;
-  padding:10px;
-}
-.extra-radar-page h2{
-  color:#ffd54a;
-  font-size:2rem;
-  margin-bottom:10px;
-}
-.extra-radar-page p{
-  color:#dbeafe;
-  line-height:1.45;
-}
-.extra-grid-radar{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-top:14px;
-}
-.extra-card-radar{
-  border:1px solid rgba(246,200,76,.35);
-  background:linear-gradient(145deg,rgba(15,23,42,.88),rgba(7,27,63,.86));
-  border-radius:18px;
-  padding:14px;
-}
-.extra-card-radar b{
-  display:block;
-  color:#ffd54a;
-  margin-bottom:8px;
-}
-.extra-card-radar button{
-  width:100%;
-  margin-top:10px;
-  border:0;
-  border-radius:999px;
-  padding:10px 12px;
-  background:linear-gradient(135deg,#ffd54a,#f59e0b);
-  color:#06142e;
-  font-weight:900;
-}
-.extra-form-radar{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:12px 0;
-}
-.extra-form-radar input{
-  width:100%;
-  margin:0;
-}
-#filtroPaisTopo,
-#filtroPais{
-  text-align:center;
-  text-align-last:center;
-  font-weight:900;
-}
-@media(max-width:900px){
-  .extra-grid-radar,
-  .extra-form-radar{
-    grid-template-columns:1fr;
-  }
-}
-
-
-/* Correção final: tela de dados do torcedor + botões */
-.extra-radar-page{
-  height:100%;
-  overflow:auto;
-  padding:10px;
-}
-.extra-radar-page h2{
-  color:#ffd54a;
-  font-size:2rem;
-  margin-bottom:10px;
-}
-.extra-radar-page p{
-  color:#dbeafe;
-  line-height:1.45;
-}
-.extra-card-radar{
-  border:1px solid rgba(246,200,76,.35);
-  background:linear-gradient(145deg,rgba(15,23,42,.88),rgba(7,27,63,.86));
-  border-radius:18px;
-  padding:14px;
-  margin-top:12px;
-}
-.extra-card-radar b{
-  display:block;
-  color:#ffd54a;
-  margin-bottom:8px;
-}
-.extra-card-radar button{
-  width:100%;
-  margin-top:10px;
-  border:0;
-  border-radius:999px;
-  padding:10px 12px;
-  background:linear-gradient(135deg,#ffd54a,#f59e0b);
-  color:#06142e;
-  font-weight:900;
-}
-.extra-form-radar{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin:12px 0;
-}
-.extra-form-radar input{
-  width:100%;
-  margin:0;
-}
-#filtroPais,
-#filtroPaisTopo{
-  text-align:center !important;
-  text-align-last:center !important;
-  font-weight:900 !important;
-}
-@media(max-width:900px){
-  .extra-form-radar{
-    grid-template-columns:1fr;
-  }
-}
-
-
-/* Correção definitiva: relatório com dados do torcedor */
-.dados-torcedor-page{
+/* =========================================================
+   RADAR COPA - TELAS EXTRAS SEM CONFLITO
+   ========================================================= */
+.radar-extra-page{
   height:100%;
   overflow:auto;
   padding:12px;
 }
-.dados-torcedor-page h2{
+.radar-extra-page h2{
   color:#ffd54a;
   font-size:2.15rem;
   margin-bottom:10px;
 }
-.dados-torcedor-page p{
+.radar-extra-page p{
   color:#dbeafe;
   line-height:1.45;
 }
-.dados-torcedor-card{
+.radar-extra-card{
   margin-top:14px;
   padding:16px;
   border-radius:18px;
   background:linear-gradient(145deg,rgba(15,23,42,.92),rgba(7,27,63,.88));
   border:1px solid rgba(246,200,76,.35);
 }
-.dados-torcedor-card b{
+.radar-extra-card b{
   display:block;
   color:#ffd54a;
   margin-bottom:10px;
 }
-.dados-torcedor-grid{
+.radar-extra-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:14px;
+}
+.radar-form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
+  margin:12px 0;
 }
-.dados-torcedor-grid input{
+.radar-form-grid input{
   width:100%;
   margin:0;
 }
-.dados-torcedor-card button{
+.radar-extra-card button,
+.radar-extra-page .btn-radar{
   width:100%;
   margin-top:10px;
   border:0;
@@ -1313,7 +1197,8 @@
   font-weight:900 !important;
 }
 @media(max-width:900px){
-  .dados-torcedor-grid{
+  .radar-extra-grid,
+  .radar-form-grid{
     grid-template-columns:1fr;
   }
 }
@@ -1329,11 +1214,11 @@
       </div>
       <nav>
         <button id="btnCapa">Capa</button>
-        <button id="btnRelatorio">Relatório</button>
+        <button id="btnRelatorio" onclick="return radarAbrirTelaFinal('dados', event)">Relatório</button>
         <button id="btnResgate">Resgates</button>
-        <button id="btnTrocas">Trocas</button>
-        <button id="btnCodigos">Códigos</button>
-        <button id="btnPalpites">Palpites</button>
+        <button id="btnTrocas" onclick="return radarAbrirTelaFinal('trocas', event)">Trocas</button>
+        <button id="btnCodigos" onclick="return radarAbrirTelaFinal('codigos', event)">Códigos</button>
+        <button id="btnPalpites" onclick="return radarAbrirTelaFinal('palpites', event)">Palpites</button>
         <button id="btnEnvelope">Abrir envelope</button>
         <button id="btnAnteriorTopo">← Página</button>
         <button id="btnProximaTopo">Página →</button>
@@ -1831,6 +1716,11 @@
         historico: [],
         resgatesParceiros: {},
         codigoTorcedor: null,
+        nomeTorcedor: localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
+        cidadeTorcedor: localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
+        whatsappTorcedor: localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
+        codigosPromocionais: {},
+        palpitesCopa: [],
         supabaseOnline: false
       };
     }
@@ -1902,9 +1792,6 @@
           .from("torcedores_copa")
           .upsert({
             codigo,
-            nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
-            cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
-            whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
             nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
             cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
             whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
@@ -2006,9 +1893,6 @@
         await supabaseClientAlbum
           .from("torcedores_copa")
           .update({
-            nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
-            cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
-            whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
             nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
             cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
             whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
@@ -2724,297 +2608,7 @@
     // INIT
     // =========================================================
     function init() {
-  
-    // =========================================================
-    // RADAR COPA - EXTENSÕES SEGURAS SEM QUEBRAR O LIVRO
-    // =========================================================
-    function radarTotalRepetidasDisponiveis() {
-      return Object.values(estado.album || {}).reduce((s, r) => s + Math.max(0, Number(r.quantidade || 0) - 1), 0);
-    }
-
-    function radarSalvarDadosTorcedor() {
-      const nome = String(document.getElementById("radarNomeTorcedor")?.value || "").trim() || "Torcedor Radar Copa";
-      const cidade = String(document.getElementById("radarCidadeTorcedor")?.value || "").trim() || "Cidade não informada";
-      const whatsapp = String(document.getElementById("radarWhatsappTorcedor")?.value || "").trim();
-
-      estado.nomeTorcedor = nome;
-      estado.cidadeTorcedor = cidade;
-      estado.whatsappTorcedor = whatsapp;
-
-      localStorage.setItem("radar_copa_nome_torcedor", nome);
-      localStorage.setItem("radar_copa_cidade_torcedor", cidade);
-      localStorage.setItem("radar_copa_whatsapp_torcedor", whatsapp);
-
-      salvar();
-      atualizarTorcedorOnline();
-      alert("Dados salvos. Daqui para frente a cidade será enviada ao Supabase.");
-      radarAbrirTelaExtra("relatorio");
-    }
-
-    function radarConsumirRepetidas(qtd) {
-      let falta = Number(qtd || 0);
-      if (radarTotalRepetidasDisponiveis() < falta) return false;
-
-      for (const fig of FIGURINHAS_COPA) {
-        if (falta <= 0) break;
-        const r = reg(fig.id);
-        const rep = Math.max(0, Number(r.quantidade || 0) - 1);
-        if (rep > 0) {
-          const tirar = Math.min(rep, falta);
-          r.quantidade -= tirar;
-          falta -= tirar;
-          salvarFigurinhaOnline(fig, "troca_repetidas");
-        }
-      }
-      return true;
-    }
-
-    function radarTrocarRepetidas(custo, pacotes) {
-      if (radarTotalRepetidasDisponiveis() < custo) {
-        alert("Repetidas insuficientes. Você tem " + radarTotalRepetidasDisponiveis() + " repetida(s).");
-        return;
-      }
-
-      if (!confirm("Confirmar troca de " + custo + " repetidas por " + pacotes + " pacote(s)?")) return;
-
-      if (!radarConsumirRepetidas(custo)) {
-        alert("Não foi possível concluir a troca.");
-        return;
-      }
-
-      estado.pacotes = Number(estado.pacotes || 0) + Number(pacotes || 0);
-      estado.historico = estado.historico || [];
-      estado.historico.push({
-        tipo: "troca_repetidas",
-        origem: "trocas_copa",
-        pacotes,
-        qtd: pacotes * FIGS_POR_PACOTE,
-        descricao: custo + " repetidas por " + pacotes + " pacote(s)",
-        data: new Date().toISOString()
-      });
-
-      salvar();
-      registrarMissaoOnline("troca_repetidas", "Troca automática de repetidas", pacotes * FIGS_POR_PACOTE, "trocas_copa");
-      atualizarTorcedorOnline();
-      alert("Troca concluída. Pacotes adicionados.");
-      renderLivro();
-      radarAbrirTelaExtra("trocas");
-    }
-
-    const RADAR_CODIGOS = {
-      "SEXTA-RARA-2026": { pacotes: 3, descricao: "Sexta Rara" },
-      "BRASIL-EM-CAMPO": { pacotes: 5, descricao: "Brasil em Campo" },
-      "DOMINGO-5-PACOTES": { pacotes: 5, descricao: "Domingo do Colecionador" }
-    };
-
-    function radarResgatarCodigo() {
-      const codigo = String(document.getElementById("radarCodigoInput")?.value || "").trim().toUpperCase();
-      if (!codigo) {
-        alert("Digite um código.");
-        return;
-      }
-
-      const regra = RADAR_CODIGOS[codigo];
-      if (!regra) {
-        alert("Código inválido.");
-        return;
-      }
-
-      estado.codigosPromocionais = estado.codigosPromocionais || {};
-      if (estado.codigosPromocionais[codigo]) {
-        alert("Este código já foi usado neste aparelho.");
-        return;
-      }
-
-      estado.codigosPromocionais[codigo] = new Date().toISOString();
-      estado.pacotes = Number(estado.pacotes || 0) + Number(regra.pacotes || 0);
-      estado.historico = estado.historico || [];
-      estado.historico.push({
-        tipo: "codigo_promocional",
-        origem: codigo,
-        pacotes: regra.pacotes,
-        qtd: regra.pacotes * FIGS_POR_PACOTE,
-        descricao: regra.descricao,
-        data: new Date().toISOString()
-      });
-
-      salvar();
-      registrarMissaoOnline(codigo, regra.descricao, regra.pacotes * FIGS_POR_PACOTE, "codigo_promocional");
-      atualizarTorcedorOnline();
-      alert("Código resgatado: +" + regra.pacotes + " pacote(s).");
-      renderLivro();
-      radarAbrirTelaExtra("codigos");
-    }
-
-    async function radarRegistrarPalpiteOnline(palpite) {
-      try {
-        if (!supabaseClientAlbum) return;
-        await supabaseClientAlbum.from("palpites_copa").insert({
-          codigo_torcedor: garantirCodigoTorcedor(),
-          jogo: palpite.jogo,
-          selecao_a: palpite.timeA,
-          gols_a: palpite.golsA,
-          gols_b: palpite.golsB,
-          selecao_b: palpite.timeB,
-          status: "enviado",
-          recompensa: FIGS_POR_PACOTE,
-          criado_em: new Date().toISOString()
-        });
-      } catch (e) {
-        console.warn("Palpite não enviado ao Supabase:", e);
-      }
-    }
-
-    function radarEnviarPalpite() {
-      const jogo = String(document.getElementById("radarPalpiteJogo")?.value || "").trim();
-      const timeA = String(document.getElementById("radarPalpiteA")?.value || "").trim();
-      const golsA = Number(document.getElementById("radarPalpiteGolsA")?.value || 0);
-      const golsB = Number(document.getElementById("radarPalpiteGolsB")?.value || 0);
-      const timeB = String(document.getElementById("radarPalpiteB")?.value || "").trim();
-
-      if (!jogo || !timeA || !timeB) {
-        alert("Preencha jogo, seleção A e seleção B.");
-        return;
-      }
-
-      const palpite = { jogo, timeA, golsA, golsB, timeB, data: new Date().toISOString() };
-      estado.palpitesCopa = estado.palpitesCopa || [];
-      estado.palpitesCopa.push(palpite);
-      estado.pacotes = Number(estado.pacotes || 0) + 1;
-      estado.historico = estado.historico || [];
-      estado.historico.push({
-        tipo: "palpite_copa",
-        origem: "palpites_copa",
-        pacotes: 1,
-        qtd: FIGS_POR_PACOTE,
-        descricao: "Palpite enviado: " + timeA + " " + golsA + " x " + golsB + " " + timeB,
-        data: new Date().toISOString()
-      });
-
-      salvar();
-      radarRegistrarPalpiteOnline(palpite);
-      registrarMissaoOnline("palpite_copa", "Palpite enviado", FIGS_POR_PACOTE, "palpites_copa");
-      atualizarTorcedorOnline();
-      alert("Palpite enviado. Você ganhou +1 pacote.");
-      renderLivro();
-      radarAbrirTelaExtra("palpites");
-    }
-
-    function radarAbrirTelaExtra(tipo) {
-      const livro = document.getElementById("livro");
-      const esq = document.getElementById("paginaEsquerda");
-      const dir = document.getElementById("paginaDireita");
-      const mobile = document.getElementById("paginaMobileUnica");
-      const titulo = document.getElementById("tituloPagina");
-      const pag = document.getElementById("paginaAtual");
-
-      let htmlExtra = "";
-      let tituloTela = "";
-
-      if (tipo === "trocas") {
-        tituloTela = "Troca de Repetidas";
-        htmlExtra = `
-          <div class="extra-radar-page">
-            <h2>Troca de Repetidas</h2>
-            <p>Use suas figurinhas repetidas para ganhar novos pacotes.</p>
-            <div class="info-grid">
-              <div class="info-card"><b>Repetidas disponíveis</b><span>${radarTotalRepetidasDisponiveis()}</span></div>
-              <div class="info-card"><b>Pacotes no saldo</b><span>${estado.pacotes || 0}</span></div>
-            </div>
-            <div class="extra-grid-radar">
-              <div class="extra-card-radar"><b>Troca comum</b><p>10 repetidas = 1 pacote.</p><button onclick="radarTrocarRepetidas(10,1)">Trocar</button></div>
-              <div class="extra-card-radar"><b>Troca turbo</b><p>25 repetidas = 3 pacotes.</p><button onclick="radarTrocarRepetidas(25,3)">Trocar</button></div>
-              <div class="extra-card-radar"><b>Troca rara</b><p>50 repetidas = 7 pacotes.</p><button onclick="radarTrocarRepetidas(50,7)">Trocar</button></div>
-            </div>
-          </div>
-        `;
-      }
-
-      if (tipo === "codigos") {
-        tituloTela = "Códigos Promocionais";
-        htmlExtra = `
-          <div class="extra-radar-page">
-            <h2>Códigos Promocionais</h2>
-            <p>Digite códigos divulgados nas redes para ganhar pacotes extras.</p>
-            <div class="extra-card-radar">
-              <b>Inserir código</b>
-              <input id="radarCodigoInput" placeholder="Ex: SEXTA-RARA-2026">
-              <button onclick="radarResgatarCodigo()">Resgatar código</button>
-            </div>
-            <div class="extra-grid-radar">
-              <div class="extra-card-radar"><b>SEXTA-RARA-2026</b><p>Libera 3 pacotes.</p></div>
-              <div class="extra-card-radar"><b>BRASIL-EM-CAMPO</b><p>Libera 5 pacotes.</p></div>
-              <div class="extra-card-radar"><b>DOMINGO-5-PACOTES</b><p>Libera 5 pacotes.</p></div>
-            </div>
-          </div>
-        `;
-      }
-
-      if (tipo === "palpites") {
-        tituloTela = "Palpites da Copa";
-        const ultimos = (estado.palpitesCopa || []).slice(-5).reverse();
-        htmlExtra = `
-          <div class="extra-radar-page">
-            <h2>Palpites da Copa</h2>
-            <p>Envie um palpite e ganhe +1 pacote. Resultado e placar exato ficam preparados para bônus futuro.</p>
-            <div class="extra-card-radar">
-              <b>Novo palpite</b>
-              <input id="radarPalpiteJogo" placeholder="Jogo. Ex: Brasil x França">
-              <div class="extra-form-radar">
-                <input id="radarPalpiteA" placeholder="Seleção A">
-                <input id="radarPalpiteGolsA" type="number" min="0" value="0">
-                <input id="radarPalpiteGolsB" type="number" min="0" value="0">
-                <input id="radarPalpiteB" placeholder="Seleção B">
-              </div>
-              <button onclick="radarEnviarPalpite()">Enviar e ganhar +1 pacote</button>
-            </div>
-            <div class="extra-card-radar">
-              <b>Últimos palpites</b>
-              ${ultimos.length ? ultimos.map(p => `<p>${safe(p.jogo)}: ${safe(p.timeA)} ${p.golsA} x ${p.golsB} ${safe(p.timeB)}</p>`).join("") : "<p>Nenhum palpite enviado ainda.</p>"}
-            </div>
-          </div>
-        `;
-      }
-
-      if (tipo === "relatorio") {
-        tituloTela = "Dados do Torcedor";
-        const nome = estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa";
-        const cidade = estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada";
-        const whatsapp = estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "";
-        htmlExtra = `
-          <div class="extra-radar-page">
-            <h2>Dados do Torcedor</h2>
-            <p>Preencha para salvar a cidade correta no Supabase daqui para frente.</p>
-            <div class="extra-card-radar">
-              <b>Cadastro</b>
-              <div class="extra-form-radar">
-                <input id="radarNomeTorcedor" placeholder="Nome" value="${safe(nome)}">
-                <input id="radarCidadeTorcedor" placeholder="Cidade" value="${safe(cidade)}">
-                <input id="radarWhatsappTorcedor" placeholder="WhatsApp opcional" value="${safe(whatsapp)}">
-                <button onclick="radarSalvarDadosTorcedor()">Salvar dados</button>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      if (!htmlExtra) return;
-
-      if (titulo) titulo.textContent = tituloTela;
-      if (pag) pag.textContent = tituloTela;
-
-      if (isMobileAlbum()) {
-        if (mobile) mobile.innerHTML = `<div class="pagina direita">${htmlExtra}</div>`;
-        return;
-      }
-
-      if (livro) livro.className = "livro capa";
-      if (esq) esq.innerHTML = "";
-      if (dir) dir.innerHTML = htmlExtra;
-      if (mobile) mobile.innerHTML = "";
-    }
-
-    setupAudio();
+      setupAudio();
       processarBonusPremiumRecebidoPorUrl();
       processarBonusPremiumRecebido();
       renderFiltros();
@@ -3071,20 +2665,20 @@
     document.addEventListener("DOMContentLoaded", init);
   </script>
 
-
 <script>
 /* =========================================================
-   CORREÇÃO RELATÓRIO DADOS TORCEDOR
-   Usa captura e bloqueia o evento antigo do botão Relatório.
+   RADAR COPA - FINAL SEM CONFLITO
+   Trocas, Códigos, Palpites e Dados do Torcedor
+   Não altera renderLivro nem páginas originais.
    ========================================================= */
 (function(){
-  function safeRadar(text){
+  function radarSafe(text){
     return String(text ?? "").replace(/[&<>"']/g, s => ({
       "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
     }[s]));
   }
 
-  function getEstadoValor(chave, fallback){
+  function radarGet(chave, fallback){
     try{
       if (typeof estado !== "undefined" && estado && estado[chave]) return estado[chave];
     }catch(e){}
@@ -3096,7 +2690,7 @@
     return localStorage.getItem(mapa[chave]) || fallback;
   }
 
-  function colocarHtmlNoLivro(htmlTela, tituloTela){
+  function radarColocarNoLivro(htmlTela, tituloTela){
     const livro = document.getElementById("livro");
     const esq = document.getElementById("paginaEsquerda");
     const dir = document.getElementById("paginaDireita");
@@ -3111,6 +2705,7 @@
 
     if (mobileAtivo) {
       if (mobile) mobile.innerHTML = `<div class="pagina direita">${htmlTela}</div>`;
+      if (livro) livro.classList.add("capa");
       return;
     }
 
@@ -3120,144 +2715,337 @@
     if (mobile) mobile.innerHTML = "";
   }
 
-  window.abrirDadosTorcedorRadarFinal = function(){
-    const nome = getEstadoValor("nomeTorcedor", "Torcedor Radar Copa");
-    const cidade = getEstadoValor("cidadeTorcedor", "Cidade não informada");
-    const whatsapp = getEstadoValor("whatsappTorcedor", "");
+  function radarTotalRepetidas(){
+    try{
+      return Object.values(estado.album || {}).reduce((s, r) => s + Math.max(0, Number(r.quantidade || 0) - 1), 0);
+    }catch(e){
+      return 0;
+    }
+  }
 
-    const htmlTela = `
-      <div class="dados-torcedor-page">
-        <h2>Dados do Torcedor</h2>
-        <p>Preencha nome, cidade e WhatsApp para aparecer corretamente no Supabase e nos relatórios daqui para frente.</p>
+  function radarConsumirRepetidas(qtd){
+    let falta = Number(qtd || 0);
+    if (radarTotalRepetidas() < falta) return false;
 
-        <div class="dados-torcedor-card">
-          <b>Cadastro do torcedor</b>
-          <div class="dados-torcedor-grid">
-            <input id="radarNomeTorcedorFinal" placeholder="Nome do torcedor" value="${safeRadar(nome)}">
-            <input id="radarCidadeTorcedorFinal" placeholder="Cidade" value="${safeRadar(cidade)}">
-            <input id="radarWhatsappTorcedorFinal" placeholder="WhatsApp opcional" value="${safeRadar(whatsapp)}">
-            <button onclick="salvarDadosTorcedorRadarFinal()">Salvar dados</button>
-          </div>
-        </div>
+    for (const fig of FIGURINHAS_COPA) {
+      if (falta <= 0) break;
+      const r = reg(fig.id);
+      const rep = Math.max(0, Number(r.quantidade || 0) - 1);
+      if (rep > 0) {
+        const tirar = Math.min(rep, falta);
+        r.quantidade -= tirar;
+        falta -= tirar;
+        if (typeof salvarFigurinhaOnline === "function") salvarFigurinhaOnline(fig, "troca_repetidas");
+      }
+    }
+    return true;
+  }
 
-        <div class="dados-torcedor-card">
-          <b>Dados atuais</b>
-          <p><strong>Nome:</strong> ${safeRadar(nome)}</p>
-          <p><strong>Cidade:</strong> ${safeRadar(cidade)}</p>
-          <p><strong>WhatsApp:</strong> ${safeRadar(whatsapp || "não informado")}</p>
-        </div>
+  window.radarTrocarRepetidasFinal = function(custo, pacotes){
+    custo = Number(custo || 0);
+    pacotes = Number(pacotes || 0);
 
-        <div class="dados-torcedor-card">
-          <b>Observação</b>
-          <p>Registros antigos que já ficaram como “Radar Copa” ou “Copa Radar” só podem ser corrigidos manualmente no Supabase. A partir de agora, novos salvamentos usarão a cidade informada aqui.</p>
-        </div>
-      </div>
-    `;
+    if (radarTotalRepetidas() < custo) {
+      alert("Repetidas insuficientes. Você tem " + radarTotalRepetidas() + " repetida(s).");
+      return false;
+    }
 
-    colocarHtmlNoLivro(htmlTela, "Dados do Torcedor");
+    if (!confirm("Confirmar troca de " + custo + " repetidas por " + pacotes + " pacote(s)?")) return false;
+
+    if (!radarConsumirRepetidas(custo)) {
+      alert("Não foi possível consumir as repetidas.");
+      return false;
+    }
+
+    estado.pacotes = Number(estado.pacotes || 0) + pacotes;
+    estado.historico = estado.historico || [];
+    estado.historico.push({
+      tipo: "troca_repetidas",
+      origem: "trocas_copa",
+      pacotes,
+      qtd: pacotes * FIGS_POR_PACOTE,
+      descricao: custo + " repetidas por " + pacotes + " pacote(s)",
+      data: new Date().toISOString()
+    });
+
+    if (typeof salvar === "function") salvar();
+    if (typeof registrarMissaoOnline === "function") registrarMissaoOnline("troca_repetidas", "Troca automática de repetidas", pacotes * FIGS_POR_PACOTE, "trocas_copa");
+    if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
+
+    alert("Troca concluída. Você recebeu " + pacotes + " pacote(s).");
+    radarAbrirTelaFinal("trocas");
+    return false;
   };
 
-  window.salvarDadosTorcedorRadarFinal = function(){
+  const RADAR_CODIGOS_FINAL = {
+    "SEXTA-RARA-2026": { pacotes: 3, descricao: "Sexta Rara" },
+    "BRASIL-EM-CAMPO": { pacotes: 5, descricao: "Brasil em Campo" },
+    "DOMINGO-5-PACOTES": { pacotes: 5, descricao: "Domingo do Colecionador" }
+  };
+
+  window.radarResgatarCodigoFinal = function(){
+    const codigo = String(document.getElementById("radarCodigoFinal")?.value || "").trim().toUpperCase();
+
+    if (!codigo) {
+      alert("Digite um código.");
+      return false;
+    }
+
+    const regra = RADAR_CODIGOS_FINAL[codigo];
+    if (!regra) {
+      alert("Código inválido ou ainda não liberado.");
+      return false;
+    }
+
+    estado.codigosPromocionais = estado.codigosPromocionais || {};
+    if (estado.codigosPromocionais[codigo]) {
+      alert("Este código já foi usado neste aparelho.");
+      return false;
+    }
+
+    estado.codigosPromocionais[codigo] = new Date().toISOString();
+    estado.pacotes = Number(estado.pacotes || 0) + regra.pacotes;
+    estado.historico = estado.historico || [];
+    estado.historico.push({
+      tipo: "codigo_promocional",
+      origem: codigo,
+      pacotes: regra.pacotes,
+      qtd: regra.pacotes * FIGS_POR_PACOTE,
+      descricao: regra.descricao,
+      data: new Date().toISOString()
+    });
+
+    if (typeof salvar === "function") salvar();
+    if (typeof registrarMissaoOnline === "function") registrarMissaoOnline(codigo, regra.descricao, regra.pacotes * FIGS_POR_PACOTE, "codigo_promocional");
+    if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
+
+    alert("Código resgatado: +" + regra.pacotes + " pacote(s).");
+    radarAbrirTelaFinal("codigos");
+    return false;
+  };
+
+  async function radarSalvarPalpiteSupabase(palpite){
+    try{
+      if (!supabaseClientAlbum) return;
+      await supabaseClientAlbum.from("palpites_copa").insert({
+        codigo_torcedor: garantirCodigoTorcedor(),
+        jogo: palpite.jogo,
+        selecao_a: palpite.timeA,
+        gols_a: palpite.golsA,
+        gols_b: palpite.golsB,
+        selecao_b: palpite.timeB,
+        status: "enviado",
+        recompensa: FIGS_POR_PACOTE,
+        criado_em: new Date().toISOString()
+      });
+    }catch(e){
+      console.warn("Palpite não enviado ao Supabase:", e);
+    }
+  }
+
+  window.radarEnviarPalpiteFinal = function(){
+    const jogo = String(document.getElementById("radarPalpiteJogoFinal")?.value || "").trim();
+    const timeA = String(document.getElementById("radarPalpiteAFinal")?.value || "").trim();
+    const golsA = Number(document.getElementById("radarPalpiteGolsAFinal")?.value || 0);
+    const golsB = Number(document.getElementById("radarPalpiteGolsBFinal")?.value || 0);
+    const timeB = String(document.getElementById("radarPalpiteBFinal")?.value || "").trim();
+
+    if (!jogo || !timeA || !timeB) {
+      alert("Preencha jogo, seleção A e seleção B.");
+      return false;
+    }
+
+    const palpite = { jogo, timeA, golsA, golsB, timeB, data: new Date().toISOString() };
+
+    estado.palpitesCopa = estado.palpitesCopa || [];
+    estado.palpitesCopa.push(palpite);
+    estado.pacotes = Number(estado.pacotes || 0) + 1;
+    estado.historico = estado.historico || [];
+    estado.historico.push({
+      tipo: "palpite_copa",
+      origem: "palpites_copa",
+      pacotes: 1,
+      qtd: FIGS_POR_PACOTE,
+      descricao: "Palpite enviado: " + timeA + " " + golsA + " x " + golsB + " " + timeB,
+      data: new Date().toISOString()
+    });
+
+    if (typeof salvar === "function") salvar();
+    radarSalvarPalpiteSupabase(palpite);
+    if (typeof registrarMissaoOnline === "function") registrarMissaoOnline("palpite_copa", "Palpite enviado", FIGS_POR_PACOTE, "palpites_copa");
+    if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
+
+    alert("Palpite enviado. Você ganhou +1 pacote.");
+    radarAbrirTelaFinal("palpites");
+    return false;
+  };
+
+  window.radarSalvarDadosTorcedorFinal = function(){
     const nome = String(document.getElementById("radarNomeTorcedorFinal")?.value || "").trim() || "Torcedor Radar Copa";
     const cidade = String(document.getElementById("radarCidadeTorcedorFinal")?.value || "").trim() || "Cidade não informada";
     const whatsapp = String(document.getElementById("radarWhatsappTorcedorFinal")?.value || "").trim();
 
-    try{
-      if (typeof estado !== "undefined" && estado) {
-        estado.nomeTorcedor = nome;
-        estado.cidadeTorcedor = cidade;
-        estado.whatsappTorcedor = whatsapp;
-      }
-
-      localStorage.setItem("radar_copa_nome_torcedor", nome);
-      localStorage.setItem("radar_copa_cidade_torcedor", cidade);
-      localStorage.setItem("radar_copa_whatsapp_torcedor", whatsapp);
-
-      if (typeof salvar === "function") salvar();
-      if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
-
-      alert("Dados salvos. Cidade atualizada para os próximos salvamentos no Supabase.");
-      abrirDadosTorcedorRadarFinal();
-    }catch(e){
-      console.warn(e);
-      alert("Dados salvos localmente.");
-      abrirDadosTorcedorRadarFinal();
+    if (typeof estado !== "undefined" && estado) {
+      estado.nomeTorcedor = nome;
+      estado.cidadeTorcedor = cidade;
+      estado.whatsappTorcedor = whatsapp;
     }
+
+    localStorage.setItem("radar_copa_nome_torcedor", nome);
+    localStorage.setItem("radar_copa_cidade_torcedor", cidade);
+    localStorage.setItem("radar_copa_whatsapp_torcedor", whatsapp);
+
+    if (typeof salvar === "function") salvar();
+    if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
+
+    alert("Dados salvos. Cidade atualizada para os próximos salvamentos no Supabase.");
+    radarAbrirTelaFinal("dados");
+    return false;
   };
 
-  function irParaPaginaRadar(numero){
-    try{
-      window.paginaAtual = numero;
-      localStorage.setItem("pagina_album_atual", String(numero));
-      if (typeof playSom === "function") playSom("page");
-      if (typeof renderLivro === "function") renderLivro();
-    }catch(e){
-      console.warn(e);
+  window.radarAbrirTelaFinal = function(tipo, ev){
+    if (ev) {
+      ev.preventDefault();
+      ev.stopPropagation();
     }
-  }
 
-  function ligarBotoesComCaptura(){
-    const relatorio = document.getElementById("btnRelatorio");
+    let htmlTela = "";
+    let titulo = "";
+
+    if (tipo === "dados") {
+      titulo = "Dados do Torcedor";
+      const nome = radarGet("nomeTorcedor", "Torcedor Radar Copa");
+      const cidade = radarGet("cidadeTorcedor", "Cidade não informada");
+      const whatsapp = radarGet("whatsappTorcedor", "");
+      htmlTela = `
+        <div class="radar-extra-page">
+          <h2>Dados do Torcedor</h2>
+          <p>Preencha nome, cidade e WhatsApp para aparecer corretamente no Supabase daqui para frente.</p>
+
+          <div class="radar-extra-card">
+            <b>Cadastro do torcedor</b>
+            <div class="radar-form-grid">
+              <input id="radarNomeTorcedorFinal" placeholder="Nome do torcedor" value="${radarSafe(nome)}">
+              <input id="radarCidadeTorcedorFinal" placeholder="Cidade" value="${radarSafe(cidade)}">
+              <input id="radarWhatsappTorcedorFinal" placeholder="WhatsApp opcional" value="${radarSafe(whatsapp)}">
+              <button onclick="return radarSalvarDadosTorcedorFinal()">Salvar dados</button>
+            </div>
+          </div>
+
+          <div class="radar-extra-card">
+            <b>Dados atuais</b>
+            <p><strong>Nome:</strong> ${radarSafe(nome)}</p>
+            <p><strong>Cidade:</strong> ${radarSafe(cidade)}</p>
+            <p><strong>WhatsApp:</strong> ${radarSafe(whatsapp || "não informado")}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    if (tipo === "trocas") {
+      titulo = "Troca de Repetidas";
+      htmlTela = `
+        <div class="radar-extra-page">
+          <h2>Troca de Repetidas</h2>
+          <p>Transforme figurinhas repetidas em novos pacotes.</p>
+
+          <div class="info-grid">
+            <div class="info-card"><b>Repetidas disponíveis</b><span>${radarTotalRepetidas()}</span></div>
+            <div class="info-card"><b>Pacotes no saldo</b><span>${estado.pacotes || 0}</span></div>
+          </div>
+
+          <div class="radar-extra-grid">
+            <div class="radar-extra-card"><b>Troca comum</b><p>10 repetidas = 1 pacote.</p><button onclick="return radarTrocarRepetidasFinal(10,1)">Trocar 10 por 1 pacote</button></div>
+            <div class="radar-extra-card"><b>Troca turbo</b><p>25 repetidas = 3 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(25,3)">Trocar 25 por 3 pacotes</button></div>
+            <div class="radar-extra-card"><b>Troca rara</b><p>50 repetidas = 7 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(50,7)">Trocar 50 por 7 pacotes</button></div>
+          </div>
+        </div>
+      `;
+    }
+
+    if (tipo === "codigos") {
+      titulo = "Códigos Promocionais";
+      htmlTela = `
+        <div class="radar-extra-page">
+          <h2>Códigos Promocionais</h2>
+          <p>Digite códigos divulgados nas redes para ganhar pacotes extras.</p>
+
+          <div class="radar-extra-card">
+            <b>Inserir código</b>
+            <input id="radarCodigoFinal" placeholder="Ex: SEXTA-RARA-2026">
+            <button onclick="return radarResgatarCodigoFinal()">Resgatar código</button>
+          </div>
+
+          <div class="radar-extra-grid">
+            <div class="radar-extra-card"><b>SEXTA-RARA-2026</b><p>Libera 3 pacotes.</p></div>
+            <div class="radar-extra-card"><b>BRASIL-EM-CAMPO</b><p>Libera 5 pacotes.</p></div>
+            <div class="radar-extra-card"><b>DOMINGO-5-PACOTES</b><p>Libera 5 pacotes.</p></div>
+          </div>
+        </div>
+      `;
+    }
+
+    if (tipo === "palpites") {
+      titulo = "Palpites da Copa";
+      const ultimos = (estado.palpitesCopa || []).slice(-5).reverse();
+      htmlTela = `
+        <div class="radar-extra-page">
+          <h2>Palpites da Copa</h2>
+          <p>Envie um palpite e ganhe +1 pacote. Resultado e placar exato ficam preparados para bônus futuro.</p>
+
+          <div class="radar-extra-card">
+            <b>Novo palpite</b>
+            <input id="radarPalpiteJogoFinal" placeholder="Jogo. Ex: Brasil x França">
+            <div class="radar-form-grid">
+              <input id="radarPalpiteAFinal" placeholder="Seleção A">
+              <input id="radarPalpiteGolsAFinal" type="number" min="0" value="0">
+              <input id="radarPalpiteGolsBFinal" type="number" min="0" value="0">
+              <input id="radarPalpiteBFinal" placeholder="Seleção B">
+            </div>
+            <button onclick="return radarEnviarPalpiteFinal()">Enviar e ganhar +1 pacote</button>
+          </div>
+
+          <div class="radar-extra-grid">
+            <div class="radar-extra-card"><b>Participou</b><p>Enviar palpite libera +1 pacote.</p></div>
+            <div class="radar-extra-card"><b>Acertou resultado</b><p>Regra preparada para +3 pacotes.</p></div>
+            <div class="radar-extra-card"><b>Placar exato</b><p>Regra preparada para +5 pacotes.</p></div>
+          </div>
+
+          <div class="radar-extra-card">
+            <b>Últimos palpites</b>
+            ${ultimos.length ? ultimos.map(p => `<p>${radarSafe(p.jogo)}: ${radarSafe(p.timeA)} ${p.golsA} x ${p.golsB} ${radarSafe(p.timeB)}</p>`).join("") : "<p>Nenhum palpite enviado ainda.</p>"}
+          </div>
+        </div>
+      `;
+    }
+
+    if (!htmlTela) return false;
+
+    radarColocarNoLivro(htmlTela, titulo);
+    return false;
+  };
+
+  function radarReaplicarBotoes(){
+    const rel = document.getElementById("btnRelatorio");
     const trocas = document.getElementById("btnTrocas");
     const codigos = document.getElementById("btnCodigos");
     const palpites = document.getElementById("btnPalpites");
 
-    if (relatorio && !relatorio.dataset.radarFix) {
-      relatorio.dataset.radarFix = "1";
-      relatorio.addEventListener("click", function(ev){
-        ev.preventDefault();
-        ev.stopPropagation();
-        ev.stopImmediatePropagation();
-        abrirDadosTorcedorRadarFinal();
-      }, true);
-      relatorio.onclick = function(ev){
-        ev.preventDefault();
-        ev.stopPropagation();
-        abrirDadosTorcedorRadarFinal();
-        return false;
-      };
-    }
-
-    if (trocas && !trocas.dataset.radarFix) {
-      trocas.dataset.radarFix = "1";
-      trocas.addEventListener("click", function(ev){
-        ev.preventDefault();
-        ev.stopPropagation();
-        ev.stopImmediatePropagation();
-        irParaPaginaRadar(6);
-      }, true);
-    }
-
-    if (codigos && !codigos.dataset.radarFix) {
-      codigos.dataset.radarFix = "1";
-      codigos.addEventListener("click", function(ev){
-        ev.preventDefault();
-        ev.stopPropagation();
-        ev.stopImmediatePropagation();
-        irParaPaginaRadar(7);
-      }, true);
-    }
-
-    if (palpites && !palpites.dataset.radarFix) {
-      palpites.dataset.radarFix = "1";
-      palpites.addEventListener("click", function(ev){
-        ev.preventDefault();
-        ev.stopPropagation();
-        ev.stopImmediatePropagation();
-        irParaPaginaRadar(8);
-      }, true);
-    }
+    if (rel) rel.onclick = function(ev){ return radarAbrirTelaFinal("dados", ev); };
+    if (trocas) trocas.onclick = function(ev){ return radarAbrirTelaFinal("trocas", ev); };
+    if (codigos) codigos.onclick = function(ev){ return radarAbrirTelaFinal("codigos", ev); };
+    if (palpites) palpites.onclick = function(ev){ return radarAbrirTelaFinal("palpites", ev); };
   }
 
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", ligarBotoesComCaptura);
-  }else{
-    ligarBotoesComCaptura();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", radarReaplicarBotoes);
+  } else {
+    radarReaplicarBotoes();
   }
 
-  setTimeout(ligarBotoesComCaptura, 500);
-  setTimeout(ligarBotoesComCaptura, 1500);
-  setTimeout(ligarBotoesComCaptura, 3000);
+  setTimeout(radarReaplicarBotoes, 500);
+  setTimeout(radarReaplicarBotoes, 1500);
+  setTimeout(radarReaplicarBotoes, 3000);
 })();
 </script>
 
