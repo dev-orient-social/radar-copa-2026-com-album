@@ -1134,33 +1134,24 @@
 }
 
 
-/* CORREÇÃO VISUAL: buscar país centralizado e páginas especiais */
-.barra{
-  grid-template-columns: minmax(0,1fr) minmax(260px,360px) !important;
-}
-.barra select,
-#filtroPaisTopo{
-  height:40px !important;
-  line-height:40px !important;
-  text-align:center !important;
-  text-align-last:center !important;
-  font-weight:900 !important;
-  padding-left:14px !important;
-  padding-right:14px !important;
-}
-#filtroPais,
-#filtroPais option,
-#filtroPaisTopo,
-#filtroPaisTopo option{
-  text-align:center;
-}
-.topo nav button{
-  min-width:88px;
-}
-@media(max-width:900px){
-  .barra{ grid-template-columns:1fr !important; }
-  #filtroPaisTopo{ width:100% !important; }
-}
+/* === Radar Copa: cidade, trocas, códigos, palpites e busca centralizada === */
+.form-torcedor-radar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.form-torcedor-radar input{width:100%;margin:0}
+.bloco-premium-radar{margin:12px 0;padding:14px;border-radius:18px;border:1px solid rgba(246,200,76,.35);background:linear-gradient(145deg,rgba(15,23,42,.88),rgba(7,27,63,.82))}
+.bloco-premium-radar h3{color:#ffd54a;margin-bottom:8px}
+.bloco-premium-radar p{color:#dbeafe}
+.grid-acoes-radar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.acao-radar-card{border-radius:16px;padding:12px;background:rgba(255,255,255,.07);border:1px solid rgba(246,200,76,.25)}
+.acao-radar-card b{display:block;color:#ffd54a;margin-bottom:6px}
+.acao-radar-card p{color:#dbeafe;font-size:.86rem}
+.acao-radar-card strong{display:block;color:#ffd54a;margin-top:8px}
+.acao-radar-card button,.acao-radar-card a{display:flex;justify-content:center;align-items:center;margin-top:10px;width:100%;min-height:40px;border:0;border-radius:999px;padding:9px 10px;background:linear-gradient(135deg,#ffd54a,#f59e0b);color:#06142e!important;font-weight:900;text-decoration:none;cursor:pointer}
+.input-palpite-radar{margin-top:10px;display:grid;grid-template-columns:1fr 80px 80px 1fr;gap:8px;align-items:center}
+.input-palpite-radar input{margin:0}
+.barra{grid-template-columns:minmax(0,1fr) minmax(260px,360px)!important}
+.barra select,#filtroPaisTopo{height:40px!important;line-height:40px!important;text-align:center!important;text-align-last:center!important;font-weight:900!important;padding-left:14px!important;padding-right:14px!important}
+#filtroPais,#filtroPais option,#filtroPaisTopo,#filtroPaisTopo option{text-align:center}
+@media(max-width:900px){.form-torcedor-radar,.grid-acoes-radar,.input-palpite-radar{grid-template-columns:1fr!important}.barra{grid-template-columns:1fr!important}#filtroPaisTopo{width:100%!important}}
 
 </style>
 </head>
@@ -1175,6 +1166,9 @@
         <button id="btnCapa">Capa</button>
         <button id="btnRelatorio">Relatório</button>
         <button id="btnResgate">Resgates</button>
+        <button id="btnTrocas">Trocas</button>
+        <button id="btnCodigos">Códigos</button>
+        <button id="btnPalpites">Palpites</button>
         <button id="btnEnvelope">Abrir envelope</button>
         <button id="btnAnteriorTopo">← Página</button>
         <button id="btnProximaTopo">Página →</button>
@@ -1672,6 +1666,11 @@
         historico: [],
         resgatesParceiros: {},
         codigoTorcedor: null,
+        nomeTorcedor: localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
+        cidadeTorcedor: localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
+        whatsappTorcedor: localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
+        codigosPromocionais: {},
+        palpitesCopa: [],
         supabaseOnline: false
       };
     }
@@ -1693,6 +1692,226 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(estado));
     }
 
+
+
+    // =========================================================
+    // CIDADE / PERFIL DO TORCEDOR
+    // =========================================================
+    function carregarDadosTorcedorLocal() {
+      estado.nomeTorcedor = estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa";
+      estado.cidadeTorcedor = estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada";
+      estado.whatsappTorcedor = estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "";
+    }
+
+    function salvarDadosTorcedor(nome, cidade, whatsapp) {
+      estado.nomeTorcedor = String(nome || "").trim() || "Torcedor Radar Copa";
+      estado.cidadeTorcedor = String(cidade || "").trim() || "Cidade não informada";
+      estado.whatsappTorcedor = String(whatsapp || "").trim();
+      localStorage.setItem("radar_copa_nome_torcedor", estado.nomeTorcedor);
+      localStorage.setItem("radar_copa_cidade_torcedor", estado.cidadeTorcedor);
+      localStorage.setItem("radar_copa_whatsapp_torcedor", estado.whatsappTorcedor);
+      salvar();
+      atualizarTorcedorOnline();
+      alert("Dados do torcedor salvos com sucesso.");
+      renderLivro();
+    }
+
+    function formDadosTorcedorHTML() {
+      carregarDadosTorcedorLocal();
+      return `
+        <div class="bloco-premium-radar">
+          <h3>👤 Dados do torcedor</h3>
+          <p>Preencha a cidade para aparecer corretamente no ranking e no Supabase.</p>
+          <div class="form-torcedor-radar">
+            <input id="nomeTorcedorInput" placeholder="Nome do torcedor" value="${safe(estado.nomeTorcedor || "")}">
+            <input id="cidadeTorcedorInput" placeholder="Cidade" value="${safe(estado.cidadeTorcedor || "")}">
+            <input id="whatsappTorcedorInput" placeholder="WhatsApp opcional" value="${safe(estado.whatsappTorcedor || "")}">
+            <button class="btn-resgate" onclick="salvarDadosTorcedor(document.getElementById('nomeTorcedorInput').value, document.getElementById('cidadeTorcedorInput').value, document.getElementById('whatsappTorcedorInput').value)">Salvar dados</button>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================
+    // TROCAS AUTOMÁTICAS DE REPETIDAS
+    // =========================================================
+    function totalRepetidasDisponiveis() {
+      return Object.values(estado.album || {}).reduce((s, r) => s + Math.max(0, Number(r.quantidade || 0) - 1), 0);
+    }
+
+    function consumirRepetidas(qtd) {
+      let falta = Number(qtd || 0);
+      if (totalRepetidasDisponiveis() < falta) return false;
+      for (const fig of FIGURINHAS_COPA) {
+        if (falta <= 0) break;
+        const r = reg(fig.id);
+        const rep = Math.max(0, Number(r.quantidade || 0) - 1);
+        if (rep > 0) {
+          const tirar = Math.min(rep, falta);
+          r.quantidade -= tirar;
+          falta -= tirar;
+          salvarFigurinhaOnline(fig, "troca_repetidas");
+        }
+      }
+      return true;
+    }
+
+    function trocarRepetidasPorPacotes(custo, pacotes, descricao) {
+      custo = Number(custo || 0);
+      pacotes = Number(pacotes || 0);
+      if (totalRepetidasDisponiveis() < custo) {
+        alert(`Você precisa de ${custo} repetidas. Repetidas disponíveis: ${totalRepetidasDisponiveis()}.`);
+        return;
+      }
+      if (!confirm(`Confirmar troca: ${custo} repetidas por ${pacotes} pacote(s)?`)) return;
+      if (!consumirRepetidas(custo)) return;
+      estado.pacotes = Number(estado.pacotes || 0) + pacotes;
+      estado.historico = estado.historico || [];
+      estado.historico.push({ tipo:"troca_repetidas", origem:"trocas_copa", qtd:pacotes * FIGS_POR_PACOTE, pacotes, descricao:descricao || `${custo} repetidas por ${pacotes} pacote(s)`, data:new Date().toISOString() });
+      salvar();
+      registrarMissaoOnline("troca_repetidas", descricao || "Troca automática de repetidas", pacotes * FIGS_POR_PACOTE, "trocas_copa");
+      atualizarTorcedorOnline();
+      alert(`Troca concluída. Você recebeu ${pacotes} pacote(s).`);
+      renderLivro();
+    }
+
+    function paginaTrocasHTML() {
+      const repetidas = totalRepetidasDisponiveis();
+      return `
+        <div class="pagina-especial">
+          <h2>Troca de Repetidas</h2>
+          <p>Transforme figurinhas repetidas em novos pacotes para continuar avançando no álbum.</p>
+          <div class="info-grid">
+            <div class="info-card"><b>Repetidas disponíveis</b><span>${repetidas}</span></div>
+            <div class="info-card"><b>Pacotes no saldo</b><span>${estado.pacotes || 0}</span></div>
+          </div>
+          <div class="grid-acoes-radar">
+            <div class="acao-radar-card"><b>Troca comum</b><p>10 repetidas = 1 pacote comum.</p><button onclick="trocarRepetidasPorPacotes(10, 1, '10 repetidas por 1 pacote comum')">Trocar 10 por 1 pacote</button></div>
+            <div class="acao-radar-card"><b>Troca turbo</b><p>25 repetidas = 3 pacotes.</p><button onclick="trocarRepetidasPorPacotes(25, 3, '25 repetidas por 3 pacotes')">Trocar 25 por 3 pacotes</button></div>
+            <div class="acao-radar-card"><b>Troca rara</b><p>50 repetidas = 7 pacotes.</p><button onclick="trocarRepetidasPorPacotes(50, 7, '50 repetidas por 7 pacotes')">Trocar 50 por 7 pacotes</button></div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================
+    // CÓDIGOS PROMOCIONAIS
+    // =========================================================
+    const CODIGOS_PROMOCIONAIS_RADAR = {
+      "SEXTA-RARA-2026": { pacotes: 3, descricao: "Sexta Rara: 3 pacotes promocionais" },
+      "BRASIL-EM-CAMPO": { pacotes: 5, descricao: "Brasil em Campo: 5 pacotes promocionais" },
+      "DOMINGO-5-PACOTES": { pacotes: 5, descricao: "Domingo do Colecionador: 5 pacotes grátis" }
+    };
+
+    function resgatarCodigoPromocional() {
+      const codigo = String(document.getElementById("codigoPromoInput")?.value || "").trim().toUpperCase();
+      if (!codigo) return alert("Digite um código promocional.");
+      const regra = CODIGOS_PROMOCIONAIS_RADAR[codigo];
+      if (!regra) return alert("Código inválido ou ainda não liberado.");
+      estado.codigosPromocionais = estado.codigosPromocionais || {};
+      if (estado.codigosPromocionais[codigo]) return alert("Este código já foi resgatado neste aparelho.");
+      estado.codigosPromocionais[codigo] = new Date().toISOString();
+      estado.pacotes = Number(estado.pacotes || 0) + Number(regra.pacotes || 0);
+      estado.historico = estado.historico || [];
+      estado.historico.push({ tipo:"codigo_promocional", origem:codigo, pacotes:regra.pacotes, qtd:regra.pacotes * FIGS_POR_PACOTE, descricao:regra.descricao, data:new Date().toISOString() });
+      salvar();
+      registrarMissaoOnline(codigo, regra.descricao, regra.pacotes * FIGS_POR_PACOTE, "codigo_promocional");
+      atualizarTorcedorOnline();
+      alert(`Código resgatado: ${regra.descricao}.`);
+      renderLivro();
+    }
+
+    function paginaCodigosHTML() {
+      return `
+        <div class="pagina-especial">
+          <h2>Códigos Promocionais</h2>
+          <p>Use códigos divulgados no Radar Copa, Instagram e Facebook para ganhar pacotes extras.</p>
+          <div class="bloco-premium-radar">
+            <h3>Inserir código</h3>
+            <input id="codigoPromoInput" placeholder="Digite o código. Ex: SEXTA-RARA-2026">
+            <button class="btn-resgate" onclick="resgatarCodigoPromocional()">Resgatar código</button>
+          </div>
+          <div class="grid-acoes-radar">
+            <div class="acao-radar-card"><b>Sexta Rara</b><p>Código semanal para bônus raro.</p><strong>SEXTA-RARA-2026</strong></div>
+            <div class="acao-radar-card"><b>Brasil em Campo</b><p>Código especial da campanha do Brasil.</p><strong>BRASIL-EM-CAMPO</strong></div>
+            <div class="acao-radar-card"><b>Domingo do Colecionador</b><p>Domingo pode liberar +5 pacotes.</p><strong>DOMINGO-5-PACOTES</strong></div>
+          </div>
+        </div>
+      `;
+    }
+
+    // =========================================================
+    // PALPITES DA COPA
+    // =========================================================
+    function salvarPalpiteCopa() {
+      const jogo = String(document.getElementById("palpiteJogoInput")?.value || "").trim();
+      const timeA = String(document.getElementById("palpiteTimeAInput")?.value || "").trim();
+      const golsA = Number(document.getElementById("palpiteGolsAInput")?.value || 0);
+      const golsB = Number(document.getElementById("palpiteGolsBInput")?.value || 0);
+      const timeB = String(document.getElementById("palpiteTimeBInput")?.value || "").trim();
+      if (!jogo || !timeA || !timeB) return alert("Preencha jogo, seleção A e seleção B.");
+      estado.palpitesCopa = estado.palpitesCopa || [];
+      const palpite = { jogo, timeA, golsA, golsB, timeB, data:new Date().toISOString() };
+      estado.palpitesCopa.push(palpite);
+      estado.pacotes = Number(estado.pacotes || 0) + 1;
+      estado.historico = estado.historico || [];
+      estado.historico.push({ tipo:"palpite_copa", origem:"palpites_copa", pacotes:1, qtd:FIGS_POR_PACOTE, descricao:`Palpite enviado: ${timeA} ${golsA} x ${golsB} ${timeB}`, data:new Date().toISOString() });
+      salvar();
+      registrarPalpiteOnline(palpite);
+      registrarMissaoOnline("palpite_copa", "Palpite enviado na Copa", FIGS_POR_PACOTE, "palpites_copa");
+      atualizarTorcedorOnline();
+      alert("Palpite registrado. Você ganhou +1 pacote por participar.");
+      renderLivro();
+    }
+
+    async function registrarPalpiteOnline(palpite) {
+      try {
+        if (!supabaseClientAlbum) return;
+        await supabaseClientAlbum.from("palpites_copa").insert({
+          codigo_torcedor: garantirCodigoTorcedor(),
+          jogo: palpite.jogo,
+          selecao_a: palpite.timeA,
+          gols_a: palpite.golsA,
+          gols_b: palpite.golsB,
+          selecao_b: palpite.timeB,
+          status: "enviado",
+          recompensa: FIGS_POR_PACOTE,
+          criado_em: new Date().toISOString()
+        });
+      } catch (erro) {
+        console.warn("Não registrou palpite online:", erro);
+      }
+    }
+
+    function paginaPalpitesHTML() {
+      const ultimos = (estado.palpitesCopa || []).slice(-5).reverse();
+      return `
+        <div class="pagina-especial">
+          <h2>Palpites da Copa</h2>
+          <p>Envie palpites e ganhe recompensas. Participar libera +1 pacote. Acertos de resultado e placar ficam preparados para bônus futuro.</p>
+          <div class="bloco-premium-radar">
+            <h3>Novo palpite</h3>
+            <input id="palpiteJogoInput" placeholder="Nome do jogo. Ex: Brasil x França">
+            <div class="input-palpite-radar">
+              <input id="palpiteTimeAInput" placeholder="Seleção A">
+              <input id="palpiteGolsAInput" type="number" min="0" value="0">
+              <input id="palpiteGolsBInput" type="number" min="0" value="0">
+              <input id="palpiteTimeBInput" placeholder="Seleção B">
+            </div>
+            <button class="btn-resgate" onclick="salvarPalpiteCopa()">Enviar palpite e ganhar +1 pacote</button>
+          </div>
+          <div class="grid-acoes-radar">
+            <div class="acao-radar-card"><b>Participou</b><p>Enviar palpite libera +1 pacote.</p></div>
+            <div class="acao-radar-card"><b>Acertou resultado</b><p>Regra preparada para +3 pacotes.</p></div>
+            <div class="acao-radar-card"><b>Placar exato</b><p>Regra preparada para +5 pacotes.</p></div>
+          </div>
+          <div class="bloco-premium-radar">
+            <h3>Últimos palpites</h3>
+            ${ultimos.length ? ultimos.map(p => `<p>${safe(p.jogo)}: ${safe(p.timeA)} ${p.golsA} x ${p.golsB} ${safe(p.timeB)}</p>`).join("") : "<p>Nenhum palpite enviado ainda.</p>"}
+          </div>
+        </div>
+      `;
+    }
 
     // =========================================================
     // SUPABASE ONLINE — salva progresso sem quebrar o modo local
@@ -1743,8 +1962,12 @@
           .from("torcedores_copa")
           .upsert({
             codigo,
-            nome: "Torcedor Radar Copa",
-            cidade: "Radar Copa",
+            nome: estado.nomeTorcedor || "Torcedor Radar Copa",
+            cidade: estado.cidadeTorcedor || "Cidade não informada",
+            whatsapp: estado.whatsappTorcedor || "",
+            nome: estado.nomeTorcedor || "Torcedor Radar Copa",
+            cidade: estado.cidadeTorcedor || "Cidade não informada",
+            whatsapp: estado.whatsappTorcedor || "",
             pontos: totalConquistadas(),
             total_figurinhas: totalConquistadas(),
             total_coladas: totais().coladas,
@@ -1840,6 +2063,9 @@
         await supabaseClientAlbum
           .from("torcedores_copa")
           .update({
+            nome: estado.nomeTorcedor || "Torcedor Radar Copa",
+            cidade: estado.cidadeTorcedor || "Cidade não informada",
+            whatsapp: estado.whatsappTorcedor || "",
             pontos: totalConquistadas(),
             total_figurinhas: totalConquistadas(),
             total_coladas: t.coladas,
@@ -1939,16 +2165,6 @@
 
     function passoPaginaAlbum() {
       return isMobileAlbum() ? 1 : 2;
-    }
-
-
-    function irPaginaTipo(tipo) {
-      const p = paginas().find(pg => pg.tipo === tipo);
-      if (!p) return;
-      paginaAtual = p.numero;
-      localStorage.setItem("pagina_album_atual", paginaAtual);
-      playSom("page");
-      renderLivro();
     }
 
     function par(n) {
@@ -2144,6 +2360,7 @@
       if (p.tipo === "relatorio") {
         return `
           <div class="pagina-especial">
+            ${formDadosTorcedorHTML()}
             <h2>Relatório do Colecionador</h2>
             <p>Veja suas figurinhas conquistadas, coladas, repetidas e as que ainda faltam.</p>
             <div class="info-grid">
@@ -2291,6 +2508,18 @@
         `;
       }
 
+      if (p.tipo === "trocas") {
+        return paginaTrocasHTML();
+      }
+
+      if (p.tipo === "codigos") {
+        return paginaCodigosHTML();
+      }
+
+      if (p.tipo === "palpites") {
+        return paginaPalpitesHTML();
+      }
+
       if (p.tipo === "sumario") {
         return `
           <div class="pagina-especial">
@@ -2353,43 +2582,37 @@
       const mob = document.getElementById("paginaMobileUnica");
       const paginaAtualEl = document.getElementById("paginaAtual");
       const titulo = document.getElementById("tituloPagina");
+      const p = pagina(paginaAtual);
+      const paginasSozinhas = ["trocas", "codigos", "palpites"];
 
       if (isMobileAlbum()) {
-        if (mob) {
-          mob.innerHTML = `<div class="pagina direita">${renderPagina(paginaAtual)}</div>`;
-        }
+        if (mob) mob.innerHTML = `<div class="pagina direita">${renderPagina(paginaAtual)}</div>`;
         if (esq) esq.innerHTML = "";
         if (dir) dir.innerHTML = "";
         if (livro) livro.classList.add("capa");
-
-        const p = pagina(paginaAtual);
-        paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
-        titulo.textContent = p.titulo;
-
+        if (paginaAtualEl) paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
+        if (titulo) titulo.textContent = p.titulo;
         resumo();
         return;
       }
 
       if (mob) mob.innerHTML = "";
 
-      if (paginaAtual <= 1) {
+      if (paginaAtual <= 1 || paginasSozinhas.includes(p.tipo)) {
         livro.classList.add("capa");
         esq.innerHTML = "";
-        dir.innerHTML = renderPagina(1);
-        paginaAtualEl.textContent = `Página 1 de ${total}`;
-        titulo.textContent = "Capa";
+        dir.innerHTML = renderPagina(paginaAtual);
+        paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
+        titulo.textContent = p.titulo;
       } else {
         livro.classList.remove("capa");
         const e = pagina(paginaAtual);
         const d = pagina(paginaAtual + 1);
-
         esq.innerHTML = renderPagina(paginaAtual);
         dir.innerHTML = d ? renderPagina(paginaAtual + 1) : "";
-
         paginaAtualEl.textContent = d
           ? `Páginas ${paginaAtual} e ${Math.min(paginaAtual + 1, total)} de ${total}`
           : `Página ${paginaAtual} de ${total}`;
-
         titulo.textContent = `${e.titulo}${d ? " / " + d.titulo : ""}`;
       }
 
@@ -2565,82 +2788,8 @@
     // INIT
     // =========================================================
     function init() {
-  
-    // =========================================================
-    // CORREÇÃO FINAL: páginas de Trocas, Códigos e Palpites
-    // =========================================================
-    function obterHtmlPaginaPorTipoCorrigido(p) {
-      if (!p) return "";
-      if (p.tipo === "capa") return renderCapa();
-      if (p.tipo === "relatorio") return renderRelatorio();
-      if (p.tipo === "sobre") return renderSobre();
-      if (p.tipo === "resgates") return renderResgates();
-      if (p.tipo === "premium") return renderPremium();
-      if (p.tipo === "trocas") return paginaTrocasHTML();
-      if (p.tipo === "codigos") return paginaCodigosHTML();
-      if (p.tipo === "palpites") return paginaPalpitesHTML();
-      if (p.tipo === "sumario") return renderSumario();
-      if (p.tipo === "raridades") return renderRaridades();
-      if (p.tipo === "pais") return renderPais(p.pais);
-      return "";
-    }
-
-    function renderLivroCorrigido() {
-      const total = totalPaginas();
-      if (paginaAtual < 1) paginaAtual = 1;
-      if (paginaAtual > total) paginaAtual = total;
-      localStorage.setItem("pagina_album_atual", paginaAtual);
-
-      const pAtual = pagina(paginaAtual);
-      const tituloPaginaEl = document.getElementById("tituloPagina");
-      const paginaAtualEl = document.getElementById("paginaAtual");
-      const livro = document.getElementById("livro");
-      const mobile = document.getElementById("paginaMobileUnica");
-      const esq = document.getElementById("paginaEsquerda");
-      const dir = document.getElementById("paginaDireita");
-
-      if (tituloPaginaEl) tituloPaginaEl.textContent = pAtual.titulo || "Álbum";
-      if (paginaAtualEl) paginaAtualEl.textContent = `Página ${paginaAtual} de ${total}`;
-
-      // Mobile: uma página real por vez.
-      if (isMobileAlbum()) {
-        if (mobile) mobile.innerHTML = `<div class="pagina direita">${obterHtmlPaginaPorTipoCorrigido(pAtual)}</div>`;
-        if (livro) livro.className = "livro";
-        atualizarStatus();
-        return;
-      }
-
-      // Desktop: capa sozinha, depois livro duplo. Para páginas especiais novas, mostrar sozinhas à direita para não duplicar com raridades.
-      const especiaisSozinhas = ["trocas", "codigos", "palpites"];
-      if (paginaAtual === 1 || especiaisSozinhas.includes(pAtual.tipo)) {
-        if (livro) livro.className = "livro capa";
-        if (esq) esq.innerHTML = "";
-        if (dir) dir.innerHTML = obterHtmlPaginaPorTipoCorrigido(pAtual);
-        if (mobile) mobile.innerHTML = "";
-        atualizarStatus();
-        return;
-      }
-
-      const primeira = par(paginaAtual);
-      const pEsq = pagina(primeira);
-      const pDir = pagina(primeira + 1);
-
-      if (livro) livro.className = "livro";
-      if (esq) esq.innerHTML = obterHtmlPaginaPorTipoCorrigido(pEsq);
-      if (dir) dir.innerHTML = pDir ? obterHtmlPaginaPorTipoCorrigido(pDir) : "";
-      if (mobile) mobile.innerHTML = "";
-
-      atualizarStatus();
-    }
-
-    renderLivro = renderLivroCorrigido;
-
-
-      document.getElementById("btnTrocas")?.addEventListener("click", () => irPaginaTipo("trocas"));
-      document.getElementById("btnCodigos")?.addEventListener("click", () => irPaginaTipo("codigos"));
-      document.getElementById("btnPalpites")?.addEventListener("click", () => irPaginaTipo("palpites"));
-
-    setupAudio();
+      carregarDadosTorcedorLocal();
+      setupAudio();
       processarBonusPremiumRecebidoPorUrl();
       processarBonusPremiumRecebido();
       renderFiltros();
@@ -2655,6 +2804,9 @@
       document.getElementById("btnCapa").onclick = () => ir(1);
       document.getElementById("btnRelatorio").onclick = () => ir(2);
       document.getElementById("btnResgate").onclick = () => ir(4);
+      document.getElementById("btnTrocas").onclick = () => irTipo("trocas");
+      document.getElementById("btnCodigos").onclick = () => irTipo("codigos");
+      document.getElementById("btnPalpites").onclick = () => irTipo("palpites");
       document.getElementById("btnEnvelope").onclick = () => {
         liberarAudio();
         document.getElementById("modalPacote").classList.add("ativo");
