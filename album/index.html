@@ -2754,7 +2754,9 @@
     "SEXTA-RARA-2026":{pacotes:3,descricao:"Sexta Rara"},
     "BRASIL-EM-CAMPO":{pacotes:5,descricao:"Brasil em Campo"},
     "DOMINGO-5-PACOTES":{pacotes:5,descricao:"Domingo do Colecionador"}
-  };
+  ,
+    "COMBO-MATRIZ-200": { pacotes: 200, descricao: "Combo Matriz 17 Simulados" },
+    "COMBO-MATRIZ-200":{pacotes:200,descricao:"Combo Matriz 17 Simulados"}};
   let RADAR_CODIGOS_ATUAIS=Object.assign({},RADAR_CODIGOS_FALLBACK);
 
   function radarSafe(text){return String(text??"").replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[s]));}
@@ -2804,9 +2806,9 @@
   };
 
   window.radarResgatarCodigoFinal=function(){
-    const codigo=String(document.getElementById("radarCodigoFinal")?.value||"").trim().toUpperCase();
+    const codigo=String(document.getElementById("radarCodigoFinal")?.value||"").trim().toUpperCase().replace(/[–—]/g,"-");
     if(!codigo){alert("Digite um código.");return false;}
-    const regra=RADAR_CODIGOS_ATUAIS[codigo]||RADAR_CODIGOS_FALLBACK[codigo];
+    const regra=RADAR_CODIGOS_ATUAIS[codigo]||RADAR_CODIGOS_FALLBACK[codigo]||(codigo==="COMBO-MATRIZ-200"?{pacotes:200,descricao:"Combo Matriz 17 Simulados"}:null);
     if(!regra){alert("Código inválido ou ainda não liberado.");return false;}
     estado.codigosPromocionais=estado.codigosPromocionais||{};if(estado.codigosPromocionais[codigo]){alert("Este código já foi usado neste aparelho.");return false;}
     estado.codigosPromocionais[codigo]=new Date().toISOString();estado.pacotes=Number(estado.pacotes||0)+Number(regra.pacotes||0);estado.historico=estado.historico||[];
@@ -2845,7 +2847,7 @@
     if(tipo==="dados"){titulo="Dados do Torcedor";const nome=radarGet("nomeTorcedor","Torcedor Radar Copa"),cidade=radarGet("cidadeTorcedor","Cidade não informada"),whatsapp=radarGet("whatsappTorcedor","");htmlTela=`<div class="radar-extra-page"><h2>Dados do Torcedor</h2><p>Preencha nome, cidade e WhatsApp para aparecer corretamente nos rankings e no Supabase.</p><div class="radar-extra-card"><b>Cadastro do torcedor</b><div class="radar-form-grid"><input id="radarNomeTorcedorFinal" placeholder="Nome do torcedor" value="${radarSafe(nome)}"><input id="radarCidadeTorcedorFinal" placeholder="Cidade" value="${radarSafe(cidade)}"><input id="radarWhatsappTorcedorFinal" placeholder="WhatsApp opcional" value="${radarSafe(whatsapp)}"><button onclick="return radarSalvarDadosTorcedorFinal()">Salvar dados</button></div></div></div>`;}
     if(tipo==="ranking"){titulo="Ranking Radar Copa";htmlTela=`<div class="radar-extra-page"><h2>Ranking Radar Copa</h2><p>Top 15 participantes com mais figurinhas coladas. Mostra nome e cidade.</p><div class="radar-extra-card"><b>🏆 Top 15 colecionadores</b><div class="radar-lista-ranking" id="radarRankingOnlineBox">${radarRankingLocalHTML()}</div></div><div class="radar-extra-card"><b>⚽ Ranking de disputas / palpites recentes</b><div class="radar-lista-ranking">${radarRankingDisputasHTML()}</div></div></div>`;setTimeout(radarCarregarRankingOnline,250);}
     if(tipo==="trocas"){titulo="Troca de Repetidas";htmlTela=`<div class="radar-extra-page"><h2>Troca de Repetidas</h2><p>Transforme figurinhas repetidas em novos pacotes.</p><div class="info-grid"><div class="info-card"><b>Repetidas disponíveis</b><span>${radarTotalRepetidas()}</span></div><div class="info-card"><b>Pacotes no saldo</b><span>${estado.pacotes||0}</span></div></div><div class="radar-extra-grid"><div class="radar-extra-card"><b>Troca comum</b><p>10 repetidas = 1 pacote.</p><button onclick="return radarTrocarRepetidasFinal(10,1)">Trocar 10 por 1 pacote</button></div><div class="radar-extra-card"><b>Troca turbo</b><p>25 repetidas = 3 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(25,3)">Trocar 25 por 3 pacotes</button></div><div class="radar-extra-card"><b>Troca rara</b><p>50 repetidas = 7 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(50,7)">Trocar 50 por 7 pacotes</button></div></div></div>`;}
-    if(tipo==="codigos"){titulo="Códigos Promocionais";await radarCarregarCodigos();const chips=Object.keys(RADAR_CODIGOS_ATUAIS).map(c=>`<span class="radar-chip">${radarSafe(c)}</span>`).join("");htmlTela=`<div class="radar-extra-page"><h2>Códigos Promocionais</h2><p>Para atualizar depois, cadastre no Supabase em codigos_promocionais. Se não existir, usa os códigos fixos.</p><div class="radar-extra-card"><b>Inserir código</b><input id="radarCodigoFinal" placeholder="Ex: SEXTA-RARA-2026"><button onclick="return radarResgatarCodigoFinal()">Resgatar código</button></div><div class="radar-extra-card"><b>Códigos disponíveis / campanha</b>${chips}</div></div>`;}
+    if(tipo==="codigos"){titulo="Códigos Promocionais";await radarCarregarCodigos();const chips=Object.keys(RADAR_CODIGOS_ATUAIS).filter(c=>!/COMBO|PREMIUM|MATRIZ/i.test(c)).map(c=>`<span class="radar-chip">${radarSafe(c)}</span>`).join("");htmlTela=`<div class="radar-extra-page"><h2>Códigos Promocionais</h2><p>Para atualizar depois, cadastre no Supabase em codigos_promocionais. Se não existir, usa os códigos fixos.</p><div class="radar-extra-card"><b>Inserir código</b><input id="radarCodigoFinal" placeholder="Ex: SEXTA-RARA-2026"><button onclick="return radarResgatarCodigoFinal()">Resgatar código</button></div><div class="radar-extra-card"><b>Códigos disponíveis / campanha</b>${chips}</div></div>`;}
     if(tipo==="palpites"){titulo="Palpites da Copa";await radarCarregarJogos();const ultimos=(estado.palpitesCopa||[]).slice(-5).reverse();const opts=RADAR_JOGOS_ATUAIS.map(j=>`<option value="${j.id}">${j.selecao_a} x ${j.selecao_b} • ${j.data_jogo||""} ${j.hora_jogo||""}</option>`).join("");const primeiro=RADAR_JOGOS_ATUAIS[0]||RADAR_JOGOS_FALLBACK[0];htmlTela=`<div class="radar-extra-page"><h2>Palpites da Copa</h2><p>Escolha um jogo da tabela, envie seu placar e ganhe +1 pacote por participar.</p><div class="radar-extra-grid"><div class="radar-extra-card radar-premio-regra"><b>Participar</b><p>Enviar palpite = +1 pacote.</p></div><div class="radar-extra-card radar-premio-regra"><b>Vencedor da partida</b><p>Acertar vencedor/resultado = +5 pacotes.</p></div><div class="radar-extra-card radar-premio-regra"><b>Resultado cheio</b><p>Acertar placar exato = +10 pacotes.</p></div></div><div class="radar-extra-card"><b>Tabela de jogos</b><select id="radarJogoSelectFinal" onchange="radarAtualizarJogoPalpiteFinal()">${opts}</select><p id="radarJogoTituloFinal" style="margin-top:10px;color:#ffd54a;font-weight:900;">${primeiro.selecao_a} x ${primeiro.selecao_b} • ${primeiro.data_jogo||""} ${primeiro.hora_jogo||""}</p><div class="radar-form-grid"><input id="radarPalpiteAFinal" placeholder="Seleção A" value="${primeiro.selecao_a}"><input id="radarPalpiteGolsAFinal" type="number" min="0" value="0"><input id="radarPalpiteGolsBFinal" type="number" min="0" value="0"><input id="radarPalpiteBFinal" placeholder="Seleção B" value="${primeiro.selecao_b}"></div><button onclick="return radarEnviarPalpiteFinal()">Enviar e ganhar +1 pacote</button></div><div class="radar-extra-card"><b>Últimos palpites</b>${ultimos.length?ultimos.map(p=>`<p>${radarSafe(p.jogo)}: ${radarSafe(p.timeA)} ${p.golsA} x ${p.golsB} ${radarSafe(p.timeB)}</p>`).join(""):"<p>Nenhum palpite enviado ainda.</p>"}</div></div>`;}
     if(!htmlTela)return false;radarColocarNoLivro(htmlTela,titulo);return false;
   };
@@ -2886,7 +2888,9 @@
     "SEXTA-RARA-2026":{pacotes:3,descricao:"Sexta Rara"},
     "BRASIL-EM-CAMPO":{pacotes:5,descricao:"Brasil em Campo"},
     "DOMINGO-5-PACOTES":{pacotes:5,descricao:"Domingo do Colecionador"}
-  };
+  ,
+    "COMBO-MATRIZ-200": { pacotes: 200, descricao: "Combo Matriz 17 Simulados" },
+    "COMBO-MATRIZ-200":{pacotes:200,descricao:"Combo Matriz 17 Simulados"}};
   var RADAR_CODIGOS_ATUAIS=Object.assign({},RADAR_CODIGOS_FALLBACK);
 
   function radarSafe(text){return String(text==null?"":text).replace(/[&<>"']/g,function(s){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[s];});}
@@ -2945,9 +2949,9 @@
   };
 
   window.radarResgatarCodigoFinal=function(){
-    var codigo=String((document.getElementById("radarCodigoFinal")||{}).value||"").trim().toUpperCase();
+    var codigo=String((document.getElementById("radarCodigoFinal")||{}).value||"").trim().toUpperCase().replace(/[–—]/g,"-");
     if(!codigo){alert("Digite um código.");return false;}
-    var regra=RADAR_CODIGOS_ATUAIS[codigo]||RADAR_CODIGOS_FALLBACK[codigo];
+    var regra=RADAR_CODIGOS_ATUAIS[codigo]||RADAR_CODIGOS_FALLBACK[codigo]||(codigo==="COMBO-MATRIZ-200"?{pacotes:200,descricao:"Combo Matriz 17 Simulados"}:null);
     if(!regra){alert("Código inválido ou ainda não liberado.");return false;}
     estado.codigosPromocionais=estado.codigosPromocionais||{};if(estado.codigosPromocionais[codigo]){alert("Este código já foi usado neste aparelho.");return false;}
     estado.codigosPromocionais[codigo]=new Date().toISOString();estado.pacotes=Number(estado.pacotes||0)+Number(regra.pacotes||0);estado.historico=estado.historico||[];
