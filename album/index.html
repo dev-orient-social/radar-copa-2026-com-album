@@ -1268,7 +1268,8 @@
 
 
 /* =========================================================
-   CARDS PARCEIROS NA CAPA - DB ENEM E GABARITO MAX
+   VERSAO_5170_PARCEIROS_CAPA_FORCADO
+   Cards DB ENEM e Gabarito Max inseridos por JS na Capa
    ========================================================= */
 .parceiros-capa-album{
   width:min(920px,92%);
@@ -1276,22 +1277,12 @@
   text-align:center;
 }
 .parceiros-capa-titulo{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  margin:0 0 12px;
   color:#ffd54a;
   font-weight:900;
   letter-spacing:.08em;
   text-transform:uppercase;
   font-size:15px;
-}
-.parceiros-capa-titulo::before,
-.parceiros-capa-titulo::after{
-  content:"★";
-  color:#fff3a3;
-  font-size:14px;
+  margin-bottom:12px;
 }
 .parceiros-capa-grid{
   display:grid;
@@ -1300,7 +1291,7 @@
 }
 .parceiro-capa-card{
   display:grid;
-  grid-template-columns:112px 1fr;
+  grid-template-columns:110px 1fr;
   gap:16px;
   align-items:center;
   text-align:left;
@@ -1308,11 +1299,11 @@
   border-radius:22px;
   border:1px solid rgba(255,213,74,.55);
   background:linear-gradient(145deg,rgba(7,20,48,.96),rgba(8,35,76,.88));
-  box-shadow:0 18px 46px rgba(0,0,0,.22), inset 0 0 24px rgba(255,213,74,.04);
+  box-shadow:0 18px 46px rgba(0,0,0,.22);
 }
 .parceiro-capa-logo{
-  width:96px;
-  height:96px;
+  width:92px;
+  height:92px;
   border-radius:999px;
   display:flex;
   align-items:center;
@@ -1323,20 +1314,19 @@
   font-weight:1000;
   line-height:.9;
   text-align:center;
-  box-shadow:0 0 22px rgba(255,213,74,.16);
 }
 .parceiro-capa-logo span{
   display:block;
-  font-size:33px;
+  font-size:32px;
 }
 .parceiro-capa-logo small{
   display:block;
   color:#ffd54a;
-  font-size:19px;
+  font-size:18px;
   margin-top:4px;
 }
 .parceiro-capa-logo.gmax span{
-  font-size:58px;
+  font-size:56px;
   color:#ffd54a;
   transform:skewX(-8deg);
 }
@@ -1348,7 +1338,6 @@
   color:#fff8cc;
   font-weight:900;
   font-size:12px;
-  text-transform:uppercase;
 }
 .parceiro-capa-conteudo h3{
   margin:7px 0 4px;
@@ -1366,7 +1355,6 @@
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:8px;
   width:100%;
   padding:10px 14px;
   border-radius:999px;
@@ -1375,54 +1363,23 @@
   color:#ffd54a;
   text-decoration:none;
   font-weight:1000;
-  letter-spacing:.02em;
 }
 .parceiro-capa-btn:hover{
   background:linear-gradient(135deg,#ffd54a,#f59e0b);
   color:#06142e;
 }
 @media(max-width:760px){
-  .parceiros-capa-album{
-    width:100%;
-    margin:18px auto 0;
-  }
-  .parceiros-capa-titulo{
-    font-size:13px;
-    line-height:1.2;
-  }
-  .parceiros-capa-grid{
-    grid-template-columns:1fr;
-    gap:10px;
-  }
-  .parceiro-capa-card{
-    grid-template-columns:78px 1fr;
-    gap:12px;
-    padding:14px;
-    border-radius:18px;
-  }
-  .parceiro-capa-logo{
-    width:70px;
-    height:70px;
-  }
-  .parceiro-capa-logo span{
-    font-size:25px;
-  }
-  .parceiro-capa-logo small{
-    font-size:14px;
-  }
-  .parceiro-capa-logo.gmax span{
-    font-size:42px;
-  }
-  .parceiro-capa-conteudo h3{
-    font-size:19px;
-  }
-  .parceiro-capa-conteudo p{
-    font-size:13px;
-  }
-  .parceiro-capa-btn{
-    padding:9px 10px;
-    font-size:13px;
-  }
+  .parceiros-capa-album{width:100%;margin:18px auto 0}
+  .parceiros-capa-titulo{font-size:13px;line-height:1.2}
+  .parceiros-capa-grid{grid-template-columns:1fr;gap:10px}
+  .parceiro-capa-card{grid-template-columns:76px 1fr;gap:12px;padding:14px;border-radius:18px}
+  .parceiro-capa-logo{width:68px;height:68px}
+  .parceiro-capa-logo span{font-size:24px}
+  .parceiro-capa-logo small{font-size:14px}
+  .parceiro-capa-logo.gmax span{font-size:40px}
+  .parceiro-capa-conteudo h3{font-size:19px}
+  .parceiro-capa-conteudo p{font-size:13px}
+  .parceiro-capa-btn{padding:9px 10px;font-size:13px}
 }
 
 </style>
@@ -2414,36 +2371,6 @@
               </div>
             </div>
           </div>
-            <div class="parceiros-capa-album">
-              <div class="parceiros-capa-titulo">Parceiros para ganhar figurinhas</div>
-
-              <div class="parceiros-capa-grid">
-                <div class="parceiro-capa-card">
-                  <div class="parceiro-capa-logo">
-                    <div><span>DB</span><small>ENEM</small></div>
-                  </div>
-                  <div class="parceiro-capa-conteudo">
-                    <small>Parceiro</small>
-                    <h3>DB ENEM</h3>
-                    <p>Ganhe figurinhas resolvendo simulados.</p>
-                    <a class="parceiro-capa-btn" href="https://cincoregioes-star.github.io/DB-ENEM/?origem=album_radar_copa" target="_blank" rel="noopener">Entrar no DB ENEM <span>→</span></a>
-                  </div>
-                </div>
-
-                <div class="parceiro-capa-card">
-                  <div class="parceiro-capa-logo gmax">
-                    <div><span>G</span></div>
-                  </div>
-                  <div class="parceiro-capa-conteudo">
-                    <small>Parceiro</small>
-                    <h3>Gabarito Max</h3>
-                    <p>Resolva simulados e desbloqueie pacotes.</p>
-                    <a class="parceiro-capa-btn" href="https://cincoregioes-star.github.io/oficial-portal-gabaritomax/?origem=album_radar_copa" target="_blank" rel="noopener">Entrar no Gabarito Max <span>→</span></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
         `;
       }
 
