@@ -1197,6 +1197,64 @@
   .radar-ranking-item .score{grid-column:2!important}
 }
 
+
+/* =========================================================
+   RADAR COPA 5130 - MENU + TELAS EXTRAS FUNCIONANDO
+   ========================================================= */
+.radar-extra-page{height:100%;overflow:auto;padding:12px}
+.radar-extra-page h2{color:#ffd54a;font-size:2.05rem;margin-bottom:10px;line-height:1.05}
+.radar-extra-page p{color:#dbeafe;line-height:1.45}
+.radar-extra-card{margin-top:14px;padding:16px;border-radius:18px;background:linear-gradient(145deg,rgba(15,23,42,.92),rgba(7,27,63,.88));border:1px solid rgba(246,200,76,.35)}
+.radar-extra-card b{display:block;color:#ffd54a;margin-bottom:8px}
+.radar-extra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.radar-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.radar-form-grid input,.radar-extra-card input,.radar-extra-card select{width:100%;margin:0}
+.radar-extra-card button{width:100%;margin-top:10px;border:0;border-radius:999px;padding:11px 12px;background:linear-gradient(135deg,#ffd54a,#f59e0b);color:#06142e;font-weight:900}
+.radar-lista-ranking{display:grid;gap:8px;margin-top:12px}
+.radar-ranking-item{display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:center;padding:10px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(246,200,76,.18)}
+.radar-ranking-item .pos{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border-radius:999px;background:linear-gradient(135deg,#ffd54a,#f59e0b);color:#06142e;font-weight:900}
+.radar-ranking-item strong{color:#fff;display:block}
+.radar-ranking-item small{color:#dbeafe;display:block;margin-top:3px}
+.radar-ranking-item .score{color:#ffd54a;font-weight:900;white-space:nowrap}
+.radar-premio-regra{border:1px solid rgba(34,197,94,.35);background:linear-gradient(145deg,rgba(20,83,45,.72),rgba(2,8,23,.92))}
+.radar-chip{display:inline-flex;padding:5px 10px;border-radius:999px;background:rgba(255,213,74,.14);border:1px solid rgba(255,213,74,.25);color:#ffd54a;font-weight:900;font-size:.76rem;margin:4px 4px 0 0}
+
+/* Topo desktop */
+.topo,header.topo{height:auto!important;min-height:auto!important;overflow:visible!important}
+.topo{display:grid!important;grid-template-columns:minmax(210px,290px) minmax(0,1fr)!important;align-items:start!important;gap:8px 12px!important;padding:8px 10px!important}
+.marca,.topo .marca{min-width:0!important}
+.topo nav,header nav{display:flex!important;flex-wrap:wrap!important;justify-content:flex-end!important;align-items:center!important;gap:7px!important;max-width:100%!important;overflow:visible!important;padding-right:4px!important}
+.topo nav button,header nav button,#btnCapa,#btnRelatorio,#btnRanking,#btnResgate,#btnTrocas,#btnCodigos,#btnPalpites,#btnEnvelope,#btnPrev,#btnNext,#btnSom{flex:0 0 auto!important;min-width:72px!important;max-width:150px!important;height:36px!important;min-height:36px!important;padding:7px 11px!important;white-space:nowrap!important;font-size:12px!important;line-height:1!important;border-radius:999px!important;cursor:pointer!important;pointer-events:auto!important;position:relative!important;z-index:20!important}
+#btnEnvelope{min-width:118px!important}
+#btnSom{min-width:80px!important}
+
+/* Busca país */
+.barra,.toolbar,.pagina-topo{display:grid!important;grid-template-columns:minmax(160px,1fr) minmax(240px,360px)!important;align-items:center!important;gap:10px!important;overflow:visible!important}
+.barra select,#filtroPaisTopo,#filtroPais{width:100%!important;min-width:0!important;max-width:100%!important;height:40px!important;min-height:40px!important;line-height:40px!important;padding:0 38px 0 14px!important;text-align:center!important;text-align-last:center!important;font-weight:900!important;border-radius:14px!important;box-sizing:border-box!important}
+
+@media(max-width:1180px){
+  .topo{grid-template-columns:1fr!important}
+  .topo .marca,.marca{text-align:center!important}
+  .topo nav,header nav{justify-content:center!important}
+}
+@media(max-width:760px){
+  body{overflow-x:hidden!important}
+  .topo,header.topo{display:block!important;padding:8px 8px 6px!important;position:relative!important}
+  .marca,.topo .marca{text-align:center!important;margin-bottom:8px!important}
+  .marca b,.topo .marca b{display:block!important;font-size:20px!important;line-height:1.15!important}
+  .marca small,.topo .marca small{display:block!important;font-size:13px!important;line-height:1.25!important}
+  .topo nav,header nav{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;align-items:center!important;gap:8px!important;overflow-x:auto!important;overflow-y:hidden!important;width:100%!important;max-width:100vw!important;padding:4px 8px 10px!important;scroll-snap-type:x proximity!important;-webkit-overflow-scrolling:touch!important}
+  .topo nav button,header nav button,#btnCapa,#btnRelatorio,#btnRanking,#btnResgate,#btnTrocas,#btnCodigos,#btnPalpites,#btnEnvelope,#btnPrev,#btnNext,#btnSom{flex:0 0 auto!important;min-width:auto!important;width:auto!important;max-width:none!important;height:38px!important;min-height:38px!important;padding:8px 16px!important;font-size:13px!important;line-height:1!important;scroll-snap-align:start!important;touch-action:manipulation!important}
+  #btnEnvelope{min-width:126px!important}
+  #btnSom{min-width:84px!important}
+  .barra,.toolbar,.pagina-topo{grid-template-columns:1fr!important;gap:8px!important;padding:8px!important}
+  #filtroPaisTopo,#filtroPais{height:42px!important;font-size:15px!important;padding:0 36px 0 12px!important}
+  .pagina,.pagina.direita,.pagina.esquerda{width:100%!important;max-width:100%!important}
+  .radar-extra-grid,.radar-form-grid{grid-template-columns:1fr!important}
+  .radar-ranking-item{grid-template-columns:36px 1fr!important}
+  .radar-ranking-item .score{grid-column:2!important}
+}
+
 </style>
 </head>
 <body>
@@ -1208,12 +1266,12 @@
       </div>
       <nav>
         <button id="btnCapa">Capa</button>
-        <button id="btnRelatorio" onclick="return radarAbrirTelaFinal('dados', event)">Relatório</button>
-        <button id="btnRanking" onclick="return radarAbrirTelaFinal('ranking', event)">Ranking</button>
+        <button id="btnRelatorio">Relatório</button>
+        <button id="btnRanking">Ranking</button>
         <button id="btnResgate">Resgates</button>
-        <button id="btnTrocas" onclick="return radarAbrirTelaFinal('trocas', event)">Trocas</button>
-        <button id="btnCodigos" onclick="return radarAbrirTelaFinal('codigos', event)">Códigos</button>
-        <button id="btnPalpites" onclick="return radarAbrirTelaFinal('palpites', event)">Palpites</button>
+        <button id="btnTrocas">Trocas</button>
+        <button id="btnCodigos">Códigos</button>
+        <button id="btnPalpites">Palpites</button>
         <button id="btnEnvelope">Abrir envelope</button>
         <button id="btnAnteriorTopo">← Página</button>
         <button id="btnProximaTopo">Página →</button>
@@ -1793,6 +1851,9 @@
             nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
             cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
             whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
+            nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
+            cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
+            whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
             pontos: totalConquistadas(),
             total_figurinhas: totalConquistadas(),
             total_coladas: totais().coladas,
@@ -1888,6 +1949,9 @@
         await supabaseClientAlbum
           .from("torcedores_copa")
           .update({
+            nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
+            cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
+            whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
             nome: estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa",
             cidade: estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada",
             whatsapp: estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "",
@@ -2786,6 +2850,183 @@
   }
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",radarReaplicarBotoes);else radarReaplicarBotoes();
   setTimeout(radarReaplicarBotoes,500);setTimeout(radarReaplicarBotoes,1500);setTimeout(radarReaplicarBotoes,3000);
+})();
+</script>
+
+
+<script>
+/* =========================================================
+   RADAR COPA 5130 - BOTÕES EXTRAS COM DELEGAÇÃO GLOBAL
+   ========================================================= */
+(function(){
+  var RADAR_JOGOS_FALLBACK=[
+    {id:"jogo-001",fase:"Fase de grupos",grupo:"Grupo C",selecao_a:"Brasil",selecao_b:"Marrocos",data_jogo:"2026-06-15",hora_jogo:"16:00",status:"aberto"},
+    {id:"jogo-002",fase:"Fase de grupos",grupo:"Grupo C",selecao_a:"Brasil",selecao_b:"Haiti",data_jogo:"2026-06-20",hora_jogo:"16:00",status:"aberto"},
+    {id:"jogo-003",fase:"Fase de grupos",grupo:"Grupo C",selecao_a:"Brasil",selecao_b:"Escócia",data_jogo:"2026-06-25",hora_jogo:"16:00",status:"aberto"},
+    {id:"jogo-004",fase:"Fase de grupos",grupo:"Grupo A",selecao_a:"México",selecao_b:"África do Sul",data_jogo:"2026-06-11",hora_jogo:"16:00",status:"aberto"},
+    {id:"jogo-005",fase:"Fase de grupos",grupo:"Grupo D",selecao_a:"Estados Unidos",selecao_b:"Paraguai",data_jogo:"2026-06-12",hora_jogo:"18:00",status:"aberto"}
+  ];
+  var RADAR_JOGOS_ATUAIS=RADAR_JOGOS_FALLBACK.slice();
+  var RADAR_CODIGOS_FALLBACK={
+    "SEXTA-RARA-2026":{pacotes:3,descricao:"Sexta Rara"},
+    "BRASIL-EM-CAMPO":{pacotes:5,descricao:"Brasil em Campo"},
+    "DOMINGO-5-PACOTES":{pacotes:5,descricao:"Domingo do Colecionador"}
+  };
+  var RADAR_CODIGOS_ATUAIS=Object.assign({},RADAR_CODIGOS_FALLBACK);
+
+  function radarSafe(text){return String(text==null?"":text).replace(/[&<>"']/g,function(s){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[s];});}
+  function radarGet(chave,fallback){
+    try{if(typeof estado!=="undefined"&&estado&&estado[chave])return estado[chave];}catch(e){}
+    var mapa={nomeTorcedor:"radar_copa_nome_torcedor",cidadeTorcedor:"radar_copa_cidade_torcedor",whatsappTorcedor:"radar_copa_whatsapp_torcedor"};
+    return localStorage.getItem(mapa[chave])||fallback;
+  }
+  function radarColocarNoLivro(htmlTela,tituloTela){
+    var livro=document.getElementById("livro"),esq=document.getElementById("paginaEsquerda"),dir=document.getElementById("paginaDireita"),mobile=document.getElementById("paginaMobileUnica"),titulo=document.getElementById("tituloPagina"),pag=document.getElementById("paginaAtual");
+    if(titulo)titulo.textContent=tituloTela;if(pag)pag.textContent=tituloTela;
+    var mobileAtivo=(typeof isMobileAlbum==="function")?isMobileAlbum():window.innerWidth<=900;
+    if(mobileAtivo){if(mobile)mobile.innerHTML='<div class="pagina direita">'+htmlTela+'</div>';return;}
+    if(livro)livro.className="livro capa";if(esq)esq.innerHTML="";if(dir)dir.innerHTML=htmlTela;if(mobile)mobile.innerHTML="";
+  }
+
+  async function radarCarregarJogos(){
+    try{
+      if(!window.supabaseClientAlbum)return RADAR_JOGOS_FALLBACK;
+      var res=await supabaseClientAlbum.from("jogos_copa").select("*").eq("status","aberto").order("data_jogo",{ascending:true}).limit(40);
+      if(res.error||!res.data||!res.data.length)return RADAR_JOGOS_FALLBACK;
+      RADAR_JOGOS_ATUAIS=res.data;return res.data;
+    }catch(e){console.warn("jogos_copa fallback:",e);RADAR_JOGOS_ATUAIS=RADAR_JOGOS_FALLBACK;return RADAR_JOGOS_FALLBACK;}
+  }
+  async function radarCarregarCodigos(){
+    try{
+      if(!window.supabaseClientAlbum)return RADAR_CODIGOS_FALLBACK;
+      var res=await supabaseClientAlbum.from("codigos_promocionais").select("*").eq("ativo",true);
+      if(res.error||!res.data||!res.data.length)return RADAR_CODIGOS_FALLBACK;
+      var mapa={};
+      res.data.forEach(function(c){mapa[String(c.codigo||"").toUpperCase()]={pacotes:Number(c.pacotes||0),descricao:c.descricao||c.nome||c.codigo};});
+      RADAR_CODIGOS_ATUAIS=Object.keys(mapa).length?mapa:RADAR_CODIGOS_FALLBACK;return RADAR_CODIGOS_ATUAIS;
+    }catch(e){console.warn("codigos fallback:",e);RADAR_CODIGOS_ATUAIS=RADAR_CODIGOS_FALLBACK;return RADAR_CODIGOS_FALLBACK;}
+  }
+
+  function radarTotalRepetidas(){try{return Object.values(estado.album||{}).reduce(function(s,r){return s+Math.max(0,Number(r.quantidade||0)-1);},0);}catch(e){return 0;}}
+  function radarConsumirRepetidas(qtd){
+    var falta=Number(qtd||0);if(radarTotalRepetidas()<falta)return false;
+    for(var i=0;i<FIGURINHAS_COPA.length;i++){
+      if(falta<=0)break;
+      var fig=FIGURINHAS_COPA[i], r=reg(fig.id), rep=Math.max(0,Number(r.quantidade||0)-1);
+      if(rep>0){var tirar=Math.min(rep,falta);r.quantidade-=tirar;falta-=tirar;if(typeof salvarFigurinhaOnline==="function")salvarFigurinhaOnline(fig,"troca_repetidas");}
+    }
+    return true;
+  }
+
+  window.radarTrocarRepetidasFinal=function(custo,pacotes){
+    custo=Number(custo||0);pacotes=Number(pacotes||0);
+    if(radarTotalRepetidas()<custo){alert("Repetidas insuficientes. Você tem "+radarTotalRepetidas()+" repetida(s).");return false;}
+    if(!confirm("Confirmar troca de "+custo+" repetidas por "+pacotes+" pacote(s)?"))return false;
+    if(!radarConsumirRepetidas(custo)){alert("Não foi possível consumir as repetidas.");return false;}
+    estado.pacotes=Number(estado.pacotes||0)+pacotes;estado.historico=estado.historico||[];
+    estado.historico.push({tipo:"troca_repetidas",origem:"trocas_copa",pacotes:pacotes,qtd:pacotes*FIGS_POR_PACOTE,descricao:custo+" repetidas por "+pacotes+" pacote(s)",data:new Date().toISOString()});
+    if(typeof salvar==="function")salvar();if(typeof registrarMissaoOnline==="function")registrarMissaoOnline("troca_repetidas","Troca automática de repetidas",pacotes*FIGS_POR_PACOTE,"trocas_copa");if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
+    alert("Troca concluída. Você recebeu "+pacotes+" pacote(s).");radarAbrirTelaFinal("trocas");return false;
+  };
+
+  window.radarResgatarCodigoFinal=function(){
+    var codigo=String((document.getElementById("radarCodigoFinal")||{}).value||"").trim().toUpperCase();
+    if(!codigo){alert("Digite um código.");return false;}
+    var regra=RADAR_CODIGOS_ATUAIS[codigo]||RADAR_CODIGOS_FALLBACK[codigo];
+    if(!regra){alert("Código inválido ou ainda não liberado.");return false;}
+    estado.codigosPromocionais=estado.codigosPromocionais||{};if(estado.codigosPromocionais[codigo]){alert("Este código já foi usado neste aparelho.");return false;}
+    estado.codigosPromocionais[codigo]=new Date().toISOString();estado.pacotes=Number(estado.pacotes||0)+Number(regra.pacotes||0);estado.historico=estado.historico||[];
+    estado.historico.push({tipo:"codigo_promocional",origem:codigo,pacotes:regra.pacotes,qtd:regra.pacotes*FIGS_POR_PACOTE,descricao:regra.descricao,data:new Date().toISOString()});
+    if(typeof salvar==="function")salvar();if(typeof registrarMissaoOnline==="function")registrarMissaoOnline(codigo,regra.descricao,regra.pacotes*FIGS_POR_PACOTE,"codigo_promocional");if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
+    alert("Código resgatado: +"+regra.pacotes+" pacote(s).");radarAbrirTelaFinal("codigos");return false;
+  };
+
+  function radarJogoSelecionado(){var el=document.getElementById("radarJogoSelectFinal"), id=el?el.value:"";return RADAR_JOGOS_ATUAIS.find(function(j){return String(j.id)===String(id);})||RADAR_JOGOS_ATUAIS[0]||RADAR_JOGOS_FALLBACK[0];}
+  window.radarAtualizarJogoPalpiteFinal=function(){var jogo=radarJogoSelecionado(),a=document.getElementById("radarPalpiteAFinal"),b=document.getElementById("radarPalpiteBFinal"),titulo=document.getElementById("radarJogoTituloFinal");if(a)a.value=jogo.selecao_a;if(b)b.value=jogo.selecao_b;if(titulo)titulo.textContent=jogo.selecao_a+" x "+jogo.selecao_b+" • "+(jogo.data_jogo||"")+" "+(jogo.hora_jogo||"");};
+  async function radarSalvarPalpiteSupabase(palpite){try{if(!window.supabaseClientAlbum)return;await supabaseClientAlbum.from("palpites_copa").insert({codigo_torcedor:garantirCodigoTorcedor(),jogo_id:palpite.jogo_id||null,jogo:palpite.jogo,selecao_a:palpite.timeA,gols_a:palpite.golsA,gols_b:palpite.golsB,selecao_b:palpite.timeB,status:"enviado",recompensa:FIGS_POR_PACOTE,criado_em:new Date().toISOString()});}catch(e){console.warn("Palpite não enviado ao Supabase:",e);}}
+  window.radarEnviarPalpiteFinal=function(){
+    var jogoObj=radarJogoSelecionado(),timeA=String((document.getElementById("radarPalpiteAFinal")||{}).value||jogoObj.selecao_a).trim(),golsA=Number((document.getElementById("radarPalpiteGolsAFinal")||{}).value||0),golsB=Number((document.getElementById("radarPalpiteGolsBFinal")||{}).value||0),timeB=String((document.getElementById("radarPalpiteBFinal")||{}).value||jogoObj.selecao_b).trim();
+    var jogo=timeA+" x "+timeB;if(!timeA||!timeB){alert("Selecione um jogo.");return false;}
+    var palpite={jogo_id:jogoObj.id,jogo:jogo,timeA:timeA,golsA:golsA,golsB:golsB,timeB:timeB,data:new Date().toISOString()};
+    estado.palpitesCopa=estado.palpitesCopa||[];estado.palpitesCopa.push(palpite);estado.pacotes=Number(estado.pacotes||0)+1;estado.historico=estado.historico||[];
+    estado.historico.push({tipo:"palpite_copa",origem:"palpites_copa",pacotes:1,qtd:FIGS_POR_PACOTE,descricao:"Palpite enviado: "+timeA+" "+golsA+" x "+golsB+" "+timeB,data:new Date().toISOString()});
+    if(typeof salvar==="function")salvar();radarSalvarPalpiteSupabase(palpite);if(typeof registrarMissaoOnline==="function")registrarMissaoOnline("palpite_copa","Palpite enviado",FIGS_POR_PACOTE,"palpites_copa");if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
+    alert("Palpite enviado. Você ganhou +1 pacote.");radarAbrirTelaFinal("palpites");return false;
+  };
+  window.radarSalvarDadosTorcedorFinal=function(){
+    var nome=String((document.getElementById("radarNomeTorcedorFinal")||{}).value||"").trim()||"Torcedor Radar Copa",cidade=String((document.getElementById("radarCidadeTorcedorFinal")||{}).value||"").trim()||"Cidade não informada",whatsapp=String((document.getElementById("radarWhatsappTorcedorFinal")||{}).value||"").trim();
+    if(typeof estado!=="undefined"&&estado){estado.nomeTorcedor=nome;estado.cidadeTorcedor=cidade;estado.whatsappTorcedor=whatsapp;}
+    localStorage.setItem("radar_copa_nome_torcedor",nome);localStorage.setItem("radar_copa_cidade_torcedor",cidade);localStorage.setItem("radar_copa_whatsapp_torcedor",whatsapp);
+    if(typeof salvar==="function")salvar();if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
+    alert("Dados salvos. Cidade atualizada para os próximos salvamentos no Supabase.");radarAbrirTelaFinal("dados");return false;
+  };
+
+  function radarRankingLocalHTML(){var nome=radarGet("nomeTorcedor","Torcedor Radar Copa"),cidade=radarGet("cidadeTorcedor","Cidade não informada"),coladas=(typeof totais==="function")?totais().coladas:0,repetidas=radarTotalRepetidas();return '<div class="radar-ranking-item"><span class="pos">1</span><div><strong>'+radarSafe(nome)+'</strong><small>'+radarSafe(cidade)+'</small></div><span class="score">'+coladas+' coladas</span></div><div class="radar-ranking-item"><span class="pos">2</span><div><strong>Ranking online</strong><small>Carrega do Supabase quando disponível</small></div><span class="score">'+repetidas+' repetidas</span></div>';}
+  async function radarCarregarRankingOnline(){var box=document.getElementById("radarRankingOnlineBox");if(!box)return;try{if(!window.supabaseClientAlbum){box.innerHTML=radarRankingLocalHTML();return;}var res=await supabaseClientAlbum.from("torcedores_copa").select("nome,cidade,total_coladas,total_figurinhas,total_repetidas,pontos,codigo").order("total_coladas",{ascending:false}).limit(15);if(res.error)throw res.error;if(!res.data||!res.data.length){box.innerHTML=radarRankingLocalHTML();return;}box.innerHTML=res.data.map(function(t,i){return '<div class="radar-ranking-item"><span class="pos">'+(i+1)+'</span><div><strong>'+radarSafe(t.nome||"Torcedor")+'</strong><small>'+radarSafe(t.cidade||"Cidade não informada")+'</small></div><span class="score">'+Number(t.total_coladas||0)+' coladas</span></div>';}).join("");}catch(e){console.warn("Ranking online falhou:",e);box.innerHTML=radarRankingLocalHTML();}}
+  function radarRankingDisputasHTML(){var palpites=(estado.palpitesCopa||[]).slice(-15).reverse();if(!palpites.length)return '<div class="radar-ranking-item"><span class="pos">0</span><div><strong>Nenhum palpite ainda</strong><small>Envie o primeiro palpite</small></div><span class="score">+1 pacote</span></div>';return palpites.map(function(p,i){return '<div class="radar-ranking-item"><span class="pos">'+(i+1)+'</span><div><strong>'+radarSafe(radarGet("nomeTorcedor","Torcedor"))+'</strong><small>'+radarSafe(p.jogo)+' • '+radarSafe(radarGet("cidadeTorcedor","Cidade"))+'</small></div><span class="score">'+p.golsA+' x '+p.golsB+'</span></div>';}).join("");}
+
+  window.radarAbrirTelaFinal=async function(tipo,ev){
+    if(ev){ev.preventDefault();ev.stopPropagation();}
+    var htmlTela="",titulo="";
+    if(tipo==="dados"){
+      titulo="Dados do Torcedor";var nome=radarGet("nomeTorcedor","Torcedor Radar Copa"),cidade=radarGet("cidadeTorcedor","Cidade não informada"),whatsapp=radarGet("whatsappTorcedor","");
+      htmlTela='<div class="radar-extra-page"><h2>Dados do Torcedor</h2><p>Preencha nome, cidade e WhatsApp para aparecer corretamente nos rankings e no Supabase.</p><div class="radar-extra-card"><b>Cadastro do torcedor</b><div class="radar-form-grid"><input id="radarNomeTorcedorFinal" placeholder="Nome do torcedor" value="'+radarSafe(nome)+'"><input id="radarCidadeTorcedorFinal" placeholder="Cidade" value="'+radarSafe(cidade)+'"><input id="radarWhatsappTorcedorFinal" placeholder="WhatsApp opcional" value="'+radarSafe(whatsapp)+'"><button onclick="return radarSalvarDadosTorcedorFinal()">Salvar dados</button></div></div></div>';
+    }
+    if(tipo==="ranking"){
+      titulo="Ranking Radar Copa";htmlTela='<div class="radar-extra-page"><h2>Ranking Radar Copa</h2><p>Top 15 participantes com mais figurinhas coladas. Mostra nome e cidade.</p><div class="radar-extra-card"><b>🏆 Top 15 colecionadores</b><div class="radar-lista-ranking" id="radarRankingOnlineBox">'+radarRankingLocalHTML()+'</div></div><div class="radar-extra-card"><b>⚽ Ranking de disputas / palpites recentes</b><div class="radar-lista-ranking">'+radarRankingDisputasHTML()+'</div></div></div>';setTimeout(radarCarregarRankingOnline,250);
+    }
+    if(tipo==="trocas"){
+      titulo="Troca de Repetidas";htmlTela='<div class="radar-extra-page"><h2>Troca de Repetidas</h2><p>Transforme figurinhas repetidas em novos pacotes.</p><div class="info-grid"><div class="info-card"><b>Repetidas disponíveis</b><span>'+radarTotalRepetidas()+'</span></div><div class="info-card"><b>Pacotes no saldo</b><span>'+(estado.pacotes||0)+'</span></div></div><div class="radar-extra-grid"><div class="radar-extra-card"><b>Troca comum</b><p>10 repetidas = 1 pacote.</p><button onclick="return radarTrocarRepetidasFinal(10,1)">Trocar 10 por 1 pacote</button></div><div class="radar-extra-card"><b>Troca turbo</b><p>25 repetidas = 3 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(25,3)">Trocar 25 por 3 pacotes</button></div><div class="radar-extra-card"><b>Troca rara</b><p>50 repetidas = 7 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(50,7)">Trocar 50 por 7 pacotes</button></div></div></div>';
+    }
+    if(tipo==="codigos"){
+      titulo="Códigos Promocionais";await radarCarregarCodigos();var chips=Object.keys(RADAR_CODIGOS_ATUAIS).map(function(c){return '<span class="radar-chip">'+radarSafe(c)+'</span>';}).join("");
+      htmlTela='<div class="radar-extra-page"><h2>Códigos Promocionais</h2><p>Para atualizar depois, cadastre no Supabase em codigos_promocionais. Se não existir, usa os códigos fixos.</p><div class="radar-extra-card"><b>Inserir código</b><input id="radarCodigoFinal" placeholder="Ex: SEXTA-RARA-2026"><button onclick="return radarResgatarCodigoFinal()">Resgatar código</button></div><div class="radar-extra-card"><b>Códigos disponíveis / campanha</b>'+chips+'</div></div>';
+    }
+    if(tipo==="palpites"){
+      titulo="Palpites da Copa";await radarCarregarJogos();var ultimos=(estado.palpitesCopa||[]).slice(-5).reverse(),opts=RADAR_JOGOS_ATUAIS.map(function(j){return '<option value="'+j.id+'">'+j.selecao_a+' x '+j.selecao_b+' • '+(j.data_jogo||"")+' '+(j.hora_jogo||"")+'</option>';}).join(""),primeiro=RADAR_JOGOS_ATUAIS[0]||RADAR_JOGOS_FALLBACK[0];
+      htmlTela='<div class="radar-extra-page"><h2>Palpites da Copa</h2><p>Escolha um jogo da tabela, envie seu placar e ganhe +1 pacote por participar.</p><div class="radar-extra-grid"><div class="radar-extra-card radar-premio-regra"><b>Participar</b><p>Enviar palpite = +1 pacote.</p></div><div class="radar-extra-card radar-premio-regra"><b>Vencedor da partida</b><p>Acertar vencedor/resultado = +5 pacotes.</p></div><div class="radar-extra-card radar-premio-regra"><b>Resultado cheio</b><p>Acertar placar exato = +10 pacotes.</p></div></div><div class="radar-extra-card"><b>Tabela de jogos</b><select id="radarJogoSelectFinal" onchange="radarAtualizarJogoPalpiteFinal()">'+opts+'</select><p id="radarJogoTituloFinal" style="margin-top:10px;color:#ffd54a;font-weight:900;">'+primeiro.selecao_a+' x '+primeiro.selecao_b+' • '+(primeiro.data_jogo||"")+' '+(primeiro.hora_jogo||"")+'</p><div class="radar-form-grid"><input id="radarPalpiteAFinal" placeholder="Seleção A" value="'+radarSafe(primeiro.selecao_a)+'"><input id="radarPalpiteGolsAFinal" type="number" min="0" value="0"><input id="radarPalpiteGolsBFinal" type="number" min="0" value="0"><input id="radarPalpiteBFinal" placeholder="Seleção B" value="'+radarSafe(primeiro.selecao_b)+'"></div><button onclick="return radarEnviarPalpiteFinal()">Enviar e ganhar +1 pacote</button></div><div class="radar-extra-card"><b>Últimos palpites</b>'+(ultimos.length?ultimos.map(function(p){return '<p>'+radarSafe(p.jogo)+': '+radarSafe(p.timeA)+' '+p.golsA+' x '+p.golsB+' '+radarSafe(p.timeB)+'</p>';}).join(""):"<p>Nenhum palpite enviado ainda.</p>")+'</div></div>';
+    }
+    if(!htmlTela)return false;radarColocarNoLivro(htmlTela,titulo);return false;
+  };
+
+  function detectarTipoBotao(el){
+    if(!el)return null;
+    if(el.id==="btnRelatorio")return "dados";
+    if(el.id==="btnRanking")return "ranking";
+    if(el.id==="btnTrocas")return "trocas";
+    if(el.id==="btnCodigos")return "codigos";
+    if(el.id==="btnPalpites")return "palpites";
+    return null;
+  }
+
+  document.addEventListener("click",function(ev){
+    var btn=ev.target.closest&&ev.target.closest("#btnRelatorio,#btnRanking,#btnTrocas,#btnCodigos,#btnPalpites");
+    var tipo=detectarTipoBotao(btn);
+    if(tipo&&typeof window.radarAbrirTelaFinal==="function"){
+      ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+      window.radarAbrirTelaFinal(tipo,ev);
+      return false;
+    }
+  },true);
+
+  document.addEventListener("touchend",function(ev){
+    var btn=ev.target.closest&&ev.target.closest("#btnRelatorio,#btnRanking,#btnTrocas,#btnCodigos,#btnPalpites");
+    var tipo=detectarTipoBotao(btn);
+    if(tipo&&typeof window.radarAbrirTelaFinal==="function"){
+      ev.preventDefault();ev.stopPropagation();ev.stopImmediatePropagation();
+      window.radarAbrirTelaFinal(tipo,ev);
+      return false;
+    }
+  },{capture:true,passive:false});
+
+  function aplicarOnclick(){
+    ["btnRelatorio","btnRanking","btnTrocas","btnCodigos","btnPalpites"].forEach(function(id){
+      var el=document.getElementById(id), tipo=detectarTipoBotao(el);
+      if(el&&tipo){el.onclick=function(ev){if(ev){ev.preventDefault();ev.stopPropagation();}window.radarAbrirTelaFinal(tipo,ev);return false;};}
+    });
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",aplicarOnclick);else aplicarOnclick();
+  setTimeout(aplicarOnclick,500);setTimeout(aplicarOnclick,1500);setTimeout(aplicarOnclick,3000);
 })();
 </script>
 
