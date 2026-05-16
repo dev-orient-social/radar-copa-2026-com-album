@@ -1255,6 +1255,17 @@
   .radar-ranking-item .score{grid-column:2!important}
 }
 
+
+/* Premium seguro: Combo +200 bloqueado por código */
+.premium-bloqueado{
+  border-color: rgba(34,197,94,.55)!important;
+  background: linear-gradient(145deg,rgba(7,27,63,.96),rgba(20,83,45,.62))!important;
+}
+.premium-bloqueado .btn-resgate{
+  background: linear-gradient(135deg,#22c55e,#ffd54a)!important;
+  color:#06142e!important;
+}
+
 </style>
 </head>
 <body>
@@ -2209,8 +2220,12 @@
 
       if (isPremium || isComboMatriz) {
         const idProduto = isComboMatriz ? "matriz-combo-17-simulados" : `${parceiro}_${etapa}`.replace(/[^a-z0-9]+/gi, "-").toLowerCase();
-        const pacotes = isComboMatriz ? 200 : 10;
-        const novasPremium = resgatarPremiumPorProduto(idProduto, pacotes, isComboMatriz ? "Combo Matriz 17 simulados" : "Bônus premium individual");
+        if (isComboMatriz) {
+          alert("Combo Matriz +200 pacotes é liberado somente por código premium após a compra.");
+          return;
+        }
+        const pacotes = 10;
+        const novasPremium = resgatarPremiumPorProduto(idProduto, pacotes, "Bônus premium individual");
         const painelPremium = document.getElementById("resultadoPacote");
         if (painelPremium && novasPremium.length) painelPremium.innerHTML = novasPremium.slice(0, 12).map(f => card(f, true)).join("");
         return;
@@ -2310,10 +2325,10 @@
                 <p>Produto premium individual. Cada compra libera +10 pacotes.</p>
                 <button class="btn-resgate" onclick="resgatarPremiumPorProduto('gabarito-max-analista-adm-premium',10,'Gabarito Max Analista Administrativo Premium')">Resgatar +10 pacotes</button>
               </div>
-              <div class="parceiro-card">
+              <div class="parceiro-card premium-bloqueado">
                 <h3>Combo Matriz 17 Simulados</h3>
-                <p>Combo premium completo. Libera bônus especial de +200 pacotes.</p>
-                <button class="btn-resgate" onclick="resgatarPremiumPorProduto('matriz-combo-17-simulados',200,'Combo Matriz 17 simulados')">Resgatar +200 pacotes</button>
+                <p>Combo premium completo. O bônus especial de +200 pacotes é liberado somente por código premium após a compra.</p>
+                <button class="btn-resgate" onclick="return abrirCodigoPremiumCombo()">Liberar com código premium</button>
               </div>
             </div>
 </div>
@@ -2979,7 +2994,7 @@
       titulo="Troca de Repetidas";htmlTela='<div class="radar-extra-page"><h2>Troca de Repetidas</h2><p>Transforme figurinhas repetidas em novos pacotes.</p><div class="info-grid"><div class="info-card"><b>Repetidas disponíveis</b><span>'+radarTotalRepetidas()+'</span></div><div class="info-card"><b>Pacotes no saldo</b><span>'+(estado.pacotes||0)+'</span></div></div><div class="radar-extra-grid"><div class="radar-extra-card"><b>Troca comum</b><p>10 repetidas = 1 pacote.</p><button onclick="return radarTrocarRepetidasFinal(10,1)">Trocar 10 por 1 pacote</button></div><div class="radar-extra-card"><b>Troca turbo</b><p>25 repetidas = 3 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(25,3)">Trocar 25 por 3 pacotes</button></div><div class="radar-extra-card"><b>Troca rara</b><p>50 repetidas = 7 pacotes.</p><button onclick="return radarTrocarRepetidasFinal(50,7)">Trocar 50 por 7 pacotes</button></div></div></div>';
     }
     if(tipo==="codigos"){
-      titulo="Códigos Promocionais";await radarCarregarCodigos();var chips=Object.keys(RADAR_CODIGOS_ATUAIS).map(function(c){return '<span class="radar-chip">'+radarSafe(c)+'</span>';}).join("");
+      titulo="Códigos Promocionais";await radarCarregarCodigos();var chips=Object.keys(RADAR_CODIGOS_ATUAIS).filter(function(c){return !/COMBO|PREMIUM|MATRIZ/i.test(c);}).map(function(c){return '<span class="radar-chip">'+radarSafe(c)+'</span>';}).join("");
       htmlTela='<div class="radar-extra-page"><h2>Códigos Promocionais</h2><p>Para atualizar depois, cadastre no Supabase em codigos_promocionais. Se não existir, usa os códigos fixos.</p><div class="radar-extra-card"><b>Inserir código</b><input id="radarCodigoFinal" placeholder="Ex: SEXTA-RARA-2026"><button onclick="return radarResgatarCodigoFinal()">Resgatar código</button></div><div class="radar-extra-card"><b>Códigos disponíveis / campanha</b>'+chips+'</div></div>';
     }
     if(tipo==="palpites"){
@@ -3028,6 +3043,18 @@
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",aplicarOnclick);else aplicarOnclick();
   setTimeout(aplicarOnclick,500);setTimeout(aplicarOnclick,1500);setTimeout(aplicarOnclick,3000);
 })();
+</script>
+
+
+<script>
+/* Segurança premium: o Combo Matriz +200 não libera por botão aberto */
+function abrirCodigoPremiumCombo(){
+  alert("Para liberar o Combo Matriz, digite o código premium recebido após a compra na tela Códigos.");
+  if (typeof radarAbrirTelaFinal === "function") {
+    radarAbrirTelaFinal("codigos");
+  }
+  return false;
+}
 </script>
 
 </body>
