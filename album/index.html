@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>História em Campo 2026</title>
+  <!-- build: 5180 | capa com 2 cards parceiros -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root{
@@ -899,6 +900,56 @@
       color:#86efac !important;
     }
 
+
+    .capa-parceiros{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+      max-width:860px;
+      margin:16px auto 0;
+      text-align:left;
+    }
+
+    .capa-parceiro-card{
+      border-radius:22px;
+      padding:16px;
+      background:linear-gradient(145deg, rgba(15,23,42,.92), rgba(7,27,61,.90));
+      border:1px solid rgba(246,200,76,.38);
+      box-shadow:0 12px 24px rgba(0,0,0,.22);
+    }
+
+    .capa-parceiro-card .mini-tag{
+      display:inline-flex;
+      padding:5px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.12);
+      color:#ffe58b;
+      font-size:.66rem;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      margin-bottom:8px;
+    }
+
+    .capa-parceiro-card h3{
+      margin:0 0 8px;
+      color:#fff;
+      font-size:1.22rem;
+      line-height:1.15;
+    }
+
+    .capa-parceiro-card p{
+      margin:0;
+      color:#dbeafe;
+      font-size:.9rem;
+      line-height:1.4;
+      max-width:none;
+    }
+
+    .capa-parceiro-card .btn-resgate{
+      margin-top:12px;
+    }
+
     @media (max-width: 1100px){
       .palco{ grid-template-columns:1fr; }
       .lateral{ display:none; }
@@ -909,6 +960,7 @@
     @media (max-width: 850px){
       .resultado{ grid-template-columns:1fr; }
       .ficha-rev{ grid-template-columns:1fr; }
+      .capa-parceiros{ grid-template-columns:1fr; }
     }
   
 /* =========================================================
@@ -1264,122 +1316,6 @@
 .premium-bloqueado .btn-resgate{
   background: linear-gradient(135deg,#22c55e,#ffd54a)!important;
   color:#06142e!important;
-}
-
-
-/* =========================================================
-   VERSAO_5170_PARCEIROS_CAPA_FORCADO
-   Cards DB ENEM e Gabarito Max inseridos por JS na Capa
-   ========================================================= */
-.parceiros-capa-album{
-  width:min(920px,92%);
-  margin:24px auto 0;
-  text-align:center;
-}
-.parceiros-capa-titulo{
-  color:#ffd54a;
-  font-weight:900;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  font-size:15px;
-  margin-bottom:12px;
-}
-.parceiros-capa-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:14px;
-}
-.parceiro-capa-card{
-  display:grid;
-  grid-template-columns:110px 1fr;
-  gap:16px;
-  align-items:center;
-  text-align:left;
-  padding:18px;
-  border-radius:22px;
-  border:1px solid rgba(255,213,74,.55);
-  background:linear-gradient(145deg,rgba(7,20,48,.96),rgba(8,35,76,.88));
-  box-shadow:0 18px 46px rgba(0,0,0,.22);
-}
-.parceiro-capa-logo{
-  width:92px;
-  height:92px;
-  border-radius:999px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border:2px solid rgba(255,213,74,.7);
-  background:radial-gradient(circle at 30% 30%,rgba(255,213,74,.24),rgba(3,10,26,.98));
-  color:#fff;
-  font-weight:1000;
-  line-height:.9;
-  text-align:center;
-}
-.parceiro-capa-logo span{
-  display:block;
-  font-size:32px;
-}
-.parceiro-capa-logo small{
-  display:block;
-  color:#ffd54a;
-  font-size:18px;
-  margin-top:4px;
-}
-.parceiro-capa-logo.gmax span{
-  font-size:56px;
-  color:#ffd54a;
-  transform:skewX(-8deg);
-}
-.parceiro-capa-conteudo small{
-  display:inline-flex;
-  padding:5px 10px;
-  border-radius:999px;
-  background:rgba(255,255,255,.13);
-  color:#fff8cc;
-  font-weight:900;
-  font-size:12px;
-}
-.parceiro-capa-conteudo h3{
-  margin:7px 0 4px;
-  color:#fff;
-  font-size:25px;
-  line-height:1.05;
-}
-.parceiro-capa-conteudo p{
-  margin:0 0 12px;
-  color:#dbeafe;
-  font-size:16px;
-  line-height:1.3;
-}
-.parceiro-capa-btn{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  padding:10px 14px;
-  border-radius:999px;
-  border:1px solid rgba(255,213,74,.7);
-  background:linear-gradient(135deg,rgba(255,213,74,.08),rgba(255,213,74,.18));
-  color:#ffd54a;
-  text-decoration:none;
-  font-weight:1000;
-}
-.parceiro-capa-btn:hover{
-  background:linear-gradient(135deg,#ffd54a,#f59e0b);
-  color:#06142e;
-}
-@media(max-width:760px){
-  .parceiros-capa-album{width:100%;margin:18px auto 0}
-  .parceiros-capa-titulo{font-size:13px;line-height:1.2}
-  .parceiros-capa-grid{grid-template-columns:1fr;gap:10px}
-  .parceiro-capa-card{grid-template-columns:76px 1fr;gap:12px;padding:14px;border-radius:18px}
-  .parceiro-capa-logo{width:68px;height:68px}
-  .parceiro-capa-logo span{font-size:24px}
-  .parceiro-capa-logo small{font-size:14px}
-  .parceiro-capa-logo.gmax span{font-size:40px}
-  .parceiro-capa-conteudo h3{font-size:19px}
-  .parceiro-capa-conteudo p{font-size:13px}
-  .parceiro-capa-btn{padding:9px 10px;font-size:13px}
 }
 
 </style>
@@ -2368,6 +2304,21 @@
                 <small>Bônus Premium</small>
                 <h3>Cada compra premium libera bônus no álbum.</h3>
                 <p>Premium individual libera +10 pacotes por produto comprado. Combo Matriz 17 simulados libera +200 pacotes.</p>
+              </div>
+
+              <div class="capa-parceiros">
+                <div class="capa-parceiro-card">
+                  <span class="mini-tag">Parceiro de simulados</span>
+                  <h3>Gabarito Max</h3>
+                  <p>Acesse simulados, testes e conteúdos do Gabarito Max e use o Radar Copa junto com seus estudos para buscar novas figurinhas e recompensas.</p>
+                  <a class="btn-resgate" href="https://cincoregioes-star.github.io/oficial-portal-gabaritomax/?origem=radar_copa_album_capa" target="_blank" rel="noopener">Entrar no Gabarito Max</a>
+                </div>
+                <div class="capa-parceiro-card">
+                  <span class="mini-tag">Parceiro ENEM</span>
+                  <h3>DB ENEM</h3>
+                  <p>Entre no DB ENEM para estudar redação, interpretação e simulados. Quando quiser buscar figurinhas nos simulados, o atalho fica disponível já na capa do álbum.</p>
+                  <a class="btn-resgate" href="https://cincoregioes-star.github.io/DB-ENEM/?origem=radar_copa_album_capa" target="_blank" rel="noopener">Entrar no DB ENEM</a>
+                </div>
               </div>
             </div>
           </div>
