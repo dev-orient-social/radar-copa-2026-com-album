@@ -2880,8 +2880,16 @@
     estado.codigosPromocionais=estado.codigosPromocionais||{};if(estado.codigosPromocionais[codigo]){alert("Este código já foi usado neste aparelho.");return false;}
     estado.codigosPromocionais[codigo]=new Date().toISOString();estado.pacotes=Number(estado.pacotes||0)+Number(regra.pacotes||0);estado.historico=estado.historico||[];
     estado.historico.push({tipo:"codigo_promocional",origem:codigo,pacotes:regra.pacotes,qtd:regra.pacotes*FIGS_POR_PACOTE,descricao:regra.descricao,data:new Date().toISOString()});
-    if(typeof salvar==="function")salvar();if(typeof registrarMissaoOnline==="function")registrarMissaoOnline(codigo,regra.descricao,regra.pacotes*FIGS_POR_PACOTE,"codigo_promocional");if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
-    alert("Código resgatado: +"+regra.pacotes+" pacote(s).");radarAbrirTelaFinal("codigos");return false;
+    if(typeof salvar==="function")salvar();
+    if(typeof registrarMissaoOnline==="function")registrarMissaoOnline(codigo,regra.descricao,regra.pacotes*FIGS_POR_PACOTE,"codigo_promocional");
+    if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
+
+    // Atualiza imediatamente a tela depois do resgate.
+    if(typeof renderLivro==="function")renderLivro();
+    if(typeof atualizarStatus==="function")atualizarStatus();
+
+    alert("Código resgatado: +"+regra.pacotes+" pacote(s). Agora clique em Abrir envelope para transformar os pacotes em figurinhas.");
+    radarAbrirTelaFinal("codigos");return false;
   };
 
   function radarJogoSelecionado(){const id=document.getElementById("radarJogoSelectFinal")?.value||"";return RADAR_JOGOS_ATUAIS.find(j=>String(j.id)===String(id))||RADAR_JOGOS_ATUAIS[0]||RADAR_JOGOS_FALLBACK[0];}
@@ -3023,8 +3031,16 @@
     estado.codigosPromocionais=estado.codigosPromocionais||{};if(estado.codigosPromocionais[codigo]){alert("Este código já foi usado neste aparelho.");return false;}
     estado.codigosPromocionais[codigo]=new Date().toISOString();estado.pacotes=Number(estado.pacotes||0)+Number(regra.pacotes||0);estado.historico=estado.historico||[];
     estado.historico.push({tipo:"codigo_promocional",origem:codigo,pacotes:regra.pacotes,qtd:regra.pacotes*FIGS_POR_PACOTE,descricao:regra.descricao,data:new Date().toISOString()});
-    if(typeof salvar==="function")salvar();if(typeof registrarMissaoOnline==="function")registrarMissaoOnline(codigo,regra.descricao,regra.pacotes*FIGS_POR_PACOTE,"codigo_promocional");if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
-    alert("Código resgatado: +"+regra.pacotes+" pacote(s).");radarAbrirTelaFinal("codigos");return false;
+    if(typeof salvar==="function")salvar();
+    if(typeof registrarMissaoOnline==="function")registrarMissaoOnline(codigo,regra.descricao,regra.pacotes*FIGS_POR_PACOTE,"codigo_promocional");
+    if(typeof atualizarTorcedorOnline==="function")atualizarTorcedorOnline();
+
+    // Atualiza imediatamente a tela depois do resgate.
+    if(typeof renderLivro==="function")renderLivro();
+    if(typeof atualizarStatus==="function")atualizarStatus();
+
+    alert("Código resgatado: +"+regra.pacotes+" pacote(s). Agora clique em Abrir envelope para transformar os pacotes em figurinhas.");
+    radarAbrirTelaFinal("codigos");return false;
   };
 
   function radarJogoSelecionado(){var el=document.getElementById("radarJogoSelectFinal"), id=el?el.value:"";return RADAR_JOGOS_ATUAIS.find(function(j){return String(j.id)===String(id);})||RADAR_JOGOS_ATUAIS[0]||RADAR_JOGOS_FALLBACK[0];}
@@ -3126,6 +3142,35 @@ function abrirCodigoPremiumCombo(){
   }
   return false;
 }
+</script>
+
+
+<script>
+/* FIX 5190 - COMBO-MATRIZ-200: pacotes atualizam e precisam ser abertos */
+(function(){
+  if (window.__fixPacotesCodigo5190) return;
+  window.__fixPacotesCodigo5190 = true;
+
+  const antiga = window.radarResgatarCodigoFinal;
+  if (typeof antiga === "function") {
+    window.radarResgatarCodigoFinal = function(){
+      const retorno = antiga.apply(this, arguments);
+
+      setTimeout(function(){
+        try {
+          if (typeof salvar === "function") salvar();
+          if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
+          if (typeof atualizarStatus === "function") atualizarStatus();
+          if (typeof renderLivro === "function") renderLivro();
+        } catch(e) {
+          console.warn("FIX 5190 pacotes:", e);
+        }
+      }, 200);
+
+      return retorno;
+    };
+  }
+})();
 </script>
 
 </body>
