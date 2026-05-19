@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>História em Campo 2026</title>
-  <!-- build: 5240 | limpeza real cabecalho relatorio pacotes -->
+  <!-- build: 5250 | relatorio com identificacao editavel e cabecalho limpo -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root{
@@ -1341,6 +1341,63 @@
   }
 }
 
+
+/* BUILD 5250 - identificação do participante no relatório */
+.identificacao-relatorio{
+  margin:12px 0 14px;
+  padding:14px;
+  border-radius:18px;
+  background:linear-gradient(145deg,rgba(15,23,42,.94),rgba(7,27,61,.90));
+  border:1px solid rgba(246,200,76,.38);
+}
+.identificacao-relatorio small{
+  display:inline-flex;
+  padding:5px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.12);
+  color:#ffe58b;
+  font-size:.66rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  margin-bottom:8px;
+}
+.identificacao-relatorio h3{
+  color:#fff;
+  font-size:1.35rem;
+  margin:0 0 8px;
+}
+.identificacao-relatorio p{
+  color:#dbeafe!important;
+  margin:0 0 10px!important;
+}
+.identificacao-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr auto;
+  gap:8px;
+  align-items:end;
+  margin-top:10px;
+}
+.identificacao-grid input{
+  margin:0!important;
+  height:40px;
+}
+.identificacao-grid button{
+  border:0;
+  border-radius:999px;
+  padding:11px 14px;
+  background:linear-gradient(135deg,#ffd54a,#f59e0b);
+  color:#06142e;
+  font-weight:900;
+  cursor:pointer;
+  white-space:nowrap;
+}
+@media(max-width:900px){
+  .identificacao-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1560,7 +1617,7 @@
 
         if (idProduto === "matriz-combo-17-simulados") {
           alert("Combo Matriz +200 pacotes é liberado somente pelo código premium COMBO-MATRIZ-200 na tela Códigos.");
-          const limpa = window.location.origin + window.location.pathname + "?v=5240";
+          const limpa = window.location.origin + window.location.pathname + "?v=5250";
           window.history.replaceState({}, document.title, limpa);
           return true;
         }
@@ -1573,7 +1630,7 @@
           "Bônus premium recebido por link"
         );
 
-        const limpa = window.location.origin + window.location.pathname + "?v=5240";
+        const limpa = window.location.origin + window.location.pathname + "?v=5250";
         window.history.replaceState({}, document.title, limpa);
         return true;
       } catch (e) {
@@ -2369,7 +2426,7 @@
             <h2>Relatório do Colecionador</h2>
             <p>Veja suas figurinhas conquistadas, coladas, repetidas e as que ainda faltam.</p>
 
-            <div class="premium-banner" style="margin:12px 0;">
+            <div class="identificacao-relatorio">
               <small>Identificação do participante</small>
               <h3>${safe(estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa")}</h3>
               <p>
@@ -2377,6 +2434,13 @@
                 <b>WhatsApp:</b> ${safe(estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "Não informado")}<br>
                 <b>Código:</b> ${safe(garantirCodigoTorcedor())}
               </p>
+
+              <div class="identificacao-grid">
+                <input id="relNomeTorcedor" placeholder="Nome do participante" value="${safe(estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "")}">
+                <input id="relCidadeTorcedor" placeholder="Cidade" value="${safe(estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "")}">
+                <input id="relWhatsappTorcedor" placeholder="WhatsApp" value="${safe(estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "")}">
+                <button type="button" onclick="salvarIdentificacaoRelatorio()">Salvar dados</button>
+              </div>
             </div>
 
             <div class="info-grid">
@@ -3076,9 +3140,30 @@ function abrirCodigoPremiumCombo(){
 
 
 <script>
-/* BUILD 5240 - navegação final sem conflito */
+/* BUILD 5250 - identificação e navegação final */
+function salvarIdentificacaoRelatorio(){
+  const nome = String(document.getElementById("relNomeTorcedor")?.value || "").trim() || "Torcedor Radar Copa";
+  const cidade = String(document.getElementById("relCidadeTorcedor")?.value || "").trim() || "Cidade não informada";
+  const whatsapp = String(document.getElementById("relWhatsappTorcedor")?.value || "").trim();
+
+  estado.nomeTorcedor = nome;
+  estado.cidadeTorcedor = cidade;
+  estado.whatsappTorcedor = whatsapp;
+
+  localStorage.setItem("radar_copa_nome_torcedor", nome);
+  localStorage.setItem("radar_copa_cidade_torcedor", cidade);
+  localStorage.setItem("radar_copa_whatsapp_torcedor", whatsapp);
+
+  if (typeof salvar === "function") salvar();
+  if (typeof atualizarTorcedorOnline === "function") atualizarTorcedorOnline();
+
+  alert("Dados do participante salvos.");
+  if (typeof ir === "function") ir(2);
+  return false;
+}
+
 (function(){
-  function aplicarCabecalhoLimpo5240(){
+  function aplicarCabecalhoLimpo5250(){
     const btnCapa = document.getElementById("btnCapa");
     if (btnCapa) btnCapa.onclick = function(){ ir(1); return false; };
 
@@ -3118,12 +3203,12 @@ function abrirCodigoPremiumCombo(){
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", aplicarCabecalhoLimpo5240);
+    document.addEventListener("DOMContentLoaded", aplicarCabecalhoLimpo5250);
   } else {
-    aplicarCabecalhoLimpo5240();
+    aplicarCabecalhoLimpo5250();
   }
 
-  setTimeout(aplicarCabecalhoLimpo5240, 600);
+  setTimeout(aplicarCabecalhoLimpo5250, 600);
 })();
 </script>
 
