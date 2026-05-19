@@ -3173,60 +3173,136 @@ function abrirCodigoPremiumCombo(){
 </script>
 
 
+
 <script>
-/* FIX 5200 - Relatório original funcionando no celular */
+/* FIX 5210 - Relatório abre direto no celular sem depender do livro */
 (function(){
-  function abrirRelatorioOriginal(ev){
+  function gerarRelatorioDiretoHTML(){
+    let t = { completas:0, faltam:0, coladas:0, repetidas:0, pacotes:0 };
+    try {
+      if (typeof totais === "function") t = totais();
+    } catch(e){}
+
+    let conquistadas = 0;
+    try {
+      if (typeof totalConquistadas === "function") conquistadas = totalConquistadas();
+    } catch(e){}
+
+    const pacotesSaldo = (typeof estado !== "undefined" && estado) ? Number(estado.pacotes || 0) : 0;
+    const codigo = (typeof garantirCodigoTorcedor === "function") ? garantirCodigoTorcedor() : "Torcedor";
+
+    let grupos = "";
+    try {
+      if (typeof relatorioPorGrupoHTML === "function") grupos = relatorioPorGrupoHTML();
+    } catch(e){}
+
+    let faltantes = "";
+    try {
+      if (typeof faltantesHTML === "function") faltantes = faltantesHTML();
+    } catch(e){}
+
+    let ultimas = "";
+    try {
+      const hist = ((estado && estado.historico) ? estado.historico : []).slice(-8).reverse();
+      ultimas = hist.length
+        ? hist.map(h => `<div class="info-card"><b>${h.tipo || "ação"}</b><span style="font-size:.9rem">${h.descricao || h.origem || ""}</span></div>`).join("")
+        : `<div class="info-card"><b>Histórico</b><span style="font-size:.9rem">Nenhuma conquista registrada ainda.</span></div>`;
+    } catch(e){}
+
+    return `
+      <div class="pagina-especial">
+        <h2>Relatório do Colecionador</h2>
+        <p>Código do torcedor: <b>${codigo}</b></p>
+        <p>Veja suas figurinhas conquistadas, coladas, repetidas, pacotes disponíveis e o progresso do álbum.</p>
+
+        <div class="info-grid">
+          <div class="info-card"><b>Seleções completas</b><span>${t.completas || 0}</span></div>
+          <div class="info-card"><b>Seleções faltando</b><span>${t.faltam || 0}</span></div>
+          <div class="info-card"><b>Figurinhas conquistadas</b><span>${conquistadas}</span></div>
+          <div class="info-card"><b>Figurinhas coladas</b><span>${t.coladas || 0}</span></div>
+          <div class="info-card"><b>Repetidas</b><span>${t.repetidas || 0}</span></div>
+          <div class="info-card"><b>Pacotes disponíveis</b><span>${pacotesSaldo}</span></div>
+        </div>
+
+        <h2 style="font-size:1.4rem;margin-top:18px;">Progresso por grupo</h2>
+        <div class="info-grid">${grupos || `<div class="info-card"><b>Grupos</b><span style="font-size:.9rem">Progresso será exibido após abrir/colar figurinhas.</span></div>`}</div>
+
+        <h2 style="font-size:1.4rem;margin-top:18px;">Figurinhas faltantes por seleção</h2>
+        <div class="lista-grupos">${faltantes || `<div class="grupo-item"><h3>Álbum</h3><p>Abra envelopes e cole figurinhas para visualizar faltantes.</p></div>`}</div>
+
+        <h2 style="font-size:1.4rem;margin-top:18px;">Últimas conquistas</h2>
+        <div class="info-grid">${ultimas}</div>
+      </div>
+    `;
+  }
+
+  function colocarRelatorioNaTela(ev){
     if(ev){
       ev.preventDefault();
       ev.stopPropagation();
       if(ev.stopImmediatePropagation) ev.stopImmediatePropagation();
     }
 
-    try{
-      // Relatório original do álbum é a página 2.
-      if(typeof ir === "function"){
-        ir(2);
-      }else{
-        window.paginaAtual = 2;
-        if(typeof renderLivro === "function") renderLivro();
+    const htmlRelatorio = gerarRelatorioDiretoHTML();
+
+    const titulo = document.getElementById("tituloPagina");
+    const pag = document.getElementById("paginaAtual");
+    if(titulo) titulo.textContent = "Relatório";
+    if(pag) pag.textContent = "Relatório do Colecionador";
+
+    const mobile = document.getElementById("paginaMobileUnica");
+    const livro = document.getElementById("livro");
+    const esq = document.getElementById("paginaEsquerda");
+    const dir = document.getElementById("paginaDireita");
+
+    const mobileAtivo = window.innerWidth <= 900 || (typeof isMobileAlbum === "function" && isMobileAlbum());
+
+    if(mobileAtivo && mobile){
+      mobile.innerHTML = `<div class="pagina direita">${htmlRelatorio}</div>`;
+      mobile.style.display = "block";
+      if(livro) livro.style.display = "none";
+    } else {
+      if(livro){
+        livro.style.display = "";
+        livro.className = "livro capa";
       }
-
-      var titulo = document.getElementById("tituloPagina");
-      var pag = document.getElementById("paginaAtual");
-      if(titulo) titulo.textContent = "Relatório";
-      if(pag) pag.textContent = "Página 2 de 55";
-
-      window.scrollTo({top:0, behavior:"smooth"});
-    }catch(e){
-      console.warn("FIX 5200 Relatório:", e);
+      if(esq) esq.innerHTML = "";
+      if(dir) dir.innerHTML = htmlRelatorio;
+      if(mobile) mobile.innerHTML = "";
     }
+
+    setTimeout(function(){
+      try { window.scrollTo({top:0, behavior:"smooth"}); } catch(e){}
+    }, 80);
 
     return false;
   }
 
-  function aplicarFixRelatorio(){
-    var btn = document.getElementById("btnRelatorio");
+  window.radarAbrirRelatorioDireto = colocarRelatorioNaTela;
+
+  function aplicarBotaoRelatorio(){
+    const btn = document.getElementById("btnRelatorio");
     if(!btn) return;
 
-    btn.onclick = abrirRelatorioOriginal;
+    btn.onclick = colocarRelatorioNaTela;
 
-    if(!btn.dataset.fixRelatorio5200){
-      btn.dataset.fixRelatorio5200 = "1";
-      btn.addEventListener("click", abrirRelatorioOriginal, true);
-      btn.addEventListener("touchend", abrirRelatorioOriginal, {capture:true, passive:false});
+    if(!btn.dataset.fixRelatorio5210){
+      btn.dataset.fixRelatorio5210 = "1";
+      btn.addEventListener("click", colocarRelatorioNaTela, true);
+      btn.addEventListener("touchstart", function(ev){ ev.stopPropagation(); }, {capture:true, passive:true});
+      btn.addEventListener("touchend", colocarRelatorioNaTela, {capture:true, passive:false});
     }
   }
 
   if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", aplicarFixRelatorio);
-  }else{
-    aplicarFixRelatorio();
+    document.addEventListener("DOMContentLoaded", aplicarBotaoRelatorio);
+  } else {
+    aplicarBotaoRelatorio();
   }
 
-  setTimeout(aplicarFixRelatorio, 300);
-  setTimeout(aplicarFixRelatorio, 1000);
-  setTimeout(aplicarFixRelatorio, 2500);
+  setTimeout(aplicarBotaoRelatorio, 300);
+  setTimeout(aplicarBotaoRelatorio, 1000);
+  setTimeout(aplicarBotaoRelatorio, 2500);
 })();
 </script>
 
