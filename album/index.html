@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>História em Campo 2026</title>
-  <!-- build: 5230 | cabecalho limpo e pacotes corrigidos -->
+  <!-- build: 5240 | limpeza real cabecalho relatorio pacotes -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root{
@@ -1557,19 +1557,23 @@
         if (!bonus) return false;
 
         const idProduto = String(bonus).trim();
-        const totalPacotes = pacotes > 0 ? pacotes : (
-          idProduto === "matriz-combo-17-simulados" ? 200 : 10
-        );
+
+        if (idProduto === "matriz-combo-17-simulados") {
+          alert("Combo Matriz +200 pacotes é liberado somente pelo código premium COMBO-MATRIZ-200 na tela Códigos.");
+          const limpa = window.location.origin + window.location.pathname + "?v=5240";
+          window.history.replaceState({}, document.title, limpa);
+          return true;
+        }
+
+        const totalPacotes = pacotes > 0 ? pacotes : 10;
 
         resgatarPremiumPorProduto(
           idProduto,
           totalPacotes,
-          idProduto === "matriz-combo-17-simulados"
-            ? "Combo Matriz 17 simulados: bônus de 200 pacotes"
-            : "Bônus premium recebido por link"
+          "Bônus premium recebido por link"
         );
 
-        const limpa = window.location.origin + window.location.pathname + "?v=4000";
+        const limpa = window.location.origin + window.location.pathname + "?v=5240";
         window.history.replaceState({}, document.title, limpa);
         return true;
       } catch (e) {
@@ -2245,6 +2249,7 @@
       const btn = document.getElementById("btnAbrirPacote");
       const aviso = document.getElementById("avisoPacote");
       if (!btn) return;
+
       const pacotesDisponiveis = Number(estado.pacotes || 0);
       if (pacotesDisponiveis > 0) {
         btn.disabled = false;
@@ -2363,13 +2368,24 @@
           <div class="pagina-especial">
             <h2>Relatório do Colecionador</h2>
             <p>Veja suas figurinhas conquistadas, coladas, repetidas e as que ainda faltam.</p>
+
+            <div class="premium-banner" style="margin:12px 0;">
+              <small>Identificação do participante</small>
+              <h3>${safe(estado.nomeTorcedor || localStorage.getItem("radar_copa_nome_torcedor") || "Torcedor Radar Copa")}</h3>
+              <p>
+                <b>Cidade:</b> ${safe(estado.cidadeTorcedor || localStorage.getItem("radar_copa_cidade_torcedor") || "Cidade não informada")}<br>
+                <b>WhatsApp:</b> ${safe(estado.whatsappTorcedor || localStorage.getItem("radar_copa_whatsapp_torcedor") || "Não informado")}<br>
+                <b>Código:</b> ${safe(garantirCodigoTorcedor())}
+              </p>
+            </div>
+
             <div class="info-grid">
               <div class="info-card"><b>Seleções completas</b><span>${t.completas}</span></div>
               <div class="info-card"><b>Seleções faltando</b><span>${t.faltam}</span></div>
               <div class="info-card"><b>Figurinhas conquistadas</b><span>${totalConquistadas()}</span></div>
               <div class="info-card"><b>Figurinhas coladas</b><span>${t.coladas}</span></div>
               <div class="info-card"><b>Repetidas</b><span>${t.repetidas}</span></div>
-              <div class="info-card"><b>Envelopes abertos</b><span>${t.pacotes}</span></div>
+              <div class="info-card"><b>Pacotes disponíveis</b><span>${estado.pacotes || 0}</span></div>
             </div>
             <h2 style="font-size:1.4rem;margin-top:18px;">Progresso por grupo</h2>
             <div class="info-grid">${relatorioPorGrupoHTML()}</div>
@@ -2673,7 +2689,7 @@
         const status = podeAbrirPacoteGratis();
         if (!status.liberado) {
           atualizarBotaoPacoteGratis();
-          alert(`O próximo envelope grátis libera em ${formatarTempo(status.restante)}. Se você resgatou pacotes, confira o saldo em Códigos/Trocas e tente novamente.`);
+          alert(`O próximo envelope grátis libera em ${formatarTempo(status.restante)}.`);
           return;
         }
         estado.ultimoPacoteGratis = new Date().toISOString();
@@ -3006,7 +3022,6 @@
       const el=document.getElementById(id);
       if(el){
         el.onclick=function(ev){return radarAbrirTelaFinal(tipo,ev);};
-
       }
     });
   }
@@ -3061,16 +3076,9 @@ function abrirCodigoPremiumCombo(){
 
 
 <script>
-/* BUILD 5230 - Cabeçalho limpo: sem captura global e sem conflito */
+/* BUILD 5240 - navegação final sem conflito */
 (function(){
-  function aplicarCabecalhoLimpo5230(){
-    const mapaExtras = {
-      btnRanking: "ranking",
-      btnTrocas: "trocas",
-      btnCodigos: "codigos",
-      btnPalpites: "palpites"
-    };
-
+  function aplicarCabecalhoLimpo5240(){
     const btnCapa = document.getElementById("btnCapa");
     if (btnCapa) btnCapa.onclick = function(){ ir(1); return false; };
 
@@ -3080,8 +3088,16 @@ function abrirCodigoPremiumCombo(){
     const btnResgate = document.getElementById("btnResgate");
     if (btnResgate) btnResgate.onclick = function(){ ir(4); return false; };
 
-    Object.entries(mapaExtras).forEach(function([id, tipo]){
-      const btn = document.getElementById(id);
+    const extras = {
+      btnRanking: "ranking",
+      btnTrocas: "trocas",
+      btnCodigos: "codigos",
+      btnPalpites: "palpites"
+    };
+
+    Object.entries(extras).forEach(function(pair){
+      const btn = document.getElementById(pair[0]);
+      const tipo = pair[1];
       if (!btn) return;
       btn.onclick = function(ev){
         if (ev) ev.preventDefault();
@@ -3096,20 +3112,18 @@ function abrirCodigoPremiumCombo(){
     if (btnEnvelope) btnEnvelope.onclick = function(){
       liberarAudio();
       atualizarBotaoPacoteGratis();
-      const modal = document.getElementById("modalPacote");
-      if (modal) modal.classList.add("ativo");
+      document.getElementById("modalPacote").classList.add("ativo");
       return false;
     };
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", aplicarCabecalhoLimpo5230);
+    document.addEventListener("DOMContentLoaded", aplicarCabecalhoLimpo5240);
   } else {
-    aplicarCabecalhoLimpo5230();
+    aplicarCabecalhoLimpo5240();
   }
 
-  setTimeout(aplicarCabecalhoLimpo5230, 500);
-  setTimeout(aplicarCabecalhoLimpo5230, 1500);
+  setTimeout(aplicarCabecalhoLimpo5240, 600);
 })();
 </script>
 
