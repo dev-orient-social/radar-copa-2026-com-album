@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>História em Campo 2026</title>
-  <!-- build: 5180 | capa com 2 cards parceiros -->
+  <!-- build: 5230 | cabecalho limpo e pacotes corrigidos -->
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     :root{
@@ -2245,6 +2245,16 @@
       const btn = document.getElementById("btnAbrirPacote");
       const aviso = document.getElementById("avisoPacote");
       if (!btn) return;
+      const pacotesDisponiveis = Number(estado.pacotes || 0);
+      if (pacotesDisponiveis > 0) {
+        btn.disabled = false;
+        btn.textContent = `📦 Abrir pacote disponível (${pacotesDisponiveis})`;
+        btn.style.opacity = "1";
+        btn.style.cursor = "pointer";
+        if (aviso) aviso.innerHTML = `📦 Você tem <b>${pacotesDisponiveis}</b> pacote(s) disponível(is). Clique para abrir e transformar em figurinhas.`;
+        return;
+      }
+
       const status = podeAbrirPacoteGratis();
       if (status.liberado) {
         btn.disabled = false;
@@ -2257,7 +2267,7 @@
         btn.textContent = `⏳ Próximo envelope em ${formatarTempo(status.restante)}`;
         btn.style.opacity = ".65";
         btn.style.cursor = "not-allowed";
-        if (aviso) aviso.innerHTML = `⏳ Você já abriu um envelope grátis. Novo envelope em <b>${formatarTempo(status.restante)}</b>.`;
+        if (aviso) aviso.innerHTML = `⏳ Você já abriu o envelope grátis. Novo envelope em <b>${formatarTempo(status.restante)}</b>.`;
       }
     }
 
@@ -2650,16 +2660,26 @@
     // =========================================================
     function abrirPacote() {
       liberarAudio();
-      const status = podeAbrirPacoteGratis();
-      if (!status.liberado) {
-        atualizarBotaoPacoteGratis();
-        alert(`O próximo envelope grátis libera em ${formatarTempo(status.restante)}.`);
-        return;
+
+      const pacotesDisponiveis = Number(estado.pacotes || 0);
+      let origem = "envelope_gratis_12h";
+      let descricao = "envelope grátis de 12 horas";
+
+      if (pacotesDisponiveis > 0) {
+        estado.pacotes = Math.max(0, pacotesDisponiveis - 1);
+        origem = "pacote_resgatado";
+        descricao = "pacote resgatado por código, premium, palpite ou troca";
+      } else {
+        const status = podeAbrirPacoteGratis();
+        if (!status.liberado) {
+          atualizarBotaoPacoteGratis();
+          alert(`O próximo envelope grátis libera em ${formatarTempo(status.restante)}. Se você resgatou pacotes, confira o saldo em Códigos/Trocas e tente novamente.`);
+          return;
+        }
+        estado.ultimoPacoteGratis = new Date().toISOString();
       }
 
-      const novas = adicionarFigurinhasAleatorias(FIGS_POR_PACOTE, "envelope_gratis_12h", "envelope grátis de 12 horas");
-      estado.pacotes = (estado.pacotes || 0) + 1;
-      estado.ultimoPacoteGratis = new Date().toISOString();
+      const novas = adicionarFigurinhasAleatorias(FIGS_POR_PACOTE, origem, descricao);
       salvar();
       playSom("pack");
 
@@ -2787,8 +2807,38 @@
       document.getElementById("btnCapa").onclick = () => ir(1);
       document.getElementById("btnRelatorio").onclick = () => ir(2);
       document.getElementById("btnResgate").onclick = () => ir(4);
+
+      const btnRankingTopo = document.getElementById("btnRanking");
+      if (btnRankingTopo) btnRankingTopo.onclick = (ev) => {
+        if (ev) ev.preventDefault();
+        if (typeof radarAbrirTelaFinal === "function") return radarAbrirTelaFinal("ranking", ev);
+        return false;
+      };
+
+      const btnTrocasTopo = document.getElementById("btnTrocas");
+      if (btnTrocasTopo) btnTrocasTopo.onclick = (ev) => {
+        if (ev) ev.preventDefault();
+        if (typeof radarAbrirTelaFinal === "function") return radarAbrirTelaFinal("trocas", ev);
+        return false;
+      };
+
+      const btnCodigosTopo = document.getElementById("btnCodigos");
+      if (btnCodigosTopo) btnCodigosTopo.onclick = (ev) => {
+        if (ev) ev.preventDefault();
+        if (typeof radarAbrirTelaFinal === "function") return radarAbrirTelaFinal("codigos", ev);
+        return false;
+      };
+
+      const btnPalpitesTopo = document.getElementById("btnPalpites");
+      if (btnPalpitesTopo) btnPalpitesTopo.onclick = (ev) => {
+        if (ev) ev.preventDefault();
+        if (typeof radarAbrirTelaFinal === "function") return radarAbrirTelaFinal("palpites", ev);
+        return false;
+      };
+
       document.getElementById("btnEnvelope").onclick = () => {
         liberarAudio();
+        atualizarBotaoPacoteGratis();
         document.getElementById("modalPacote").classList.add("ativo");
       };
 
@@ -2956,10 +3006,7 @@
       const el=document.getElementById(id);
       if(el){
         el.onclick=function(ev){return radarAbrirTelaFinal(tipo,ev);};
-        if(!el.dataset.radarTouchFix){
-          el.dataset.radarTouchFix="1";
-          el.addEventListener("touchend",function(ev){ev.preventDefault();ev.stopPropagation();radarAbrirTelaFinal(tipo,ev);return false;},{capture:true,passive:false});
-        }
+
       }
     });
   }
@@ -3012,170 +3059,57 @@ function abrirCodigoPremiumCombo(){
 
 
 
+
 <script>
-/* FIX 5220 - Cabeçalho definitivo: cada botão abre sua própria tela */
+/* BUILD 5230 - Cabeçalho limpo: sem captura global e sem conflito */
 (function(){
-  function stop(ev){
-    if(ev){
-      ev.preventDefault();
-      ev.stopPropagation();
-      if(ev.stopImmediatePropagation) ev.stopImmediatePropagation();
-    }
-  }
+  function aplicarCabecalhoLimpo5230(){
+    const mapaExtras = {
+      btnRanking: "ranking",
+      btnTrocas: "trocas",
+      btnCodigos: "codigos",
+      btnPalpites: "palpites"
+    };
 
-  function setTitulo(nome){
-    const t = document.getElementById("tituloPagina");
-    const p = document.getElementById("paginaAtual");
-    if(t) t.textContent = nome;
-    if(p) p.textContent = nome;
-  }
+    const btnCapa = document.getElementById("btnCapa");
+    if (btnCapa) btnCapa.onclick = function(){ ir(1); return false; };
 
-  function mostrarNoAlbum(htmlTela, titulo){
-    setTitulo(titulo);
+    const btnRelatorio = document.getElementById("btnRelatorio");
+    if (btnRelatorio) btnRelatorio.onclick = function(){ ir(2); return false; };
 
-    const mobile = document.getElementById("paginaMobileUnica");
-    const livro = document.getElementById("livro");
-    const esq = document.getElementById("paginaEsquerda");
-    const dir = document.getElementById("paginaDireita");
+    const btnResgate = document.getElementById("btnResgate");
+    if (btnResgate) btnResgate.onclick = function(){ ir(4); return false; };
 
-    const mobileAtivo = window.innerWidth <= 900 || (typeof isMobileAlbum === "function" && isMobileAlbum());
-
-    if(mobileAtivo && mobile){
-      mobile.innerHTML = `<div class="pagina direita">${htmlTela}</div>`;
-      mobile.style.display = "block";
-      if(livro) livro.style.display = "none";
-      window.scrollTo({top:0, behavior:"smooth"});
-      return;
-    }
-
-    if(livro){
-      livro.style.display = "";
-      livro.className = "livro capa";
-    }
-    if(esq) esq.innerHTML = "";
-    if(dir) dir.innerHTML = htmlTela;
-    if(mobile) mobile.innerHTML = "";
-  }
-
-  function abrirPaginaOriginal(tipo, tituloFallback){
-    try{
-      if(typeof PAGINAS !== "undefined" && typeof renderEspecial === "function"){
-        const pag = PAGINAS.find(p => p.tipo === tipo);
-        if(pag){
-          mostrarNoAlbum(renderEspecial(pag), pag.titulo || tituloFallback);
-          return true;
-        }
-      }
-    }catch(e){
-      console.warn("FIX 5220 renderEspecial", tipo, e);
-    }
-    return false;
-  }
-
-  function irPaginaOriginal(numero){
-    try{
-      if(typeof ir === "function"){
-        ir(numero);
-        return true;
-      }
-    }catch(e){}
-    try{
-      window.paginaAtual = numero;
-      if(typeof renderLivro === "function") renderLivro();
-      return true;
-    }catch(e){}
-    return false;
-  }
-
-  function abrirCapa(ev){
-    stop(ev);
-    irPaginaOriginal(1);
-    setTitulo("Capa");
-    return false;
-  }
-
-  function abrirRelatorio(ev){
-    stop(ev);
-    if(!abrirPaginaOriginal("relatorio", "Relatório")){
-      irPaginaOriginal(2);
-      setTitulo("Relatório");
-    }
-    return false;
-  }
-
-  function abrirResgates(ev){
-    stop(ev);
-    if(!abrirPaginaOriginal("resgates", "Resgates")){
-      irPaginaOriginal(4);
-      setTitulo("Resgates");
-    }
-    return false;
-  }
-
-  function abrirExtra(tipo, titulo, ev){
-    stop(ev);
-    if(typeof radarAbrirTelaFinal === "function"){
-      radarAbrirTelaFinal(tipo);
-      return false;
-    }
-    alert("Tela " + titulo + " ainda não foi carregada.");
-    return false;
-  }
-
-  function abrirEnvelope(ev){
-    // Não bloqueia a função original: chama o botão/função original se existir.
-    stop(ev);
-    try{
-      if(typeof abrirEnvelope === "function"){
-        abrirEnvelope();
-      }else if(typeof abrirPacote === "function"){
-        abrirPacote();
-      }else{
-        const btnOriginal = document.querySelector("[data-abrir-envelope]");
-        if(btnOriginal) btnOriginal.click();
-      }
-    }catch(e){
-      console.warn("FIX 5220 envelope:", e);
-      alert("Use o botão Abrir envelope após resgatar pacotes.");
-    }
-    return false;
-  }
-
-  const acoes = {
-    btnCapa: abrirCapa,
-    btnRelatorio: abrirRelatorio,
-    btnResgate: abrirResgates,
-    btnRanking: (ev)=>abrirExtra("ranking","Ranking",ev),
-    btnTrocas: (ev)=>abrirExtra("trocas","Trocas",ev),
-    btnCodigos: (ev)=>abrirExtra("codigos","Códigos",ev),
-    btnPalpites: (ev)=>abrirExtra("palpites","Palpites",ev),
-    btnEnvelope: abrirEnvelope
-  };
-
-  function aplicarCabecalho(){
-    Object.entries(acoes).forEach(([id, fn])=>{
+    Object.entries(mapaExtras).forEach(function([id, tipo]){
       const btn = document.getElementById(id);
-      if(!btn) return;
-
-      btn.onclick = fn;
-
-      if(!btn.dataset.fixHeader5220){
-        btn.dataset.fixHeader5220 = "1";
-        btn.addEventListener("click", fn, true);
-        btn.addEventListener("touchend", fn, {capture:true, passive:false});
-      }
+      if (!btn) return;
+      btn.onclick = function(ev){
+        if (ev) ev.preventDefault();
+        if (typeof radarAbrirTelaFinal === "function") {
+          radarAbrirTelaFinal(tipo, ev);
+        }
+        return false;
+      };
     });
+
+    const btnEnvelope = document.getElementById("btnEnvelope");
+    if (btnEnvelope) btnEnvelope.onclick = function(){
+      liberarAudio();
+      atualizarBotaoPacoteGratis();
+      const modal = document.getElementById("modalPacote");
+      if (modal) modal.classList.add("ativo");
+      return false;
+    };
   }
 
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", aplicarCabecalho);
-  }else{
-    aplicarCabecalho();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", aplicarCabecalhoLimpo5230);
+  } else {
+    aplicarCabecalhoLimpo5230();
   }
 
-  setTimeout(aplicarCabecalho, 300);
-  setTimeout(aplicarCabecalho, 1000);
-  setTimeout(aplicarCabecalho, 2500);
+  setTimeout(aplicarCabecalhoLimpo5230, 500);
+  setTimeout(aplicarCabecalhoLimpo5230, 1500);
 })();
 </script>
 
