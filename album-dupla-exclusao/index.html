@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Álbum Digital — Dupla Exclusão</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#050607;--bg2:#101008;--panel:#071225;--panel2:#0a1a35;
+  --gold:#f6c84c;--gold2:#d9961a;--orange:#c45822;--green:#668a3c;--blue:#0e5c73;
+  --paper:#0d1218;--paper2:#17100b;--ink:#f6ead2;--muted:#d7c5a2;--line:rgba(246,200,76,.42);
+}
+html,body{width:100%;height:100%;overflow:hidden}
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(196,88,34,.18), transparent 26%),
+    radial-gradient(circle at 85% 18%, rgba(102,138,60,.16), transparent 30%),
+    linear-gradient(135deg,#020304,#0d130d 50%,#020304);
+  color:#fff;
+}
+button{font-family:inherit;cursor:pointer}
+.app{height:100vh;display:grid;grid-template-rows:62px 1fr;overflow:hidden}
+.topo{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:#030712;border-bottom:1px solid var(--line);padding:8px 12px;z-index:5;
+}
+.marca{min-width:265px;line-height:1.05}
+.marca b{font-size:1rem;display:block}
+.marca small{font-size:.67rem;color:#dbeafe;display:block;margin-top:4px}
+.topo nav{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.btn,.topo button{
+  border:1px solid rgba(246,200,76,.45);background:linear-gradient(180deg,#0b2f6b,#04101f);
+  color:#fff;border-radius:999px;padding:9px 14px;font-size:.75rem;font-weight:900;box-shadow:0 3px 0 rgba(0,0,0,.3)
+}
+.btn:hover,.topo button:hover{color:var(--gold);border-color:var(--gold)}
+.palco{height:calc(100vh - 62px);display:grid;grid-template-columns:240px 1fr;gap:10px;padding:10px;overflow:hidden}
+.lateral{min-height:0;overflow:auto;display:grid;grid-template-rows:auto auto auto auto 1fr;gap:10px;padding-right:4px}
+.lateral::-webkit-scrollbar{width:8px}.lateral::-webkit-scrollbar-thumb{background:#9ca3af;border-radius:999px}
+.box,.status,.controles{
+  border-radius:18px;background:linear-gradient(145deg,rgba(7,18,37,.98),rgba(2,8,23,.96));
+  border:1px solid rgba(246,200,76,.25);padding:12px
+}
+.tag{
+  display:inline-flex;padding:5px 10px;border-radius:999px;background:linear-gradient(135deg,#fff5c9,var(--gold));
+  color:#07142e;font-size:.62rem;font-weight:900;text-transform:uppercase;margin-bottom:8px
+}
+.box button,.btn-dourado{
+  width:100%;border:0;border-radius:999px;padding:10px 12px;background:linear-gradient(135deg,#ffe99a,var(--gold),var(--gold2));
+  color:#06142e;font-weight:900;font-size:.78rem
+}
+.status{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.status div{border-radius:14px;background:rgba(2,8,23,.45);text-align:center;padding:10px 5px}
+.status b{display:block;color:var(--gold);font-size:1.15rem}.status span{display:block;color:#e5e7eb;font-size:.61rem;margin-top:4px}
+.controles{display:grid;grid-template-columns:1fr 1fr;gap:8px}.controles button{border:1px solid rgba(246,200,76,.22);border-radius:14px;padding:10px 6px;background:linear-gradient(180deg,#103a83,#071b3f);color:#fff;font-size:.72rem;font-weight:900}
+.dica b{display:block;margin-bottom:8px}.dica p{color:#e5e7eb;font-size:.77rem;line-height:1.42}
+.area{min-width:0;min-height:0;display:grid;grid-template-rows:50px 1fr;gap:8px;overflow:hidden}
+.barra{
+  display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border-radius:18px;padding:6px 12px;
+  background:rgba(2,8,23,.86);border:1px solid rgba(246,200,76,.22)
+}
+.barra span{display:block;color:#dbeafe;font-size:.72rem}.barra b{display:block;color:var(--gold);font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.livro{height:100%;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 12px minmax(0,1fr);overflow:hidden;filter:drop-shadow(0 18px 26px rgba(0,0,0,.42))}
+.livro.capa{grid-template-columns:1fr}.livro.capa .esquerda,.livro.capa .miolo{display:none}
+.miolo{background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(246,200,76,.22),rgba(0,0,0,.6));border-top:1px solid rgba(246,200,76,.35);border-bottom:1px solid rgba(246,200,76,.35)}
+.pagina{
+  position:relative;height:100%;min-height:0;overflow:hidden;padding:8px;
+  background:
+    radial-gradient(circle at 12% 9%, rgba(196,88,34,.23), transparent 24%),
+    radial-gradient(circle at 90% 14%, rgba(102,138,60,.19), transparent 30%),
+    linear-gradient(145deg,#12100b 0%,#080b0f 48%,#15100a 100%);
+  color:var(--ink);border:2px solid rgba(246,200,76,.58);
+  box-shadow:inset 0 0 32px rgba(0,0,0,.52), inset 0 0 0 1px rgba(255,255,255,.06)
+}
+.pagina:before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.12;
+  background-image:repeating-linear-gradient(45deg, transparent 0 10px, rgba(246,200,76,.25) 10px 12px, transparent 12px 24px);
+}
+.esquerda{border-radius:24px 7px 7px 24px}.direita{border-radius:7px 24px 24px 7px}.livro.capa .direita{border-radius:24px}
+.logo-escola{
+  position:absolute;top:7px;left:8px;width:48px;height:48px;object-fit:contain;z-index:5;
+  border-radius:50%;background:#fff;padding:2px;
+  filter:drop-shadow(0 3px 5px rgba(0,0,0,.65))
+}
+.creditos{
+  position:absolute;left:10px;right:10px;bottom:5px;text-align:center;z-index:5;
+  color:#fff;font-size:.54rem;line-height:1.15;text-shadow:0 2px 5px #000;
+}
+.creditos b{color:var(--gold)}
+.page-inner{position:relative;z-index:1;height:100%;min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:7px;padding:10px 2px 24px}
+.page-head{text-align:center;min-height:0;padding-left:46px;padding-right:4px}
+.page-head .label{display:inline-block;background:linear-gradient(90deg,#d9961a,#f6c84c,#d9961a);color:#111827;padding:4px 22px;border-radius:2px;font-weight:900;font-size:.70rem;text-transform:uppercase}
+.page-head small{display:inline-block;background:#8a531f;color:#fff;border-radius:999px;padding:4px 14px;font-weight:900;font-size:.66rem;margin-top:-3px}
+.page-head h2{font-size:1.20rem;line-height:1.05;color:var(--gold);text-shadow:0 2px 8px #000;margin-top:2px;text-transform:uppercase}
+.texto-pagina{
+  color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(246,200,76,.25);
+  border-radius:13px;padding:7px 9px;font-size:.73rem;line-height:1.22;text-align:center;font-weight:700
+}
+.grid-fig{min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:7px}
+.fig{
+  min-width:0;min-height:0;overflow:hidden;border-radius:10px;background:#0d224d;border:2px solid rgba(246,200,76,.35);
+  display:grid;grid-template-rows:1fr auto;box-shadow:0 4px 10px rgba(0,0,0,.44);cursor:pointer
+}
+.fig:hover{transform:translateY(-1px);border-color:var(--gold)}
+.arte{min-height:0;display:grid;place-items:center;position:relative;background:linear-gradient(145deg,#1f3b82,#0a1428);overflow:hidden}
+.arte img{width:100%;height:100%;object-fit:contain;display:block}
+.placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6px;background:radial-gradient(circle,rgba(246,200,76,.2),transparent 42%),linear-gradient(145deg,#243f8c,#0d1a34)}
+.placeholder .num{font-size:1.75rem;font-weight:900;color:var(--gold)}.placeholder .tema{font-size:.55rem;color:#fff;font-weight:900;line-height:1.1;margin-top:4px}
+.estado{position:absolute;top:6px;right:6px;border-radius:999px;padding:3px 8px;background:#cbd5e1;color:#06142e;font-size:.56rem;font-weight:900;text-transform:uppercase}
+.estado.ok{background:#86efac}.estado.colada{background:var(--gold)}
+.acao{
+  height:30px;border:0;background:#64748b;color:#fff;font-weight:900;font-size:.62rem;text-transform:uppercase
+}
+.fig.disponivel .acao{background:linear-gradient(135deg,#ffe99a,var(--gold),var(--gold2));color:#06142e}
+.fig.colada{border-color:#86efac}.fig.colada .acao{background:linear-gradient(135deg,#0ea5e9,#22c55e);color:#fff}
+.capa-album{
+  position:relative;z-index:1;height:100%;display:grid;place-items:center;text-align:center;border-radius:20px;
+  background:radial-gradient(circle at 50% 22%,rgba(246,200,76,.30),transparent 42%),linear-gradient(145deg,#06142e,#112d18 55%,#020817);
+  border:2px solid rgba(246,200,76,.45);padding:22px;color:#fff;overflow:hidden
+}
+.capa-album h1{font-size:clamp(2.7rem,5vw,4.8rem);line-height:.9;text-transform:uppercase;letter-spacing:.02em}
+.capa-album h2{color:var(--gold);font-size:1.25rem;margin-top:10px}.capa-album p{max-width:760px;margin:14px auto 0;color:#e5e7eb;line-height:1.45;font-size:.95rem}
+.pagina-especial{position:relative;z-index:1;height:100%;overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;gap:10px;padding:10px 8px 26px;color:#fff}
+.pagina-especial h2{color:var(--gold);text-shadow:0 2px 9px #000;font-size:1.55rem;line-height:1;text-transform:uppercase;text-align:center}
+.pagina-especial p{font-size:.9rem;line-height:1.42;text-align:center;color:#f8fafc}
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-content:start}
+.info-card,.pergunta-box{
+  background:linear-gradient(145deg,rgba(15,23,42,.94),rgba(7,27,61,.90));
+  border:1px solid rgba(246,200,76,.32);border-radius:16px;padding:12px;color:#fff
+}
+.info-card b{display:block;color:var(--gold);font-size:.74rem;text-transform:uppercase}.info-card span{display:block;font-weight:900;font-size:1.45rem;margin-top:5px}
+.modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;background:rgba(2,6,23,.78);backdrop-filter:blur(8px);padding:16px}
+.modal.ativo{display:grid}.card-modal{position:relative;width:min(980px,96vw);max-height:90vh;overflow:auto;padding:20px;border-radius:26px;background:linear-gradient(145deg,rgba(12,37,84,.98),rgba(2,6,23,.96));border:1px solid rgba(246,200,76,.35);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.fechar{position:absolute;top:12px;right:12px;width:36px;height:36px;border:0;border-radius:999px;background:linear-gradient(135deg,#fff,var(--gold));color:#06142e;font-weight:900;font-size:1.2rem}
+.resultado{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}.resultado .fig{min-height:230px}
+.ficha-rev{display:grid;grid-template-columns:270px 1fr;gap:18px}.ficha-img{height:430px;border-radius:18px;background:#06142e;overflow:hidden;border:1px solid rgba(246,200,76,.35);display:grid;place-items:center}.ficha-img img{width:100%;height:100%;object-fit:contain}
+.ficha-dados h2{font-size:2rem;color:#fff;line-height:1;margin-bottom:10px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.meta div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px}.meta span{display:block;color:#cbd5e1;font-size:.72rem}.meta b{color:var(--gold)}
+.texto-ficha{display:grid;gap:9px}.texto-ficha article{background:rgba(2,6,23,.46);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px}.texto-ficha h3{color:var(--gold);margin-bottom:5px}.texto-ficha p{color:#e5e7eb;line-height:1.42;font-size:.9rem}
+.bloqueio{min-height:240px;display:grid;place-items:center;text-align:center;color:#fff}.lock{font-size:3rem}
+.quiz-opcao{width:100%;border:1px solid rgba(246,200,76,.25);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;padding:10px;margin-top:8px;text-align:left;font-weight:800}
+.quiz-opcao.selecionada{background:linear-gradient(135deg,#ffe99a,var(--gold));color:#06142e}
+@media(max-width:1100px){.palco{grid-template-columns:1fr}.lateral{display:none}.resultado{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){html,body{overflow:auto}.app{height:auto;min-height:100vh}.palco{height:auto}.area{height:auto;min-height:calc(100vh - 80px)}.livro{display:block;height:auto}.pagina{min-height:720px;margin-bottom:12px}.miolo{display:none}.ficha-rev{grid-template-columns:1fr}.resultado{grid-template-columns:1fr}.topo{align-items:flex-start}.marca{min-width:190px}.topo nav{gap:5px}.topo button{padding:8px 9px;font-size:.68rem}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topo">
+  <div class="marca">
+    <b>Álbum Digital — Dupla Exclusão</b>
+    <small>Racismo e capacitismo na vida escolar • 72 figurinhas</small>
+  </div>
+  <nav>
+    <button id="btnCapa">Capa</button>
+    <button id="btnSimulado">Simulado</button>
+    <button id="btnPacotes">Pacotes: <span id="pacotesTopo">3</span></button>
+    <button id="btnAnteriorTopo">← Página</button>
+    <button id="btnProximaTopo">Página →</button>
+    <button id="btnAudio">Som: ON</button>
+  </nav>
+</header>
+
+<main class="palco">
+  <aside class="lateral">
+    <div class="box">
+      <span class="tag">Pacotes</span>
+      <p style="font-size:.78rem;line-height:1.45;color:#fff">Na primeira vez, o álbum libera 3 pacotes. Depois, novos pacotes só pelo simulado.</p>
+      <button id="btnAbrirLateral" style="margin-top:12px">Abrir pacote</button>
+    </div>
+    <div class="status">
+      <div><b id="totalColadas">0</b><span>coladas</span></div>
+      <div><b id="totalDisponiveis">0</b><span>para colar</span></div>
+      <div><b id="totalPacotes">3</b><span>pacotes</span></div>
+      <div><b>5</b><span>figs/pacote</span></div>
+    </div>
+    <div class="controles">
+      <button id="btnAnterior">← Página</button>
+      <button id="btnProxima">Página →</button>
+    </div>
+    <div class="box dica">
+      <b>Como usar</b>
+      <p>Abra pacotes, veja as figurinhas recebidas e cole manualmente no álbum. A ficha técnica só aparece depois que a figurinha estiver colada.</p>
+    </div>
+    <div class="box dica">
+      <b>Pastas</b>
+      <p>Coloque as imagens em <b>figurinhas/</b> com nomes como <b>figurinha-01.webp</b> até <b>figurinha-72.webp</b>. Os áudios ficam em <b>audio/album/</b>.</p>
+    </div>
+  </aside>
+
+  <section class="area">
+    <div class="barra">
+      <div><span id="paginaAtual">Página 1</span><b id="tituloPagina">Capa</b></div>
+      <button class="btn" id="btnAbrirTopo">Abrir pacote</button>
+    </div>
+    <div class="livro capa" id="livro">
+      <div class="pagina esquerda" id="paginaEsquerda"></div>
+      <div class="miolo"></div>
+      <div class="pagina direita" id="paginaDireita"></div>
+    </div>
+  </section>
+</main>
+</div>
+
+<section class="modal" id="modalPacote">
+  <div class="card-modal">
+    <button class="fechar" id="fecharPacote">×</button>
+    <span class="tag">Pacote</span>
+    <h2 style="color:#fff">Abrir pacote</h2>
+    <p id="avisoPacote" style="color:#cbd5e1;margin-top:8px;line-height:1.4"></p>
+    <button class="btn-dourado" id="btnAbrirPacote" style="margin-top:14px">Abrir pacote agora</button>
+    <div id="resultadoPacote" class="resultado"></div>
+  </div>
+</section>
+
+<section class="modal" id="modalFicha">
+  <div class="card-modal">
+    <button class="fechar" id="fecharFicha">×</button>
+    <div id="conteudoFicha"></div>
+  </div>
+</section>
+
+<section class="modal" id="modalQuiz">
+  <div class="card-modal">
+    <button class="fechar" id="fecharQuiz">×</button>
+    <span class="tag">Simulado</span>
+    <h2 style="color:#fff">Simulado do Tema</h2>
+    <p style="color:#cbd5e1;margin-top:8px">10 questões. Gabaritou: 3 pacotes. Até 9 acertos: 1 pacote.</p>
+    <div id="quizArea" style="margin-top:14px"></div>
+  </div>
+</section>
+
+<script>
+const FIGURINHAS = [
+  {
+    "id": "fig-01",
+    "numero": 1,
+    "paginaAlbum": 4,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 01",
+    "descricao": "Menina negra cadeirante observando uma cidade marcada por desigualdade entre área nobre e periferia, expressão séria, representando racismo estrutural e exclusão social.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-02",
+    "numero": 2,
+    "paginaAlbum": 4,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 02",
+    "descricao": "Menino negro com deficiência visual caminhando com bengala por uma calçada esburacada, ônibus ao fundo e ausência de acessibilidade urbana, mostrando desigualdade estrutural.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-03",
+    "numero": 3,
+    "paginaAlbum": 4,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 03",
+    "descricao": "Mãe negra acompanhando uma criança negra cadeirante em fila de atendimento público, segurando documentos, ambiente de burocracia e espera, simbolizando barreiras sociais e institucionais.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-04",
+    "numero": 4,
+    "paginaAlbum": 4,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 04",
+    "descricao": "Adolescente negra surda em um ponto de ônibus olhando informações confusas e inacessíveis, expressão de frustração, cenário urbano representando exclusão comunicacional.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-05",
+    "numero": 5,
+    "paginaAlbum": 4,
+    "tema": "Racismo Estrutural",
+    "titulo": "Família negra em casa simples",
+    "descricao": "Família negra em casa simples, com criança negra com deficiência no centro da cena, ambiente digno, porém marcado por desigualdade econômica e exclusão histórica.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-06",
+    "numero": 6,
+    "paginaAlbum": 4,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 06",
+    "descricao": "Jovem negro com prótese na perna observando portas fechadas e oportunidades bloqueadas, ambiente urbano simbólico, representando exclusão econômica e social.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-07",
+    "numero": 7,
+    "paginaAlbum": 5,
+    "tema": "Racismo Estrutural",
+    "titulo": "Jovem negra com baixa visão em uma biblioteca pouco acessível",
+    "descricao": "Jovem negra com baixa visão em uma biblioteca pouco acessível, tentando alcançar livros e materiais, representando barreiras ao conhecimento e ao direito de aprender.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-08",
+    "numero": 8,
+    "paginaAlbum": 5,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 08",
+    "descricao": "Menino negro autista em ambiente urbano com excesso de estímulos visuais e sonoros, pessoas ao redor ignorando suas necessidades, representando invisibilização social.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-09",
+    "numero": 9,
+    "paginaAlbum": 5,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 09",
+    "descricao": "Mulher negra cadeirante diante de um prédio público com escadaria e ausência de rampa, composição forte representando negação de direitos e exclusão arquitetônica.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-10",
+    "numero": 10,
+    "paginaAlbum": 5,
+    "tema": "Racismo Estrutural",
+    "titulo": "Jovem negro surdo em atendimento de saúde sem intérprete",
+    "descricao": "Jovem negro surdo em atendimento de saúde sem intérprete, tentando se comunicar com expressão de dificuldade, simbolizando barreiras institucionais.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-11",
+    "numero": 11,
+    "paginaAlbum": 5,
+    "tema": "Racismo Estrutural",
+    "titulo": "Figurinha 11",
+    "descricao": "Estudante negra com deficiência física diante de um mapa simbólico do Brasil formado por elementos de desigualdade, racismo e exclusão, imagem reflexiva e impactante.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-12",
+    "numero": 12,
+    "paginaAlbum": 5,
+    "tema": "Racismo Estrutural",
+    "titulo": "Estudante negro com deficiência no centro da cena",
+    "descricao": "Estudante negro com deficiência no centro da cena, raízes africanas e correntes rompidas ao fundo, composição simbólica de resistência, identidade e luta contra o racismo estrutural.",
+    "reflexao": "A cena mostra que a exclusão não nasce apenas de atitudes individuais. Ela também aparece nas estruturas da sociedade, nas oportunidades, nos serviços e nos espaços que não foram pensados para todos.",
+    "acao": "Observe a escola e a comunidade: que barreiras precisam ser removidas para garantir acesso, respeito e participação?"
+  },
+  {
+    "id": "fig-13",
+    "numero": 13,
+    "paginaAlbum": 6,
+    "tema": "Racismo na Escola",
+    "titulo": "Figurinha 13",
+    "descricao": "Aluna negra cadeirante sozinha em sala de aula enquanto outros colegas interagem à distância, imagem sensível de isolamento e exclusão escolar.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-14",
+    "numero": 14,
+    "paginaAlbum": 6,
+    "tema": "Racismo na Escola",
+    "titulo": "Figurinha 14",
+    "descricao": "Menino negro com deficiência visual tentando ler material escolar inadequado, com esforço no rosto e ambiente escolar ao fundo, mostrando barreiras pedagógicas.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-15",
+    "numero": 15,
+    "paginaAlbum": 6,
+    "tema": "Racismo na Escola",
+    "titulo": "Figurinha 15",
+    "descricao": "Estudante negra surda observando a professora falar sem intérprete de Libras, em sala de aula, transmitindo sensação de exclusão e invisibilidade.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-16",
+    "numero": 16,
+    "paginaAlbum": 6,
+    "tema": "Racismo na Escola",
+    "titulo": "Figurinha 16",
+    "descricao": "Menino negro com prótese sendo alvo de risos e comentários de colegas no corredor da escola, retratando bullying, racismo e discriminação.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-17",
+    "numero": 17,
+    "paginaAlbum": 6,
+    "tema": "Racismo na Escola",
+    "titulo": "Figurinha 17",
+    "descricao": "Aluna negra com cabelo afro e deficiência física levantando a mão em sala de aula, mas sendo ignorada, enquanto a professora olha para outros alunos.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-18",
+    "numero": 18,
+    "paginaAlbum": 6,
+    "tema": "Racismo na Escola",
+    "titulo": "Jovem negro autista sentado sozinho no recreio",
+    "descricao": "Jovem negro autista sentado sozinho no recreio, observando os outros estudantes em grupos, imagem sensível de exclusão e solidão escolar.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-19",
+    "numero": 19,
+    "paginaAlbum": 7,
+    "tema": "Racismo na Escola",
+    "titulo": "Figurinha 19",
+    "descricao": "Estudante negra com muletas sendo impedida de participar de atividade escolar por falta de adaptação, cenário de exclusão institucional.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-20",
+    "numero": 20,
+    "paginaAlbum": 7,
+    "tema": "Racismo na Escola",
+    "titulo": "Figurinha 20",
+    "descricao": "Aluna negra com baixa visão tentando enxergar o quadro distante em uma sala sem acessibilidade, imagem de dificuldade, esforço e negligência pedagógica.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-21",
+    "numero": 21,
+    "paginaAlbum": 7,
+    "tema": "Racismo na Escola",
+    "titulo": "Menino negro surdo durante atividade escolar",
+    "descricao": "Menino negro surdo durante atividade escolar, com mãos expressivas e colegas sem atenção à sua comunicação, destacando barreiras de convivência.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-22",
+    "numero": 22,
+    "paginaAlbum": 7,
+    "tema": "Racismo na Escola",
+    "titulo": "Estudante negra cadeirante diante de uma escada da escola sem rampa",
+    "descricao": "Estudante negra cadeirante diante de uma escada da escola sem rampa, olhando para cima com determinação e frustração.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-23",
+    "numero": 23,
+    "paginaAlbum": 7,
+    "tema": "Racismo na Escola",
+    "titulo": "Reunião escolar com família negra e estudante com deficiência",
+    "descricao": "Reunião escolar com família negra e estudante com deficiência, enquanto gestores demonstram postura fria e desatenta, simbolizando negligência institucional.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-24",
+    "numero": 24,
+    "paginaAlbum": 7,
+    "tema": "Racismo na Escola",
+    "titulo": "Aluna negra com deficiência ao centro da sala",
+    "descricao": "Aluna negra com deficiência ao centro da sala, postura firme e confiante, imagem de protagonismo, voz ativa e direito ao pertencimento escolar.",
+    "reflexao": "O racismo no ambiente escolar pode aparecer em apelidos, silêncio, isolamento, falta de representatividade e baixa expectativa sobre estudantes negros.",
+    "acao": "Converse com colegas e professores sobre atitudes que tornam a escola mais justa, acolhedora e antirracista."
+  },
+  {
+    "id": "fig-25",
+    "numero": 25,
+    "paginaAlbum": 8,
+    "tema": "Capacitismo",
+    "titulo": "Figurinha 25",
+    "descricao": "Criança negra com deficiência sendo tratada com excesso de pena por adultos ao redor, enquanto demonstra vontade de agir com autonomia.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-26",
+    "numero": 26,
+    "paginaAlbum": 8,
+    "tema": "Capacitismo",
+    "titulo": "Figurinha 26",
+    "descricao": "Adolescente negra cadeirante ouvindo comentários de pena e infantilização, com expressão de desconforto e força interior.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-27",
+    "numero": 27,
+    "paginaAlbum": 8,
+    "tema": "Capacitismo",
+    "titulo": "Figurinha 27",
+    "descricao": "Menino negro com deficiência visual demonstrando competência em atividade escolar, enquanto alguém ao fundo duvida de sua capacidade.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-28",
+    "numero": 28,
+    "paginaAlbum": 8,
+    "tema": "Capacitismo",
+    "titulo": "Estudante negro surdo excluído de uma conversa em grupo",
+    "descricao": "Estudante negro surdo excluído de uma conversa em grupo, colegas virados entre si, simbolizando barreiras comunicacionais e capacitismo social.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-29",
+    "numero": 29,
+    "paginaAlbum": 8,
+    "tema": "Capacitismo",
+    "titulo": "Figurinha 29",
+    "descricao": "Jovem negra com prótese esportiva olhando para uma quadra sem adaptação, pronta para participar, mas impedida pelo ambiente excludente.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-30",
+    "numero": 30,
+    "paginaAlbum": 8,
+    "tema": "Capacitismo",
+    "titulo": "Figurinha 30",
+    "descricao": "Aluna negra autista em sala de aula sendo mal interpretada como desinteressada, enquanto enfrenta sobrecarga sensorial e incompreensão.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-31",
+    "numero": 31,
+    "paginaAlbum": 9,
+    "tema": "Capacitismo",
+    "titulo": "Figurinha 31",
+    "descricao": "Estudante negro com deficiência intelectual lendo e escrevendo com concentração, imagem positiva de capacidade, esforço e aprendizagem.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-32",
+    "numero": 32,
+    "paginaAlbum": 9,
+    "tema": "Capacitismo",
+    "titulo": "Figurinha 32",
+    "descricao": "Jovem negra com deficiência invisível sendo desacreditada por pessoas ao redor, expressão de cansaço emocional e resistência.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-33",
+    "numero": 33,
+    "paginaAlbum": 9,
+    "tema": "Capacitismo",
+    "titulo": "Grupo diverso de pessoas negras com deficiência",
+    "descricao": "Grupo diverso de pessoas negras com deficiência, incluindo cadeira de rodas, prótese, bengala, Libras e comunicação alternativa, representando pluralidade e dignidade.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-34",
+    "numero": 34,
+    "paginaAlbum": 9,
+    "tema": "Capacitismo",
+    "titulo": "Adolescente negro usando tecnologia assistiva em tablet",
+    "descricao": "Adolescente negro usando tecnologia assistiva em tablet, com expressão confiante, simbolizando autonomia, conhecimento e inovação.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-35",
+    "numero": 35,
+    "paginaAlbum": 9,
+    "tema": "Capacitismo",
+    "titulo": "Jovem negra com aparelho auditivo em pose segura e inspiradora",
+    "descricao": "Jovem negra com aparelho auditivo em pose segura e inspiradora, em ambiente educacional acolhedor, representando autoestima e pertencimento.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-36",
+    "numero": 36,
+    "paginaAlbum": 9,
+    "tema": "Capacitismo",
+    "titulo": "Estudante negro com deficiência no centro da composição",
+    "descricao": "Estudante negro com deficiência no centro da composição, cercado por símbolos quebrados de preconceito, pena e exclusão, imagem de empoderamento.",
+    "reflexao": "Capacitismo é tratar pessoas com deficiência como incapazes, inferiores ou dependentes, ignorando suas capacidades, escolhas e direitos.",
+    "acao": "Troque a pena por respeito. Pergunte, escute, adapte e garanta autonomia."
+  },
+  {
+    "id": "fig-37",
+    "numero": 37,
+    "paginaAlbum": 10,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Figurinha 37",
+    "descricao": "Professores em formação antirracista e inclusiva ouvindo atentamente uma estudante negra com deficiência como protagonista da fala.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-38",
+    "numero": 38,
+    "paginaAlbum": 10,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Sala de aula acessível com rampa",
+    "descricao": "Sala de aula acessível com rampa, materiais adaptados, Libras e estudantes diversos convivendo em ambiente respeitoso e acolhedor.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-39",
+    "numero": 39,
+    "paginaAlbum": 10,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Figurinha 39",
+    "descricao": "Roda de leitura com estudantes negros e com deficiência debatendo igualdade, direitos e respeito mútuo.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-40",
+    "numero": 40,
+    "paginaAlbum": 10,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Figurinha 40",
+    "descricao": "Equipe escolar acolhendo estudante negra cadeirante na entrada da escola com sorriso, empatia e acessibilidade.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-41",
+    "numero": 41,
+    "paginaAlbum": 10,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Colegas interagindo com um estudante surdo por meio de Libras",
+    "descricao": "Colegas interagindo com um estudante surdo por meio de Libras, em clima de amizade, inclusão e aprendizagem coletiva.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-42",
+    "numero": 42,
+    "paginaAlbum": 10,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Figurinha 42",
+    "descricao": "Aula de educação física inclusiva com estudante negra cadeirante participando ativamente de uma atividade esportiva escolar.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-43",
+    "numero": 43,
+    "paginaAlbum": 11,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Biblioteca acessível com braille",
+    "descricao": "Biblioteca acessível com braille, audiolivros e materiais ampliados, estudantes utilizando recursos de forma autônoma e feliz.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-44",
+    "numero": 44,
+    "paginaAlbum": 11,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Jovem negra com deficiência discursando em assembleia estudantil",
+    "descricao": "Jovem negra com deficiência discursando em assembleia estudantil, colegas atentos, imagem de liderança, voz e protagonismo.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-45",
+    "numero": 45,
+    "paginaAlbum": 11,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Figurinha 45",
+    "descricao": "Família negra e equipe escolar em diálogo construtivo sobre apoio e direitos do estudante com deficiência, clima de parceria.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-46",
+    "numero": 46,
+    "paginaAlbum": 11,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Cena de conversa restaurativa após episódio de preconceito",
+    "descricao": "Cena de conversa restaurativa após episódio de preconceito, mediada por educador acolhedor e centrada no respeito.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-47",
+    "numero": 47,
+    "paginaAlbum": 11,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Mural escolar visualmente bonito",
+    "descricao": "Mural escolar visualmente bonito, com símbolos de diversidade racial e inclusão, estudantes admirando e participando da construção coletiva.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-48",
+    "numero": 48,
+    "paginaAlbum": 11,
+    "tema": "Como Combater Racismo e Capacitismo",
+    "titulo": "Professor adaptando atividade para estudante com deficiência visual",
+    "descricao": "Professor adaptando atividade para estudante com deficiência visual, ambos concentrados e colaborando em ambiente escolar inclusivo.",
+    "reflexao": "Combater preconceitos exige ação coletiva: ouvir, respeitar, adaptar materiais, denunciar injustiças e valorizar todas as pessoas.",
+    "acao": "Escolha uma atitude prática para aplicar hoje na escola: incluir, apoiar, adaptar, acolher ou denunciar."
+  },
+  {
+    "id": "fig-49",
+    "numero": 49,
+    "paginaAlbum": 12,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato inspirador de Stevie Wonder",
+    "descricao": "Retrato inspirador de Stevie Wonder, cantor negro cego, usando óculos escuros, em cenário musical elegante, transmitindo talento, legado e superação.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-50",
+    "numero": 50,
+    "paginaAlbum": 12,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de Ray Charles ao piano",
+    "descricao": "Retrato de Ray Charles ao piano, músico negro cego, iluminação de palco e atmosfera emocionante, destacando genialidade e contribuição cultural.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-51",
+    "numero": 51,
+    "paginaAlbum": 12,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de Haben Girma",
+    "descricao": "Retrato de Haben Girma, mulher negra surdocega, postura firme e profissional, cenário ligado à educação, direitos e acessibilidade.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-52",
+    "numero": 52,
+    "paginaAlbum": 12,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de Aaron Philip",
+    "descricao": "Retrato de Aaron Philip, modelo negra cadeirante, em pose elegante e moderna, cenário fashion inclusivo, representando autoestima e representatividade.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-53",
+    "numero": 53,
+    "paginaAlbum": 12,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de Jillian Mercado",
+    "descricao": "Retrato de Jillian Mercado, mulher negra latina cadeirante, com visual fashion e postura confiante, transmitindo inclusão e beleza diversa.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-54",
+    "numero": 54,
+    "paginaAlbum": 12,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de Keah Brown",
+    "descricao": "Retrato de Keah Brown, escritora negra com deficiência, cercada por livros e ambiente criativo, transmitindo inteligência, voz e inspiração.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-55",
+    "numero": 55,
+    "paginaAlbum": 13,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de Leroy Moore",
+    "descricao": "Retrato de Leroy Moore, ativista negro com deficiência, composição urbana e artística, expressão firme e militante.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-56",
+    "numero": 56,
+    "paginaAlbum": 13,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato inspirador de Emmanuel Ofosu Yeboah em bicicleta",
+    "descricao": "Retrato inspirador de Emmanuel Ofosu Yeboah em bicicleta, atleta e ativista negro com amputação, cenário africano ao fundo, simbolizando coragem e mobilidade.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-57",
+    "numero": 57,
+    "paginaAlbum": 13,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Musa Motha em movimento de dança no palco",
+    "descricao": "Musa Motha em movimento de dança no palco, dançarino negro com amputação, composição dinâmica, artística e poderosa.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-58",
+    "numero": 58,
+    "paginaAlbum": 13,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de C",
+    "descricao": "Retrato de C. J. Jones, ator negro surdo, mãos expressivas em destaque, atmosfera teatral representando arte e comunicação.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-59",
+    "numero": 59,
+    "paginaAlbum": 13,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato histórico de Johnnie Lacy",
+    "descricao": "Retrato histórico de Johnnie Lacy, ativista negra cadeirante, postura de liderança e luta por direitos civis e inclusão.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-60",
+    "numero": 60,
+    "paginaAlbum": 13,
+    "tema": "Personalidades Negras com Deficiência",
+    "titulo": "Retrato de Brad Lomax",
+    "descricao": "Retrato de Brad Lomax, ativista negro cadeirante, imagem histórica e militante unindo justiça racial e direitos das pessoas com deficiência.",
+    "reflexao": "Conhecer trajetórias de pessoas negras com deficiência amplia referências positivas e combate invisibilizações históricas.",
+    "acao": "Pesquise mais sobre essa personalidade e compartilhe com a turma uma aprendizagem importante."
+  },
+  {
+    "id": "fig-61",
+    "numero": 61,
+    "paginaAlbum": 14,
+    "tema": "Direitos e Inclusão",
+    "titulo": "Retrato de Lois Curtis",
+    "descricao": "Retrato de Lois Curtis, artista negra com deficiência, com materiais de arte e expressão tranquila, simbolizando liberdade e criatividade.",
+    "reflexao": "Inclusão é direito. A escola deve garantir acessibilidade, participação, aprendizagem e respeito à identidade de cada estudante.",
+    "acao": "Liste um direito que precisa ser fortalecido na escola e proponha uma melhoria possível."
+  },
+  {
+    "id": "fig-62",
+    "numero": 62,
+    "paginaAlbum": 14,
+    "tema": "Direitos e Inclusão",
+    "titulo": "Retrato de Andraéa LaVant",
+    "descricao": "Retrato de Andraéa LaVant, mulher negra com deficiência, postura elegante e profissional, cenário contemporâneo ligado à liderança e inclusão.",
+    "reflexao": "Inclusão é direito. A escola deve garantir acessibilidade, participação, aprendizagem e respeito à identidade de cada estudante.",
+    "acao": "Liste um direito que precisa ser fortalecido na escola e proponha uma melhoria possível."
+  },
+  {
+    "id": "fig-63",
+    "numero": 63,
+    "paginaAlbum": 14,
+    "tema": "Direitos e Inclusão",
+    "titulo": "Figurinha 63",
+    "descricao": "Atleta paralímpica negra cadeirante cruzando a linha de chegada com expressão vibrante, medalha ao fundo, simbolizando conquista e superação.",
+    "reflexao": "Inclusão é direito. A escola deve garantir acessibilidade, participação, aprendizagem e respeito à identidade de cada estudante.",
+    "acao": "Liste um direito que precisa ser fortalecido na escola e proponha uma melhoria possível."
+  },
+  {
+    "id": "fig-64",
+    "numero": 64,
+    "paginaAlbum": 14,
+    "tema": "Direitos e Inclusão",
+    "titulo": "Cientista negra com deficiência visual em laboratório acessível",
+    "descricao": "Cientista negra com deficiência visual em laboratório acessível, usando recursos adaptados, representando conhecimento, inovação e inclusão.",
+    "reflexao": "Inclusão é direito. A escola deve garantir acessibilidade, participação, aprendizagem e respeito à identidade de cada estudante.",
+    "acao": "Liste um direito que precisa ser fortalecido na escola e proponha uma melhoria possível."
+  },
+  {
+    "id": "fig-65",
+    "numero": 65,
+    "paginaAlbum": 14,
+    "tema": "Direitos e Inclusão",
+    "titulo": "Professora negra surda utilizando Libras diante de uma turma atenta",
+    "descricao": "Professora negra surda utilizando Libras diante de uma turma atenta, imagem de liderança educacional, competência e transformação.",
+    "reflexao": "Inclusão é direito. A escola deve garantir acessibilidade, participação, aprendizagem e respeito à identidade de cada estudante.",
+    "acao": "Liste um direito que precisa ser fortalecido na escola e proponha uma melhoria possível."
+  },
+  {
+    "id": "fig-66",
+    "numero": 66,
+    "paginaAlbum": 14,
+    "tema": "Direitos e Inclusão",
+    "titulo": "Estudante negra autista em posição de liderança entre colegas diversos",
+    "descricao": "Estudante negra autista em posição de liderança entre colegas diversos, expressão segura, composição representando futuro, pertencimento e representatividade.",
+    "reflexao": "Inclusão é direito. A escola deve garantir acessibilidade, participação, aprendizagem e respeito à identidade de cada estudante.",
+    "acao": "Liste um direito que precisa ser fortalecido na escola e proponha uma melhoria possível."
+  },
+  {
+    "id": "fig-67",
+    "numero": 67,
+    "paginaAlbum": 15,
+    "tema": "Compromisso Coletivo",
+    "titulo": "Comunidade escolar em marcha educativa por igualdade",
+    "descricao": "Comunidade escolar em marcha educativa por igualdade, respeito e inclusão, com atmosfera de união, esperança e transformação social.",
+    "reflexao": "A mudança depende de compromisso diário. Pequenas atitudes constroem uma escola mais justa, acessível e acolhedora.",
+    "acao": "Assuma um compromisso concreto contra o racismo e o capacitismo."
+  },
+  {
+    "id": "fig-68",
+    "numero": 68,
+    "paginaAlbum": 15,
+    "tema": "Compromisso Coletivo",
+    "titulo": "Figurinha 68",
+    "descricao": "Grupo de estudantes criando campanha escolar contra racismo e capacitismo, trabalhando juntos em clima de engajamento e colaboração.",
+    "reflexao": "A mudança depende de compromisso diário. Pequenas atitudes constroem uma escola mais justa, acessível e acolhedora.",
+    "acao": "Assuma um compromisso concreto contra o racismo e o capacitismo."
+  },
+  {
+    "id": "fig-69",
+    "numero": 69,
+    "paginaAlbum": 15,
+    "tema": "Compromisso Coletivo",
+    "titulo": "Figurinha 69",
+    "descricao": "Apresentação cultural inclusiva com estudantes negros com deficiência cantando, dançando e se expressando com alegria e pertencimento.",
+    "reflexao": "A mudança depende de compromisso diário. Pequenas atitudes constroem uma escola mais justa, acessível e acolhedora.",
+    "acao": "Assuma um compromisso concreto contra o racismo e o capacitismo."
+  },
+  {
+    "id": "fig-70",
+    "numero": 70,
+    "paginaAlbum": 15,
+    "tema": "Compromisso Coletivo",
+    "titulo": "Psicóloga",
+    "descricao": "Psicóloga, assistente social e educadores acolhendo estudante negra com deficiência em uma escuta sensível e respeitosa.",
+    "reflexao": "A mudança depende de compromisso diário. Pequenas atitudes constroem uma escola mais justa, acessível e acolhedora.",
+    "acao": "Assuma um compromisso concreto contra o racismo e o capacitismo."
+  },
+  {
+    "id": "fig-71",
+    "numero": 71,
+    "paginaAlbum": 15,
+    "tema": "Compromisso Coletivo",
+    "titulo": "Futuro escolar inclusivo com estudantes negros com deficiência felizes",
+    "descricao": "Futuro escolar inclusivo com estudantes negros com deficiência felizes, aprendendo juntos em ambiente justo, acolhedor e transformador.",
+    "reflexao": "A mudança depende de compromisso diário. Pequenas atitudes constroem uma escola mais justa, acessível e acolhedora.",
+    "acao": "Assuma um compromisso concreto contra o racismo e o capacitismo."
+  },
+  {
+    "id": "fig-72",
+    "numero": 72,
+    "paginaAlbum": 15,
+    "tema": "Compromisso Coletivo",
+    "titulo": "Grande cena simbólica de encerramento: escola inclusiva",
+    "descricao": "Grande cena simbólica de encerramento: escola inclusiva, estudantes negros com deficiência em destaque, diversidade, respeito, acessibilidade e esperança.",
+    "reflexao": "A mudança depende de compromisso diário. Pequenas atitudes constroem uma escola mais justa, acessível e acolhedora.",
+    "acao": "Assuma um compromisso concreto contra o racismo e o capacitismo."
+  }
+];
+const STORAGE_KEY = "album_dupla_exclusao_v4_72";
+const FIGS_POR_PACOTE = 5;
+const CREDITOS = 'Realização: <b>Escola Pedro de Queiroz Ferreira</b> • Idealização e coordenação pedagógica: <b>Prof. Cleilson Paiva</b> • Projeto gráfico e diagramação: <b>Prof. Carlos Tavares</b>';
+let audioAtivo = true, audioLiberado = false, audio = {};
+function setupAudio(){
+  audio.bg = new Audio("audio/album/bg-adventure.mp3");
+  audio.pack = new Audio("audio/album/pack-open.mp3");
+  audio.page = new Audio("audio/album/page-turn.mp3");
+  audio.click = new Audio("audio/album/click.mp3");
+  audio.sticker = new Audio("audio/album/sticker-place.mp3");
+  Object.values(audio).forEach(a=>{a.preload="auto"});
+  audio.bg.loop = true; audio.bg.volume=.16; audio.pack.volume=.55; audio.page.volume=.55; audio.click.volume=.45; audio.sticker.volume=.55;
+  atualizarBotaoAudio();
+}
+function atualizarBotaoAudio(){document.getElementById("btnAudio").textContent = audioAtivo ? "Som: ON" : "Som: OFF"}
+function liberarAudio(){
+  if(!audioAtivo || audioLiberado) return;
+  audioLiberado = true;
+  audio.bg.play().catch(()=>{audioLiberado=false});
+}
+function playSom(nome){
+  if(!audioAtivo || !audio[nome]) return;
+  liberarAudio();
+  try{audio[nome].currentTime=0;audio[nome].play().catch(()=>{})}catch(e){}
+}
+function alternarAudio(){
+  audioAtivo = !audioAtivo;
+  if(!audioAtivo){audio.bg.pause();audio.bg.currentTime=0;audioLiberado=false}else{liberarAudio()}
+  atualizarBotaoAudio();
+}
+document.addEventListener("click", liberarAudio, {once:true});
+
+function estadoInicial(){return {album:{}, pacotes:3, historico:[], quizFeitos:0}}
+function carregar(){
+  try{const salvo=JSON.parse(localStorage.getItem(STORAGE_KEY)); return {...estadoInicial(), ...(salvo||{}), album:(salvo&&salvo.album)||{}, historico:(salvo&&salvo.historico)||[]}}catch(e){return estadoInicial()}
+}
+let estado = carregar();
+let paginaAtual = Number(localStorage.getItem("pagina_dupla_exclusao_v4") || 1);
+function salvar(){localStorage.setItem(STORAGE_KEY, JSON.stringify(estado))}
+function reg(id){if(!estado.album[id]) estado.album[id]={quantidade:0,colada:false}; return estado.album[id]}
+function safe(t){return String(t??"").replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[s]))}
+function pad(n){return String(n).padStart(2,"0")}
+function caminhosImagem(num){
+  const n2=pad(num), n=String(num);
+  return [
+    `figurinhas/figurinha-${n2}.webp`, `figurinhas/${n2}.webp`, `figurinhas/figurinha-${n}.webp`,
+    `figurinhas/Figurinha-${n2}.webp`, `figurinhas/FIGURINHA-${n2}.webp`,
+    `figurinhas/figurinha-${n2}.png`, `figurinhas/${n2}.png`, `figurinhas/figurinha-${n2}.jpg`, `figurinhas/figurinha-${n2}.jpeg`,
+    `figurinhas/figurinha-${n2}.svg`
+  ];
+}
+function imgFallback(el){
+  const lista = JSON.parse(el.dataset.fallback || "[]");
+  const i = Number(el.dataset.i || 0) + 1;
+  if(i < lista.length){el.dataset.i=i; el.src=lista[i]; return}
+  const num = el.dataset.num || "";
+  el.outerHTML = `<div class="placeholder"><div class="num">${num}</div><div class="tema">Imagem não encontrada<br>cole em figurinhas/figurinha-${num}.webp</div></div>`;
+}
+function imagemHTML(fig){
+  const lista=caminhosImagem(fig.numero);
+  return `<img src="${lista[0]}" data-fallback='${JSON.stringify(lista)}' data-i="0" data-num="${pad(fig.numero)}" onerror="imgFallback(this)" alt="${safe(fig.titulo)}">`;
+}
+function totais(){
+  const regs=Object.values(estado.album);
+  return {
+    coladas: regs.filter(r=>r.colada).length,
+    disp: regs.reduce((s,r)=>s + (!r.colada ? Number(r.quantidade||0) : 0),0),
+    pacotes: estado.pacotes||0
+  };
+}
+function temaTexto(tema){
+  const mapa={
+    "Racismo Estrutural":"O racismo estrutural aparece nas instituições, nas leis, nas oportunidades e nos espaços. Reconhecer essas barreiras ajuda a transformar a escola em um ambiente mais justo.",
+    "Racismo na Escola":"Na escola, o racismo pode aparecer em piadas, apelidos, silêncios, exclusões e ausência de representatividade. Combater isso é proteger o direito de aprender.",
+    "Capacitismo":"Capacitismo é discriminar pessoas com deficiência, tratando seus corpos e mentes como inferiores. Inclusão começa quando existe respeito, acessibilidade e participação.",
+    "Como Combater Racismo e Capacitismo":"Combater racismo e capacitismo exige atitude coletiva: formação, diálogo, acessibilidade, escuta, respeito, materiais adaptados e protagonismo dos estudantes.",
+    "Personalidades Negras com Deficiência":"Conhecer personalidades negras com deficiência valoriza trajetórias de resistência, talento e superação, fortalecendo representatividade e pertencimento.",
+    "Direitos e Inclusão":"Toda pessoa tem direitos. Na escola, todos devem aprender, participar e ser respeitados sem discriminação. Acessibilidade garante participação real.",
+    "Compromisso Coletivo":"Mudar a escola é compromisso de todas e todos. Cada atitude conta: ouvir, respeitar, incluir, adaptar, acolher e construir solidariedade."
+  };
+  return mapa[tema] || "Leia, reflita e converse com a turma sobre respeito, acessibilidade e inclusão.";
+}
+function paginas(){
+  const arr=[{numero:1,tipo:"capa",titulo:"Capa"},{numero:2,tipo:"como",titulo:"Como usar"},{numero:3,tipo:"simulado",titulo:"Simulado"}];
+  const temasPorPag = [...new Set(FIGURINHAS.map(f=>f.paginaAlbum))].sort((a,b)=>a-b);
+  temasPorPag.forEach(p=>{
+    const fs=FIGURINHAS.filter(f=>f.paginaAlbum===p);
+    arr.push({numero:arr.length+1,tipo:"figs",titulo:fs[0].tema,paginaAlbum:p,tema:fs[0].tema});
+  });
+  return arr;
+}
+function totalPaginas(){return paginas().length}
+function pagina(n){return paginas().find(p=>p.numero===n)||paginas()[0]}
+function par(n){if(n<=1)return 1; return n%2===0?n:n-1}
+
+function creditosHTML(){return `<img class="logo-escola" src="img/logo-escola.jpg" alt="Logo da escola" onerror="this.onerror=null;this.src='logo pedro de queiroz ferreira.jpg'"><div class="creditos">${CREDITOS}</div>`}
+function capaHTML(){
+  return `<div class="capa-album">
+    <img class="logo-escola" src="img/logo-escola.jpg" alt="Logo da escola" onerror="this.onerror=null;this.src='logo pedro de queiroz ferreira.jpg'" style="left:50%;transform:translateX(-50%);width:70px;height:70px">
+    <div>
+      <span class="tag">Álbum educativo digital</span>
+      <h1>Dupla Exclusão</h1>
+      <h2>Racismo e Capacitismo na Vida Escolar</h2>
+      <p>Álbum interativo com 72 figurinhas, pacotes, simulado, colagem manual e fichas técnicas liberadas somente depois que cada figurinha for colada.</p>
+      <p><b>Primeira vez:</b> 3 pacotes liberados. Depois, novos pacotes são conquistados pelo simulado.</p>
+    </div>
+    <div class="creditos">${CREDITOS}</div>
+  </div>`;
+}
+function especialHTML(p){
+  if(p.tipo==="capa") return capaHTML();
+  if(p.tipo==="como") return `${creditosHTML()}<div class="pagina-especial"><h2>Como usar este álbum</h2><div><p>1. Abra os 3 pacotes iniciais. Cada pacote mostra 5 figurinhas.</p><p>2. As figurinhas recebidas ficam disponíveis, mas não colam automaticamente.</p><p>3. Vá até a página correspondente e clique em <b>Colar figurinha</b>.</p><p>4. Só depois de colada a ficha técnica será aberta.</p></div><div class="info-grid"><div class="info-card"><b>Figurinhas</b><span>72</span></div><div class="info-card"><b>Pacote</b><span>5</span></div><div class="info-card"><b>Início</b><span>3 pacotes</span></div><div class="info-card"><b>Simulado</b><span>+1 ou +3</span></div></div></div>`;
+  if(p.tipo==="simulado"){
+    const t=totais();
+    return `${creditosHTML()}<div class="pagina-especial"><h2>Simulado do Tema</h2><div><p>Responda 10 questões sobre racismo, capacitismo, acessibilidade e inclusão escolar.</p><p><b>10 acertos:</b> ganha 3 pacotes. <b>Até 9 acertos:</b> ganha 1 pacote.</p></div><div class="info-grid"><div class="info-card"><b>10 acertos</b><span>3 pacotes</span></div><div class="info-card"><b>Até 9 acertos</b><span>1 pacote</span></div><div class="info-card"><b>Figurinhas por pacote</b><span>5</span></div><div class="info-card"><b>Pacotes disponíveis</b><span>${t.pacotes}</span></div></div><button class="btn-dourado" onclick="abrirQuiz()">Iniciar simulado</button></div>`;
+  }
+  return "";
+}
+function card(fig, resultado=false){
+  const r=reg(fig.id), tenho=(r.quantidade>0||resultado), colada=r.colada;
+  let status = colada ? "Colada" : tenho ? "Disponível" : "Bloqueada";
+  let classe = colada ? "colada" : tenho ? "disponivel" : "bloqueada";
+  let acao = resultado ? "Disponível no álbum" : colada ? "Ver ficha" : tenho ? "Colar figurinha" : "Bloqueada";
+  let click = resultado ? `irParaFigurinha(${fig.paginaAlbum})` : colada ? `abrirFicha('${fig.id}')` : tenho ? `colar('${fig.id}')` : `abrirFicha('${fig.id}')`;
+  return `<article class="fig ${classe}" onclick="${click}">
+    <div class="arte">${(tenho||colada||resultado) ? imagemHTML(fig) : `<div class="placeholder"><span class="estado">Bloqueada</span><div class="num">${pad(fig.numero)}</div><div class="tema">${safe(fig.tema)}</div></div>`}<span class="estado ${colada?'colada':tenho?'ok':''}">${status}</span></div>
+    <button class="acao" onclick="event.stopPropagation();${click}">${acao}</button>
+  </article>`;
+}
+function paginaFigHTML(p){
+  const figs=FIGURINHAS.filter(f=>f.paginaAlbum===p.paginaAlbum).sort((a,b)=>a.numero-b.numero);
+  return `${creditosHTML()}<div class="page-inner">
+    <div class="page-head"><div class="label">Página ${p.paginaAlbum}</div><br><small>${figs[0].numero} a ${figs[figs.length-1].numero}</small><h2>${safe(p.tema)}</h2></div>
+    <div class="texto-pagina">${safe(temaTexto(p.tema))}</div>
+    <div class="grid-fig">${figs.map(f=>card(f)).join("")}</div>
+  </div>`;
+}
+function renderPagina(p){return p.tipo==="figs" ? paginaFigHTML(p) : especialHTML(p)}
+function renderLivro(){
+  if(paginaAtual<1)paginaAtual=1;if(paginaAtual>totalPaginas())paginaAtual=totalPaginas();
+  localStorage.setItem("pagina_dupla_exclusao_v4", paginaAtual);
+  const p=pagina(paginaAtual);
+  document.getElementById("paginaAtual").textContent=`Página ${paginaAtual} de ${totalPaginas()}`;
+  document.getElementById("tituloPagina").textContent=p.titulo;
+  const livro=document.getElementById("livro"), esq=document.getElementById("paginaEsquerda"), dir=document.getElementById("paginaDireita");
+  if(paginaAtual===1){livro.classList.add("capa");dir.innerHTML=renderPagina(p);esq.innerHTML=""}
+  else{livro.classList.remove("capa");const base=par(paginaAtual);esq.innerHTML=renderPagina(pagina(base));dir.innerHTML=base+1<=totalPaginas()?renderPagina(pagina(base+1)):""}
+  atualizarStatus();
+}
+function atualizarStatus(){
+  const t=totais();
+  document.getElementById("totalColadas").textContent=t.coladas;
+  document.getElementById("totalDisponiveis").textContent=t.disp;
+  document.getElementById("totalPacotes").textContent=t.pacotes;
+  document.getElementById("pacotesTopo").textContent=t.pacotes;
+}
+function proxima(){if(paginaAtual<totalPaginas()){paginaAtual=paginaAtual===1?2:par(paginaAtual)+2;playSom("page");renderLivro()}}
+function anterior(){if(paginaAtual>1){paginaAtual=paginaAtual<=2?1:par(paginaAtual)-2;playSom("page");renderLivro()}}
+function irParaFigurinha(paginaImpressa){
+  const alvo = paginas().find(p=>p.tipo==="figs" && p.paginaAlbum===paginaImpressa);
+  if(alvo){paginaAtual = alvo.numero; playSom("page"); document.getElementById("modalPacote").classList.remove("ativo"); renderLivro();}
+}
+window.colar=function(id){
+  const r=reg(id); if(r.quantidade<=0||r.colada) return;
+  r.quantidade--; r.colada=true; estado.historico.push({tipo:"colada",id,data:new Date().toISOString()}); salvar(); playSom("sticker"); renderLivro();
+}
+window.abrirFicha=function(id){
+  playSom("click");
+  const fig=FIGURINHAS.find(f=>f.id===id); if(!fig) return;
+  const r=reg(id), area=document.getElementById("conteudoFicha");
+  if(!r.colada){
+    area.innerHTML=`<div class="bloqueio"><div><div class="lock">🔒</div><h2>Ficha técnica bloqueada</h2><p style="color:#cbd5e1;margin-top:8px">A ficha técnica só aparece depois que a figurinha for colada no álbum.</p></div></div>`;
+  }else{
+    area.innerHTML=`<div class="ficha-rev"><div class="ficha-img">${imagemHTML(fig)}</div><div class="ficha-dados"><span class="tag">Figurinha ${pad(fig.numero)}</span><h2>${safe(fig.titulo)}</h2><div class="meta"><div><span>Tema</span><b>${safe(fig.tema)}</b></div><div><span>Página impressa</span><b>${fig.paginaAlbum}</b></div></div><div class="texto-ficha"><article><h3>Ficha técnica</h3><p>${safe(fig.descricao)}</p></article><article><h3>Reflexão</h3><p>${safe(fig.reflexao)}</p></article><article><h3>Ação educativa</h3><p>${safe(fig.acao)}</p></article></div></div></div>`;
+  }
+  document.getElementById("modalFicha").classList.add("ativo");
+}
+function abrirModalPacote(){
+  playSom("click");
+  document.getElementById("modalPacote").classList.add("ativo");
+  document.getElementById("resultadoPacote").innerHTML="";
+  const t=totais();
+  document.getElementById("avisoPacote").innerHTML=t.pacotes>0?`Você tem <b style="color:#86efac">${t.pacotes}</b> pacote(s). Cada pacote mostra 5 figurinhas. Elas ficam disponíveis para colar manualmente.`:`Você não tem pacotes. Faça o simulado para conquistar mais.`;
+  document.getElementById("btnAbrirPacote").disabled=t.pacotes<=0;
+  document.getElementById("btnAbrirPacote").style.opacity=t.pacotes>0?"1":".55";
+}
+function abrirPacote(){
+  if((estado.pacotes||0)<=0){alert("Sem pacotes disponíveis. Faça o simulado para ganhar mais.");return}
+  estado.pacotes--;
+  const novas=[];
+  for(let i=0;i<FIGS_POR_PACOTE;i++){
+    const f=FIGURINHAS[Math.floor(Math.random()*FIGURINHAS.length)];
+    reg(f.id).quantidade++;
+    novas.push(f);
+  }
+  estado.historico.push({tipo:"pacote",qtd:FIGS_POR_PACOTE,data:new Date().toISOString()});
+  salvar(); playSom("pack");
+  document.getElementById("resultadoPacote").innerHTML=novas.map(f=>card(f,true)).join("");
+  document.getElementById("avisoPacote").innerHTML=`Pacote aberto. As figurinhas apareceram abaixo e foram adicionadas à sua coleção. Agora vá ao álbum e clique em <b>Colar figurinha</b>.`;
+  document.getElementById("btnAbrirPacote").disabled=(estado.pacotes||0)<=0;
+  document.getElementById("btnAbrirPacote").style.opacity=(estado.pacotes||0)>0?"1":".55";
+  renderLivro();
+}
+const QUESTOES=[
+["O que é capacitismo?",["Tratar pessoas com deficiência como incapazes ou inferiores","Apenas construir rampas","Uma disciplina escolar","Um tipo de esporte"],0],
+["O que é racismo estrutural?",["Desigualdade presente nas estruturas sociais","Uma opinião individual sem efeitos","Uma brincadeira sem consequência","Um conteúdo de matemática"],0],
+["A ficha técnica deve ser liberada quando?",["Depois que a figurinha for colada","Assim que abrir o site","Antes de ganhar a figurinha","Nunca"],0],
+["Qual atitude ajuda a inclusão escolar?",["Adaptar materiais e respeitar diferentes formas de aprender","Isolar o estudante","Ignorar Libras","Impedir participação"],0],
+["Quando um aluno surdo não tem acessibilidade comunicacional, falta:",["Direito à comunicação","Uniforme escolar","Prova difícil","Recreio"],0],
+["Bullying contra deficiência e raça deve ser tratado como:",["Problema sério de discriminação","Brincadeira normal","Assunto sem importância","Competição"],0],
+["A escola inclusiva deve garantir:",["Acessibilidade, respeito e pertencimento","Apenas notas altas","Silêncio absoluto","Separação dos alunos"],0],
+["Representatividade significa:",["Ver diferentes pessoas valorizadas nos espaços","Excluir histórias diversas","Mostrar apenas um grupo","Evitar debates"],0],
+["A família e a escola devem:",["Dialogar em parceria pelo direito do estudante","Culpar o aluno","Evitar adaptações","Esconder dificuldades"],0],
+["Combater racismo e capacitismo é responsabilidade:",["De toda a comunidade escolar","Somente do aluno","Somente da família","De ninguém"],0]
+];
+let respostas={};
+window.abrirQuiz=function(){playSom("click");respostas={};document.getElementById("modalQuiz").classList.add("ativo");renderQuiz()}
+function renderQuiz(){
+  const area=document.getElementById("quizArea");
+  area.innerHTML=QUESTOES.map((q,i)=>`<div class="pergunta-box"><p style="color:#fff;font-weight:900">${i+1}. ${safe(q[0])}</p>${q[1].map((op,j)=>`<button class="quiz-opcao ${respostas[i]===j?'selecionada':''}" onclick="marcarResposta(${i},${j})">${safe(op)}</button>`).join("")}</div>`).join("")+`<button class="btn-dourado" style="margin-top:14px" onclick="finalizarQuiz()">Finalizar simulado</button>`;
+}
+window.marcarResposta=function(i,j){respostas[i]=j;renderQuiz()}
+window.finalizarQuiz=function(){
+  if(Object.keys(respostas).length<QUESTOES.length){alert("Responda todas as 10 questões.");return}
+  let acertos=0;QUESTOES.forEach((q,i)=>{if(respostas[i]===q[2])acertos++});
+  const ganho=acertos===10?3:1;
+  estado.pacotes=(estado.pacotes||0)+ganho; estado.quizFeitos=(estado.quizFeitos||0)+1;
+  estado.historico.push({tipo:"simulado",acertos,pacotes:ganho,data:new Date().toISOString()});
+  salvar(); atualizarStatus();
+  document.getElementById("quizArea").innerHTML=`<div class="pergunta-box"><h2 style="color:#fff">Resultado: ${acertos}/10</h2><p style="color:#cbd5e1;margin-top:8px">Você ganhou <b style="color:#86efac">${ganho} pacote(s)</b>. Agora pode abrir pacote e colar as figurinhas manualmente no álbum.</p><button class="btn-dourado" style="margin-top:14px" onclick="document.getElementById('modalQuiz').classList.remove('ativo');abrirModalPacote();">Abrir pacotes</button></div>`;
+}
+function resetarAlbum(){if(confirm("Apagar progresso deste navegador?")){localStorage.removeItem(STORAGE_KEY);localStorage.removeItem("pagina_dupla_exclusao_v4");estado=carregar();paginaAtual=1;renderLivro()}}
+["btnAnterior","btnAnteriorTopo"].forEach(id=>document.getElementById(id).onclick=anterior);
+["btnProxima","btnProximaTopo"].forEach(id=>document.getElementById(id).onclick=proxima);
+document.getElementById("btnCapa").onclick=()=>{paginaAtual=1;playSom("page");renderLivro()};
+document.getElementById("btnAudio").onclick=alternarAudio;
+["btnPacotes","btnAbrirLateral","btnAbrirTopo"].forEach(id=>document.getElementById(id).onclick=abrirModalPacote);
+document.getElementById("btnAbrirPacote").onclick=abrirPacote;
+document.getElementById("fecharPacote").onclick=()=>document.getElementById("modalPacote").classList.remove("ativo");
+document.getElementById("fecharFicha").onclick=()=>document.getElementById("modalFicha").classList.remove("ativo");
+document.getElementById("btnSimulado").onclick=abrirQuiz;
+document.getElementById("fecharQuiz").onclick=()=>document.getElementById("modalQuiz").classList.remove("ativo");
+setupAudio(); salvar(); renderLivro();
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+ÁLBUM DUPLA EXCLUSÃO — PRONTO PARA GITHUB DESKTOP
+
+O que foi feito nesta versão:
+- Pasta raiz corrigida para: album-dupla-exclusao
+- Mantidas as páginas A4 do álbum.
+- Mantido o index.html.
+- Substituídas/adicionadas as figurinhas enviadas: 33.webp, 55.webp, 60.webp e 61.webp.
+
+Como colocar no GitHub Desktop:
+1. Extraia este ZIP.
+2. Copie a pasta inteira: album-dupla-exclusao
+3. Cole dentro de: Documentos/GitHub/radar-copa-2026-com-album/
+4. No GitHub Desktop, faça Commit to main e depois Push origin.
+
+Link esperado:
+https://dev-orient-social.github.io/radar-copa-2026-com-album/album-dupla-exclusao/
+
+Importante: não coloque esta pasta dentro da pasta album. Ela deve ficar ao lado da pasta album.
