@@ -1,0 +1,4 @@
+# Não enviar backups grandes para o GitHub
+*_backup*.zip
+_backup_*.zip
+*.tmp

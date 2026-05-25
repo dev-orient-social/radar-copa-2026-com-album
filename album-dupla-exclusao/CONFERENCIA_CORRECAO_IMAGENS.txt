@@ -1,0 +1,19 @@
+CORREÇÃO DO ÁLBUM DUPLA EXCLUSÃO
+
+Correção aplicada:
+- index.html agora procura primeiro figurinhas/01.webp, 02.webp, 03.webp etc.
+- Também foram criadas cópias figurinha-01.webp até figurinha-72.webp.
+- Isso evita erro quando o navegador procura um padrão e a pasta tem outro.
+- Cache atualizado com versão v=20260525a.
+
+Status:
+Todas as figurinhas 01.webp a 72.webp estão presentes.
+Todas as figurinhas abriram corretamente no teste local.
+
+Como aplicar:
+1. Extraia este ZIP.
+2. Copie a pasta album-dupla-exclusao.
+3. Cole dentro de Documentos/GitHub/radar-copa-2026-com-album.
+4. Quando perguntar, escolha Substituir os arquivos.
+5. No GitHub Desktop, NÃO marque _backup_antes_organizar.zip.
+6. Commit e Push.

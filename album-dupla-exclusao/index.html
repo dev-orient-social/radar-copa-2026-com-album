@@ -997,11 +997,21 @@ function safe(t){return String(t??"").replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&
 function pad(n){return String(n).padStart(2,"0")}
 function caminhosImagem(num){
   const n2=pad(num), n=String(num);
+  const v="v=20260525a";
   return [
-    `figurinhas/figurinha-${n2}.webp`, `figurinhas/${n2}.webp`, `figurinhas/figurinha-${n}.webp`,
-    `figurinhas/Figurinha-${n2}.webp`, `figurinhas/FIGURINHA-${n2}.webp`,
-    `figurinhas/figurinha-${n2}.png`, `figurinhas/${n2}.png`, `figurinhas/figurinha-${n2}.jpg`, `figurinhas/figurinha-${n2}.jpeg`,
-    `figurinhas/figurinha-${n2}.svg`
+    `figurinhas/${n2}.webp?${v}`,
+    `figurinhas/figurinha-${n2}.webp?${v}`,
+    `figurinhas/${n2}.webp`,
+    `figurinhas/figurinha-${n2}.webp`,
+    `figurinhas/figurinha-${n}.webp`,
+    `figurinhas/Figurinha-${n2}.webp`,
+    `figurinhas/FIGURINHA-${n2}.webp`,
+    `figurinhas/${n2}.png`,
+    `figurinhas/figurinha-${n2}.png`,
+    `figurinhas/${n2}.jpg`,
+    `figurinhas/figurinha-${n2}.jpg`,
+    `figurinhas/${n2}.jpeg`,
+    `figurinhas/figurinha-${n2}.jpeg`
   ];
 }
 function imgFallback(el){
@@ -1009,7 +1019,7 @@ function imgFallback(el){
   const i = Number(el.dataset.i || 0) + 1;
   if(i < lista.length){el.dataset.i=i; el.src=lista[i]; return}
   const num = el.dataset.num || "";
-  el.outerHTML = `<div class="placeholder"><div class="num">${num}</div><div class="tema">Imagem não encontrada<br>cole em figurinhas/figurinha-${num}.webp</div></div>`;
+  el.outerHTML = `<div class="placeholder"><div class="num">${num}</div><div class="tema">Imagem não encontrada<br>verifique figurinhas/${num}.webp</div></div>`;
 }
 function imagemHTML(fig){
   const lista=caminhosImagem(fig.numero);
