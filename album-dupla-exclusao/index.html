@@ -997,21 +997,11 @@ function safe(t){return String(t??"").replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&
 function pad(n){return String(n).padStart(2,"0")}
 function caminhosImagem(num){
   const n2=pad(num), n=String(num);
-  const v="v=20260525a";
   return [
-    `figurinhas/${n2}.webp?${v}`,
-    `figurinhas/figurinha-${n2}.webp?${v}`,
-    `figurinhas/${n2}.webp`,
-    `figurinhas/figurinha-${n2}.webp`,
-    `figurinhas/figurinha-${n}.webp`,
-    `figurinhas/Figurinha-${n2}.webp`,
-    `figurinhas/FIGURINHA-${n2}.webp`,
-    `figurinhas/${n2}.png`,
-    `figurinhas/figurinha-${n2}.png`,
-    `figurinhas/${n2}.jpg`,
-    `figurinhas/figurinha-${n2}.jpg`,
-    `figurinhas/${n2}.jpeg`,
-    `figurinhas/figurinha-${n2}.jpeg`
+    `figurinhas/figurinha-${n2}.webp`, `figurinhas/${n2}.webp`, `figurinhas/figurinha-${n}.webp`,
+    `figurinhas/Figurinha-${n2}.webp`, `figurinhas/FIGURINHA-${n2}.webp`,
+    `figurinhas/figurinha-${n2}.png`, `figurinhas/${n2}.png`, `figurinhas/figurinha-${n2}.jpg`, `figurinhas/figurinha-${n2}.jpeg`,
+    `figurinhas/figurinha-${n2}.svg`
   ];
 }
 function imgFallback(el){
@@ -1019,7 +1009,7 @@ function imgFallback(el){
   const i = Number(el.dataset.i || 0) + 1;
   if(i < lista.length){el.dataset.i=i; el.src=lista[i]; return}
   const num = el.dataset.num || "";
-  el.outerHTML = `<div class="placeholder"><div class="num">${num}</div><div class="tema">Imagem não encontrada<br>verifique figurinhas/${num}.webp</div></div>`;
+  el.outerHTML = `<div class="placeholder"><div class="num">${num}</div><div class="tema">Imagem não encontrada<br>cole em figurinhas/figurinha-${num}.webp</div></div>`;
 }
 function imagemHTML(fig){
   const lista=caminhosImagem(fig.numero);
@@ -1166,34 +1156,142 @@ function abrirPacote(){
   document.getElementById("btnAbrirPacote").style.opacity=(estado.pacotes||0)>0?"1":".55";
   renderLivro();
 }
-const QUESTOES=[
-["O que é capacitismo?",["Tratar pessoas com deficiência como incapazes ou inferiores","Apenas construir rampas","Uma disciplina escolar","Um tipo de esporte"],0],
-["O que é racismo estrutural?",["Desigualdade presente nas estruturas sociais","Uma opinião individual sem efeitos","Uma brincadeira sem consequência","Um conteúdo de matemática"],0],
-["A ficha técnica deve ser liberada quando?",["Depois que a figurinha for colada","Assim que abrir o site","Antes de ganhar a figurinha","Nunca"],0],
-["Qual atitude ajuda a inclusão escolar?",["Adaptar materiais e respeitar diferentes formas de aprender","Isolar o estudante","Ignorar Libras","Impedir participação"],0],
-["Quando um aluno surdo não tem acessibilidade comunicacional, falta:",["Direito à comunicação","Uniforme escolar","Prova difícil","Recreio"],0],
-["Bullying contra deficiência e raça deve ser tratado como:",["Problema sério de discriminação","Brincadeira normal","Assunto sem importância","Competição"],0],
-["A escola inclusiva deve garantir:",["Acessibilidade, respeito e pertencimento","Apenas notas altas","Silêncio absoluto","Separação dos alunos"],0],
-["Representatividade significa:",["Ver diferentes pessoas valorizadas nos espaços","Excluir histórias diversas","Mostrar apenas um grupo","Evitar debates"],0],
-["A família e a escola devem:",["Dialogar em parceria pelo direito do estudante","Culpar o aluno","Evitar adaptações","Esconder dificuldades"],0],
-["Combater racismo e capacitismo é responsabilidade:",["De toda a comunidade escolar","Somente do aluno","Somente da família","De ninguém"],0]
+const SIMULADOS=[
+  {
+    titulo:"Simulado 1 — Conceitos essenciais",
+    questoes:[
+      ["O que é capacitismo?",["Tratar pessoas com deficiência como incapazes ou inferiores","Apenas construir rampas","Uma disciplina escolar","Um tipo de esporte"],0],
+      ["O que é racismo estrutural?",["Desigualdade presente nas instituições, nas oportunidades e nas relações sociais","Uma opinião individual sem efeitos","Uma brincadeira sem consequência","Um conteúdo de matemática"],0],
+      ["Qual situação representa dupla exclusão no ambiente escolar?",["Um estudante negro com deficiência sofrer racismo e também barreiras de acessibilidade","Um estudante receber livros novos","Uma turma participar de recreio coletivo","Uma escola pintar a parede"],0],
+      ["Qual atitude ajuda a inclusão escolar?",["Adaptar materiais e respeitar diferentes formas de aprender","Isolar o estudante","Ignorar Libras","Impedir participação"],0],
+      ["Quando um aluno surdo não tem acessibilidade comunicacional, falta:",["Direito à comunicação","Uniforme escolar","Prova difícil","Recreio"],0],
+      ["Bullying contra deficiência e raça deve ser tratado como:",["Problema sério de discriminação","Brincadeira normal","Assunto sem importância","Competição"],0],
+      ["A escola inclusiva deve garantir:",["Acessibilidade, respeito e pertencimento","Apenas notas altas","Silêncio absoluto","Separação dos alunos"],0],
+      ["Representatividade significa:",["Ver diferentes pessoas valorizadas nos espaços","Excluir histórias diversas","Mostrar apenas um grupo","Evitar debates"],0],
+      ["A família e a escola devem:",["Dialogar em parceria pelo direito do estudante","Culpar o aluno","Evitar adaptações","Esconder dificuldades"],0],
+      ["Combater racismo e capacitismo é responsabilidade:",["De toda a comunidade escolar","Somente do aluno","Somente da família","De ninguém"],0]
+    ]
+  },
+  {
+    titulo:"Simulado 2 — Racismo estrutural e escola",
+    questoes:[
+      ["O racismo estrutural aparece na escola quando:",["Desigualdades históricas afetam acesso, permanência, aprendizagem e tratamento dos estudantes negros","Todos os estudantes recebem o mesmo acolhimento","A escola organiza uma feira cultural","A turma lê diferentes autores"],0],
+      ["Uma forma de enfrentar o racismo estrutural é:",["Rever práticas, materiais, currículo e atitudes que excluem estudantes negros","Evitar falar sobre racismo","Culpar apenas os estudantes","Separar alunos por aparência"],0],
+      ["Quando estudantes negros com deficiência não encontram acessibilidade, o problema é:",["Uma barreira de direitos e participação","Falta de interesse do estudante","Algo sem relação com inclusão","Apenas uma questão de disciplina"],0],
+      ["Currículo antirracista significa:",["Valorizar histórias, culturas e contribuições da população negra","Apagar temas sobre desigualdade","Estudar somente conteúdos europeus","Evitar falar de identidade"],0],
+      ["Uma escola justa deve combater:",["Racismo, capacitismo, exclusão e baixa expectativa sobre estudantes","A participação das famílias","A presença de estudantes com deficiência","Projetos de inclusão"],0],
+      ["Baixa expectativa sobre um estudante negro com deficiência é:",["Uma prática discriminatória que limita oportunidades","Uma forma correta de proteção","Uma regra pedagógica obrigatória","Uma brincadeira sem efeito"],0],
+      ["A frase 'esse aluno não consegue aprender' pode ser capacitista porque:",["Reduz a pessoa à deficiência e ignora apoios, potencialidades e adaptações","Ajuda o estudante a participar mais","Garante acessibilidade","Valoriza a diversidade"],0],
+      ["Um exemplo de barreira estrutural é:",["Prédio sem acessibilidade, material sem adaptação e ausência de comunicação acessível","Sala com cartazes inclusivos","Professor usando diferentes recursos","Colegas trabalhando em grupo"],0],
+      ["O racismo na escola pode ser percebido em:",["Apelidos, exclusões, invisibilidade e tratamento desigual","Somente nas notas de matemática","Somente em atividades esportivas","Apenas fora da escola"],0],
+      ["O primeiro passo para mudar práticas excludentes é:",["Reconhecer o problema e agir coletivamente","Negar que exista discriminação","Mandar o estudante se adaptar sozinho","Evitar conversa com a família"],0]
+    ]
+  },
+  {
+    titulo:"Simulado 3 — Capacitismo e acessibilidade",
+    questoes:[
+      ["Capacitismo ocorre quando:",["A pessoa com deficiência é tratada como inferior, incapaz ou dependente sem necessidade","A escola oferece recursos de acessibilidade","Colegas aprendem Libras","A turma respeita diferentes ritmos"],0],
+      ["Acessibilidade na escola envolve:",["Espaços, materiais, comunicação, atitudes e participação","Somente construir uma rampa","Somente colocar cartazes","Somente entregar uniforme"],0],
+      ["Quando a escola não adapta uma avaliação para um estudante que precisa, ela pode estar:",["Criando barreira de aprendizagem e participação","Garantindo igualdade automaticamente","Facilitando demais sem necessidade","Cumprindo inclusão total"],0],
+      ["Comunicação acessível pode incluir:",["Libras, braille, audiodescrição, material ampliado e linguagem clara","Apenas avisos orais rápidos","Silêncio durante toda a aula","Proibição de tecnologia"],0],
+      ["Tratar uma pessoa com deficiência com pena excessiva é:",["Uma forma de capacitismo","Um ato obrigatório","Uma adaptação curricular","Um direito educacional"],0],
+      ["A autonomia do estudante com deficiência deve ser:",["Respeitada e fortalecida com apoios necessários","Ignorada para evitar riscos","Substituída por decisões dos colegas","Limitada pela aparência da deficiência"],0],
+      ["Uma atitude inclusiva do professor é:",["Perguntar sobre necessidades, adaptar estratégias e garantir participação","Fazer tudo pelo aluno sem perguntar","Não chamar o aluno para atividades","Evitar contato com a família"],0],
+      ["Barreira atitudinal é:",["Preconceito, desrespeito ou comportamento que impede participação","Somente escada sem rampa","Somente livro sem braille","Somente falta de internet"],0],
+      ["Tecnologia assistiva serve para:",["Ampliar autonomia, comunicação, aprendizagem e participação","Separar o estudante da turma","Substituir o professor","Evitar convivência"],0],
+      ["Inclusão verdadeira acontece quando:",["O estudante participa, aprende, pertence e é respeitado","O estudante fica na escola sem apoio","A turma ignora suas necessidades","A escola apenas registra matrícula"],0]
+    ]
+  },
+  {
+    titulo:"Simulado 4 — Direitos, respeito e pertencimento",
+    questoes:[
+      ["Direito à educação inclusiva significa:",["Aprender com acessibilidade, respeito, participação e apoio adequado","Frequentar a escola sem participar","Ficar separado dos colegas","Receber menos oportunidades"],0],
+      ["Pertencimento escolar acontece quando:",["O estudante se sente respeitado, acolhido e parte da comunidade","O estudante é apenas tolerado","A turma evita contato","A escola ignora sua identidade"],0],
+      ["Uma escola antirracista deve:",["Combater discriminações e valorizar identidades, histórias e culturas negras","Evitar qualquer debate sobre racismo","Tratar desigualdade como brincadeira","Responsabilizar apenas as famílias"],0],
+      ["Quando um estudante é excluído por raça e deficiência, a escola deve:",["Acolher, investigar, intervir e promover reparação educativa","Ignorar para não gerar conflito","Transferir o estudante","Culpar a vítima"],0],
+      ["Respeitar diferenças significa:",["Garantir dignidade, escuta e oportunidades para todos","Tratar todos como se tivessem as mesmas necessidades","Apagar identidades","Evitar adaptações"],0],
+      ["Uma prática de cuidado coletivo é:",["Escuta, diálogo, denúncia de injustiças e apoio aos colegas","Rir de apelidos","Compartilhar boatos","Excluir quem aprende diferente"],0],
+      ["O protagonismo de estudantes negros com deficiência é importante porque:",["Valoriza suas vozes, experiências e direitos","Substitui a função dos professores","Evita participação dos demais","Serve apenas para eventos"],0],
+      ["A família deve ser vista pela escola como:",["Parceira na garantia de direitos e aprendizagem","Problema a ser afastado","Responsável única por adaptações","Participante sem voz"],0],
+      ["Uma atitude correta diante de uma fala racista ou capacitista é:",["Não normalizar, orientar, registrar e agir pedagogicamente","Fingir que não ouviu","Rir para evitar conflito","Repetir a fala como piada"],0],
+      ["A inclusão transforma a escola porque:",["Melhora convivência, aprendizagem, justiça e participação de todos","Beneficia apenas um aluno","Atrasa o conteúdo","Impede avaliação"],0]
+    ]
+  },
+  {
+    titulo:"Simulado 5 — Compromisso coletivo",
+    questoes:[
+      ["Combater racismo e capacitismo no dia a dia exige:",["Ações constantes, escuta, respeito e compromisso coletivo","Uma palestra única por ano","Silêncio sobre conflitos","Apenas cartazes decorativos"],0],
+      ["Uma campanha escolar inclusiva deve:",["Envolver estudantes, famílias, professores e gestão em ações reais","Ser feita sem ouvir estudantes afetados","Falar só de regras","Evitar mudança de práticas"],0],
+      ["Se um colega sofre piada racista ou capacitista, a atitude correta é:",["Apoiar a vítima, comunicar responsáveis e não reforçar a agressão","Compartilhar a piada","Ficar neutro sempre","Culpar quem sofreu"],0],
+      ["O álbum de figurinhas sobre dupla exclusão serve para:",["Aprender, refletir e promover diálogo sobre racismo, capacitismo e inclusão","Colecionar imagens sem discussão","Substituir todas as aulas","Evitar conversas difíceis"],0],
+      ["Uma escola acessível e antirracista precisa de:",["Planejamento, formação, recursos, escuta e mudança de atitudes","Somente boa intenção","Apenas punição","Separação dos estudantes"],0],
+      ["Empatia na escola significa:",["Escutar e agir para reduzir barreiras e injustiças","Sentir pena e decidir pelo outro","Ignorar o problema","Tratar inclusão como favor"],0],
+      ["O respeito à identidade do estudante negro com deficiência inclui:",["Nome, corpo, cultura, comunicação, ritmo e forma de participação","Apenas nota final","Somente presença na sala","Uniforme e horário"],0],
+      ["Uma ação concreta contra o capacitismo é:",["Garantir acessibilidade e não duvidar da capacidade do estudante","Falar pelo estudante sempre","Impedir desafios","Excluir de atividades complexas"],0],
+      ["Uma ação concreta contra o racismo é:",["Valorizar referências negras e enfrentar práticas discriminatórias","Dizer que racismo não existe","Evitar autores negros","Tratar insultos como brincadeira"],0],
+      ["O compromisso coletivo significa:",["Todos assumem responsabilidade por uma escola justa, inclusiva e acolhedora","Somente a direção decide tudo","Somente o estudante muda","A família resolve sozinha"],0]
+    ]
+  }
 ];
+
+let simuladoAtual=0;
 let respostas={};
-window.abrirQuiz=function(){playSom("click");respostas={};document.getElementById("modalQuiz").classList.add("ativo");renderQuiz()}
+
+window.abrirQuiz=function(){
+  playSom("click");
+  respostas={};
+  simuladoAtual=0;
+  document.getElementById("modalQuiz").classList.add("ativo");
+  renderQuizMenu();
+}
+
+function renderQuizMenu(){
+  const area=document.getElementById("quizArea");
+  area.innerHTML=`
+    <div class="pergunta-box">
+      <h2 style="color:#fff">Escolha um simulado</h2>
+      <p style="color:#cbd5e1;margin-top:8px">São 5 simulados com 10 questões cada, todos sobre Dupla Exclusão, racismo, capacitismo, acessibilidade, direitos e inclusão escolar.</p>
+      ${SIMULADOS.map((s,i)=>`<button class="quiz-opcao" onclick="iniciarSimulado(${i})">${i+1}. ${safe(s.titulo)}</button>`).join("")}
+    </div>`;
+}
+
+window.iniciarSimulado=function(i){
+  simuladoAtual=i;
+  respostas={};
+  renderQuiz();
+}
+
+function questoesAtuais(){
+  return SIMULADOS[simuladoAtual].questoes;
+}
+
 function renderQuiz(){
   const area=document.getElementById("quizArea");
-  area.innerHTML=QUESTOES.map((q,i)=>`<div class="pergunta-box"><p style="color:#fff;font-weight:900">${i+1}. ${safe(q[0])}</p>${q[1].map((op,j)=>`<button class="quiz-opcao ${respostas[i]===j?'selecionada':''}" onclick="marcarResposta(${i},${j})">${safe(op)}</button>`).join("")}</div>`).join("")+`<button class="btn-dourado" style="margin-top:14px" onclick="finalizarQuiz()">Finalizar simulado</button>`;
+  const QUESTOES=questoesAtuais();
+  area.innerHTML=`
+    <div class="pergunta-box" style="margin-bottom:10px">
+      <h2 style="color:#fff">${safe(SIMULADOS[simuladoAtual].titulo)}</h2>
+      <p style="color:#cbd5e1;margin-top:8px">Responda as 10 questões. Gabaritou: 3 pacotes. Até 9 acertos: 1 pacote.</p>
+      <button class="quiz-opcao" onclick="renderQuizMenu()">← Escolher outro simulado</button>
+    </div>
+  `+
+  QUESTOES.map((q,i)=>`<div class="pergunta-box"><p style="color:#fff;font-weight:900">${i+1}. ${safe(q[0])}</p>${q[1].map((op,j)=>`<button class="quiz-opcao ${respostas[i]===j?'selecionada':''}" onclick="marcarResposta(${i},${j})">${safe(op)}</button>`).join("")}</div>`).join("")+
+  `<button class="btn-dourado" style="margin-top:14px" onclick="finalizarQuiz()">Finalizar simulado</button>`;
 }
+
 window.marcarResposta=function(i,j){respostas[i]=j;renderQuiz()}
+
 window.finalizarQuiz=function(){
+  const QUESTOES=questoesAtuais();
   if(Object.keys(respostas).length<QUESTOES.length){alert("Responda todas as 10 questões.");return}
   let acertos=0;QUESTOES.forEach((q,i)=>{if(respostas[i]===q[2])acertos++});
   const ganho=acertos===10?3:1;
   estado.pacotes=(estado.pacotes||0)+ganho; estado.quizFeitos=(estado.quizFeitos||0)+1;
-  estado.historico.push({tipo:"simulado",acertos,pacotes:ganho,data:new Date().toISOString()});
+  estado.historico.push({tipo:"simulado",nome:SIMULADOS[simuladoAtual].titulo,acertos,pacotes:ganho,data:new Date().toISOString()});
   salvar(); atualizarStatus();
-  document.getElementById("quizArea").innerHTML=`<div class="pergunta-box"><h2 style="color:#fff">Resultado: ${acertos}/10</h2><p style="color:#cbd5e1;margin-top:8px">Você ganhou <b style="color:#86efac">${ganho} pacote(s)</b>. Agora pode abrir pacote e colar as figurinhas manualmente no álbum.</p><button class="btn-dourado" style="margin-top:14px" onclick="document.getElementById('modalQuiz').classList.remove('ativo');abrirModalPacote();">Abrir pacotes</button></div>`;
+  document.getElementById("quizArea").innerHTML=`<div class="pergunta-box"><h2 style="color:#fff">${safe(SIMULADOS[simuladoAtual].titulo)}</h2><h2 style="color:#fff;margin-top:8px">Resultado: ${acertos}/10</h2><p style="color:#cbd5e1;margin-top:8px">Você ganhou <b style="color:#86efac">${ganho} pacote(s)</b>. Agora pode abrir pacote e colar as figurinhas manualmente no álbum.</p><button class="btn-dourado" style="margin-top:14px" onclick="document.getElementById('modalQuiz').classList.remove('ativo');abrirModalPacote();">Abrir pacotes</button><button class="quiz-opcao" style="margin-top:10px" onclick="renderQuizMenu()">Fazer outro simulado</button></div>`;
 }
+
 function resetarAlbum(){if(confirm("Apagar progresso deste navegador?")){localStorage.removeItem(STORAGE_KEY);localStorage.removeItem("pagina_dupla_exclusao_v4");estado=carregar();paginaAtual=1;renderLivro()}}
 ["btnAnterior","btnAnteriorTopo"].forEach(id=>document.getElementById(id).onclick=anterior);
 ["btnProxima","btnProximaTopo"].forEach(id=>document.getElementById(id).onclick=proxima);
